@@ -5,10 +5,11 @@
     ['fit_function' 'fit_params' 'fit_range']
         
 /SS304/hi_fit/fit_function
-    b'3 order loglog'
+    b'5 order loglog'
         
 /SS304/hi_fit/fit_params
-    [ 0.21866144 -1.62755886  4.41708312 -3.11027249]
+    [ -0.14711852   1.62058999  -6.76510843  13.07266939 -10.68295467
+   2.94300035]
         
 /SS304/hi_fit/fit_range
     [  20. 1672.]
@@ -17,10 +18,11 @@
     ['fit_function' 'fit_params' 'fit_range']
         
 /SS304/low_fit/fit_function
-    b'2 order k/T'
+    b'5 order k/T'
         
 /SS304/low_fit/fit_params
-    [-9.92649663e-05  3.99231593e-03  6.73866754e-02]
+    [-4.08509546e-07  2.44790812e-05 -5.33692629e-04  4.89659678e-03
+ -1.37879513e-02  8.27281124e-02]
         
 /SS304/low_fit/fit_range
     [ 0 20]
@@ -32,10 +34,11 @@
     ['fit_function' 'fit_params' 'fit_range']
         
 /SS305/hi_fit/fit_function
-    b'3 order loglog'
+    b'5 order loglog'
         
 /SS305/hi_fit/fit_params
-    [ 0.24992215 -1.8038433   4.7257702  -3.27669069]
+    [ -0.35531511   3.70466503 -14.91561381  28.64795315 -25.25518224
+   8.30048838]
         
 /SS305/hi_fit/fit_range
     [ 20. 871.]
@@ -44,10 +47,11 @@
     ['fit_function' 'fit_params' 'fit_range']
         
 /SS305/low_fit/fit_function
-    b'2 order k/T'
+    b'5 order k/T'
         
 /SS305/low_fit/fit_params
-    [-7.15040253e-05  3.76009379e-03  7.22535042e-02]
+    [ 2.97805083e-07 -1.88389822e-05  4.48224770e-04 -5.00674450e-03
+  2.83813706e-02  2.88255866e-02]
         
 /SS305/low_fit/fit_range
     [ 0 20]
