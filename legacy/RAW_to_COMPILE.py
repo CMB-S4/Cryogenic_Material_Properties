@@ -17,12 +17,12 @@ for mat in mat_directories:
     raw_files = [file for file in all_files if file.endswith(extension)]
     print(f"For material {mat}, found {len(raw_files)} measurements.")
 
-    for raw_file in raw_files:
-        # print(raw_file)
-        file1 = np.loadtxt(f"{mat}/{raw_file}", dtype=str, delimiter=',')
-        ref = file1[0,:]
-        headers = file1[1,:]
-        data_RAW = np.asarray(file1[2:,:], dtype=float)
+    # for raw_file in raw_files:
+    #     # print(raw_file)
+    #     file1 = np.loadtxt(f"{mat}/{raw_file}", dtype=str, delimiter=',')
+    #     ref = file1[0,:]
+    #     headers = file1[1,:]
+    #     data_RAW = np.asarray(file1[2:,:], dtype=float)
 
 
 

@@ -1,0 +1,20 @@
+SS304
+low_fit
+fit_param             2
+-9.926e-05 x + 0.003992 x + 0.06739
+fit_range: [0, 20]
+hi_fit
+fit_param         3         2
+0.2187 x - 1.628 x + 4.417 x - 3.11
+fit_range: [20, 1672.0]
+
+SS305
+low_fit
+fit_param            2
+-7.15e-05 x + 0.00376 x + 0.07225
+fit_range: [0, 20]
+hi_fit
+fit_param         3         2
+0.2499 x - 1.804 x + 4.726 x - 3.277
+fit_range: [20, 871.0]
+
