@@ -154,3 +154,13 @@ def save_tc_txtfile(material_args):
         f.write(f"fit_range: {[thresholds, hiTs]}\n")
         f.write("\n")
     os.chdir(f"{os.getcwd()}\\FITS")
+
+
+def openGroup(group, kList):
+    for key in group.keys():
+        # print(f"{group.name}/{key}")
+        kList.append(f"{group.name}/{key}")
+        if type(group[key])==h5py._hl.group.Group:
+            if len(group[key].keys())>0:
+                kList = openGroup(group[key], kList)
+    return kList
