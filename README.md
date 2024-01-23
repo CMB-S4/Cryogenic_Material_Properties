@@ -7,7 +7,7 @@ The repository is being actively developed by Dr. Nicholas Galitzki and graduate
 
 ## Organizational Structure
 All current development exits within the 'thermal_conductivity' folder
-
+```
 thermal_conductivity
     - lib
         - SS304
@@ -19,6 +19,7 @@ thermal_conductivity
                 - measurement2.csv ...
         - Other materials eventually
     - GOAL_TXT.txt
+```
 The basic operating procedure is to run the 'thermal_conductivity_tutorial.ipynb' notebook in its entirety.
 This notebook produces all of the plots and fits (and puts them in the appropriate folders)
 
