@@ -15,13 +15,13 @@ hi_function_type
 ...
 3 order loglog
 ...
-hi_function_param
+hi_fit_param
 ...
 - 0.2545791480143809
 - -1.8559715205278577
 - 4.885897623137756
 - -3.419241386659983
-hi_function_range
+hi_fit_range
 ...
 - 20.117000000000004
 - 871.0000000000003
