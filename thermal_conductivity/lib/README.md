@@ -1,4 +1,4 @@
-This folder will contain a library of folders for each individual material as well as eventually the goal txt file
+This folder will contain a library of folders for each individual material.
 ```
 lib
 - SS304
@@ -9,5 +9,4 @@ lib
         - measurement1.csv
         - measurement2.csv ...
 - Other materials eventually
-GOAL_TXT.txt
 ```
