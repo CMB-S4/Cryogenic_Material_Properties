@@ -21,10 +21,15 @@ thermal_conductivity
 ```
 
 ## Operation
-The basic operating procedure is to run the 'thermal_conductivity_tutorial.ipynb' notebook in its entirety.
+Most users of this repository will only ever use the thermal_conductivity_compilation files, which they may then import into other programs. These files contain the multi-order fits to real thermal conductivity data collected over decades of research. 
+
+For users who wish to adjust the fits, add more data, or investigate the 'behind the scenes' of this repository, it is encouraged to familiarize oneself with the 'thermal_conductivity_tutorial.ipynb' notebook in its entirety.
 This notebook produces all of the plots and fits (and puts them in the appropriate folders).
 
 The output of the notebook is a compiled csv and txt file with the thermal conductivity fit parameters for each material. 
+
+## Fitting Method
+The TC fits are produced by first fitting the low temperature data and the high temperature data separately. Then, the two fits are connected using an error function.
 
 The final fit follows the following structure:
 ```
