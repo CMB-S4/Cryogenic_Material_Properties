@@ -21,15 +21,15 @@ The compilation file is of the following structure:
 | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | SS304         | loglog   | 0.385    | 1672.000  | -0.00002 | 0.00036 | 0.00049 | 0.07217 | 0.21898 | -1.62951 | 4.42078 | -3.11248 | 20.00000  |
 ```
-Fit Type : defines the structure of the fit - currently there is a single fit type, as defined below.
+Fit Type : defines the structure of the fit - currently there is a single fit type, as defined in the Fitting Method section below.
 
 Low Temp/High Temp : Define the range (low, high) of the fit function in Kelvin (K)
 
-lower case letters : Define the fit parameters for the low temperature fit
+lower case letters : Define the fit parameters for the low temperature fit (a+bT+cT^2+...)
 
-upper case letters : Define the fit parameters for the high temperature fit
+upper case letters : Define the fit parameters for the high temperature fit (A+B*Log10(T)+C*(Log10(T))^2+D*(Log10(T))^3+...)
 
-erf param : Defines the point at which the error function is positioned
+erf param : Defines the temperature point (in K) at which the error function is positioned
 
 ## Fitting Method
 The TC fits are produced by first fitting the low temperature data and the high temperature data separately. Then, the two fits are connected using an error function.
@@ -65,3 +65,6 @@ thermal_conductivity
                 - ...
         - Other materials eventually
 ```
+
+## Plotting
+Plots for each material can be found 
