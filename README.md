@@ -39,4 +39,5 @@ or in python form
     hi_range = (hi_fit(np.log10(T)))
 
     logk = low_range*erf_low+hi_range*erf_hi
+    # logk = np.log10(np.abs(T*(low_fit(T))))*0.5*(1-erf(15*(np.log10(10*T/erf_param))))+(hi_fit(np.log10(T)))*0.5*(1+erf(15*(np.log10(T/erf_param))))
 ```
