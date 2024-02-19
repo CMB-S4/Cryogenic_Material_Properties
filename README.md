@@ -4,7 +4,7 @@ Compilation of material properties at cryogenic temperatures for use in design a
 
 This Git Repository will serve to store raw thermal conductivity (TC) data and other material properties and analysis tools (in Python) for streamlined use. The data is compiled from decades of published resources. The repository also includes the reference information for each set of measurements. 
 
-The repository is being actively developed by Dr. Nicholas Galitzki and graduate students at the University of Texas. 
+The repository is being actively developed by Henry Nachman and Dr. Nicholas Galitzki at the University of Texas at Austin. 
 
 ## Operation
 Most users of this repository will only ever use the thermal_conductivity_compilation files, which may then be imported into other programs. These files contain the multi-order fits to real thermal conductivity data.
@@ -32,7 +32,7 @@ upper case letters : Define the fit parameters for the high temperature fit (A+B
 erf param : Defines the temperature point (in K) at which the error function is positioned
 
 ## Fitting Method
-The TC fits are produced by first fitting the low temperature data and the high temperature data separately. Then, the two fits are connected using an error function.
+The thermal conductivity fits are produced by first fitting the low temperature data and the high temperature data separately. Then, the two fits are connected using an error function.
 
 The final fit follows the following structure:
 ```
@@ -54,6 +54,7 @@ or in python form
 All current development exists within the 'thermal_conductivity' folder
 ```
 thermal_conductivity
+    - thermal_conductivity_tutorial.ipynb
     - lib
         - SS304
             - plot files
