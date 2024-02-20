@@ -70,7 +70,7 @@ thermal_conductivity
 ## Plotting
 Plots for each material can be found within each material subfolder.
 
-## Adding Data
+## Adding Data ~ for developers only
 The code pipeline is designed to be easily scaleable, thus, incorporation of new measurements, or new materials is natively built in.
 
 To do so, follow the outline steps:
