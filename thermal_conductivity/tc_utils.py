@@ -228,15 +228,17 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     - null
     """
     raw_directory = path_dict[material_name]
-    markers = ['o', 's', 'd', 'P','3', '*']
-    i = 0
     if points:
+        markers = ['o', 's', 'd', 'P','3', '*']
+        i = 0
         for ref_name in data_dict.keys():
             T, k, koT = data_dict[ref_name].T
             plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name)
             i+=1
             if i == len(markers):
                 i = 0
+
+
     # low_xs = np.linspace(fit_args["low_fit_range"][0]/5,fit_args["low_fit_range"][1],100)
     low_xs = np.linspace(fit_range[0],fit_args["low_fit_range"][1],100)
     low_fit_val = low_xs*np.polyval(fit_args["low_fit_param"], low_xs)
@@ -244,15 +246,21 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     hi_xs = np.linspace(fit_args["hi_fit_range"][0],fit_range[1],100)
     hi_fit_val = 10**np.polyval(fit_args["hi_fit_param"], np.log10(hi_xs))
     if fill:
-        plt.fill_between(low_xs, 1.15*low_fit_val, 0.85*low_fit_val, color="b", alpha = 0.3, label="15% confidence")
-        plt.fill_between(hi_xs, 1.15*hi_fit_val, 0.85*hi_fit_val, color="b", alpha = 0.3)
+        Tdata = np.concatenate([(data_dict[ref_name].T[0]) for ref_name in data_dict])
+        kdata = np.concatenate([(data_dict[ref_name].T[1]) for ref_name in data_dict])
+        low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]
+        kpred = loglog_func(Tdata, low_param, hi_param, erf_param)
+        # and append it to the array resVal
+        diff = abs(kpred-kdata)
+        perc_diff_arr = 100*diff/kpred
+        plt.fill_between(np.sort(Tdata), (kpred*(1+perc_diff_arr/100))[Tdata.argsort()], (kpred*(1-perc_diff_arr/100))[Tdata.argsort()], alpha=0.25, color="b")
     if fits=="split":
         plt.plot(low_xs, low_fit_val, c='b')
         plt.plot(hi_xs, hi_fit_val, c='b')
+    xs = np.logspace(-1,4,100)
     if fits=="combined":
-        xs = np.logspace(-1,4,100)
-        plt.plot(xs, loglog_func(xs, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]), label='combined fit')
-    plt.legend()
+        plt.plot(xs, loglog_func(xs, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]), label='combined fit', c="b")
+    plt.legend(loc='center right', bbox_to_anchor=(1.4, 0.5))
     plt.xlabel("Temperature (K)")
     plt.ylabel("k")
     plt.title(f"{material_name}")
@@ -262,6 +270,40 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     if show:
         plt.show()
         plt.clf()
+    
+    fig, axs = plt.subplots(2, figsize=(8, 6))
+    i = 0
+    for ref_name in data_dict.keys():
+        T, k, koT = data_dict[ref_name].T
+        axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name)
+        axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name)
+        i+=1
+        if i == len(markers):
+            i = 0
+    # axs[0].plot(lowT, lowT_koT,'.')
+    # axs[0].plot(low_xs, np.polyval(fit_args["low_fit_param"], low_xs))
+    axs[0].set_xlabel("T")
+    axs[0].set_ylabel("k/T")
+    axs[0].title.set_text("Low Temperature Fit")
+    axs[0].set_xlim(0.9*min(low_xs), 1.1*max(low_xs))
+    axs[0].set_ylim(0.9*min(np.polyval(fit_args["low_fit_param"], low_xs)), 1.1*max(np.polyval(fit_args["low_fit_param"], low_xs)))
+    axs[0].plot(xs, (1/xs)*loglog_func(xs, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]), label='combined fit', c="b")
+    axs[1].loglog(hi_xs, hi_fit_val)
+    # axs[1].loglog(hiT, hiT_k, '.')
+    axs[1].grid(True, which="both", ls="-", color='0.65')
+    axs[1].set_ylabel("k")
+    axs[1].set_xlabel("T")
+    axs[1].set_xlim(0.9*min(hi_xs), 1.1*max(hi_xs))
+    axs[1].set_ylim(0.9*min(hi_fit_val), 1.1*max(hi_fit_val))
+    axs[1].title.set_text("High Temperature Fit")
+    plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
+    plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf")
+    if show:
+        plt.show()
+        plt.clf()
+        
+
     return
 
 
@@ -322,24 +364,6 @@ def fit_thermal_conductivity(big_data, save_path, erf_loc = 20, fit_orders = (3,
     # logk = loglog(xrange_total, low_poly1d, hi_poly1d, erf_place)
     # #
 
-    if plots:
-        fig, axs = plt.subplots(2, figsize=(8, 6))
-        axs[0].plot(lowT, lowT_koT,'.')
-        axs[0].plot(low_fit_xs, np.polyval(low_fit, low_fit_xs))
-        axs[0].set_xlabel("T")
-        axs[0].set_ylabel("k/T")
-        axs[0].title.set_text("Low Temperature Fit")
-        axs[1].loglog(10**hi_fit_xs, 10**np.polyval(hi_fit, hi_fit_xs))
-        axs[1].loglog(hiT, hiT_k, '.')
-        axs[1].grid(True, which="both", ls="-", color='0.65')
-        axs[1].set_ylabel("k")
-        axs[1].set_xlabel("T")
-        axs[1].title.set_text("High Temperature Fit")
-        plt.subplots_adjust(wspace=0.4, hspace=0.4)
-        plt.savefig(f"{save_path}\\fits_subplots.pdf", dpi = 300, format="pdf")
-        plt.show()
-        plt.clf()
-        
     low_func = f"{fit_orders[0]} order {fit_types[0]}"
     hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
