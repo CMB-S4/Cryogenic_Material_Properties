@@ -6,6 +6,8 @@ from scipy.special import erf
 
 cmap = cm.get_cmap('Dark2')
 
+markers = ['o', 's', 'd', 'P','3', '*']
+
 ###############################################################
 ###############################################################
 ##################### DATA EXTRACTION  ########################
@@ -26,7 +28,7 @@ def get_datafiles(raw_path):
     print(f"Found {len(raw_files)} measurements.")
     return raw_files
 
-def parse_raw(material_name, path_dict, plots=False):
+def parse_raw(material_name, raw_directory, plots=False):
     """
     Arguments : 
     - material_name - a pointer for the material name, this much match the folder name.
@@ -36,7 +38,6 @@ def parse_raw(material_name, path_dict, plots=False):
     - big_data  - Array of all measurements concatenated (no reference information).
     - data_dict - A dictionary of data with references as the keys.
     """
-    raw_directory = path_dict[material_name]
     all_files = os.listdir(raw_directory)
     extension = ".csv"
     raw_files = [file for file in all_files if file.endswith(extension)]
@@ -211,7 +212,158 @@ def create_tc_csv(data, output_file):
 ###############################################################
 ###############################################################
 
-def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False, show=True):
+def plot_datapoints(data_dict):
+    i = 0
+    for ref_name in data_dict.keys():
+        T, k, koT = data_dict[ref_name].T
+        plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
+        i+=1
+        if i == len(markers):
+            i = 0
+    return
+
+def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
+    # Defines the directory for saving
+    raw_directory = path_dict[material_name]
+
+    # Extracts the fit parameters from the fit args object
+    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]
+
+    # Defines a range over which to model the fit
+    low_t_range = np.linspace(fit_range[0],fit_args["low_fit_range"][1],100)
+    low_fit_k = loglog_func(low_t_range, low_param, hi_param, erf_param)
+    low_fit_koT = low_fit_k/low_t_range
+    hi_t_range = np.linspace(fit_args["hi_fit_range"][0],fit_range[1],100)
+    hi_fit_k = loglog_func(hi_t_range, low_param, hi_param, erf_param)
+    
+    # extracts all the temp and tc data
+    Tdata = np.concatenate([(data_dict[ref_name].T[0]) for ref_name in data_dict])
+    kdata = np.concatenate([(data_dict[ref_name].T[1]) for ref_name in data_dict])
+
+    # redefines the plot range based on data
+    fit_range = [100e-3, 1.1*max(Tdata)]
+    full_T_range = np.logspace(np.log10(fit_range[0]),np.log10(fit_range[1]),100)
+    return Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory
+
+
+def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False):
+    Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
+    # Plots the data points
+    if points:
+        plot_datapoints(data_dict)
+
+    k_fit_combined = loglog_func(full_T_range, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
+    if fits=="combined":
+        plt.plot(full_T_range, k_fit_combined, label='combined fit', c="c")
+        if fill:
+            avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
+            plt.fill_between(full_T_range, k_fit_combined*(1+avg_perc_diff/100), (k_fit_combined*(1-avg_perc_diff/100)), alpha=0.25, color="c")
+    # Plots the fits as they are seperately (rather then the combined fit)
+    if fits=="split":
+        plt.plot(low_t_range, low_fit_k, c='b')
+        plt.plot(hi_t_range, hi_fit_k, c='b')
+    plt.legend(loc='center right', bbox_to_anchor=(1.4, 0.5))
+    plt.xlabel("Temperature (K)")
+    plt.ylabel("k")
+    plt.title(f"{material_name}")
+    plt.semilogx()
+    plt.semilogy()
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf")
+    plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
+    plt.show()
+    plt.clf()
+
+    return
+
+def get_percdiff(Tdata, kdata, fit_args):
+    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]
+    # Calculates the predicted k value for the measured T values (rather than a continuous range)
+    kpred_discrete = loglog_func(Tdata, low_param, hi_param, erf_param)
+
+    diff = kpred_discrete-kdata                 # the difference between the predicted and measured k values
+    perc_diff_arr = 100*diff/kpred_discrete     # Calculates a percent difference 
+    avg_perc_diff = np.mean(abs(perc_diff_arr)) # finds the average of that percent difference
+    return avg_perc_diff, perc_diff_arr
+
+def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], fill=True):
+    Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
+
+    # Now let's get to plotting
+    fig, axs = plt.subplots(2, figsize=(8, 6))
+    i = 0
+    for ref_name in data_dict.keys():
+        T, k, koT = data_dict[ref_name].T
+        print()
+        axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
+        axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
+        i+=1
+        if i == len(markers):
+            i = 0
+    
+    # AXS 0
+    koT_fit = (1/full_T_range)*loglog_func(full_T_range, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
+    axs[0].set_xlabel("T")
+    axs[0].set_ylabel("k/T")
+    axs[0].title.set_text("Low Temperature Fit")
+    axs[0].set_xlim(0.9*min(low_t_range), 1.1*max(low_t_range))
+    axs[0].set_ylim(0.9*min(low_fit_k/low_t_range), 1.1*max(low_fit_k/low_t_range))
+    axs[0].plot(full_T_range, koT_fit, label='combined fit', c="c")
+    axs[0].grid(True, which="both", ls="-", color='0.65')
+    if fill:
+        avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
+        axs[0].fill_between(full_T_range, koT_fit*(1+avg_perc_diff/100), (koT_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c")
+    # AXS 1
+    # axs[1].loglog(hi_xs, hi_fit_val)
+    axs[1].plot(hi_t_range, hi_fit_k, c="c")
+    axs[1].semilogx()
+    axs[1].grid(True, which="both", ls="-", color='0.65')
+    axs[1].set_ylabel("k")
+    axs[1].set_xlabel("T")
+    axs[1].set_xlim(0.9*min(hi_t_range), 1.1*max(hi_t_range))
+    axs[1].set_ylim(0.9*min(hi_fit_k), 1.1*max(hi_fit_k))
+    axs[1].title.set_text("High Temperature Fit")
+    if fill:
+        axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c")
+    plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
+    plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf")
+    # if show:
+    plt.show()
+
+    return
+
+def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2]):
+    Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
+    avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
+    # Residual Plots
+    koT_pred = (1/Tdata)*loglog_func(Tdata, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
+    koT_data = (1/Tdata)*kdata
+    fig, axs = plt.subplots(2, figsize=(8, 6))
+    # axs[0].plot(Tdata, koT_data-koT_pred, '.')
+    axs[0].plot(Tdata, perc_diff_arr, '.', c=cmap(np.pi/10))
+    # axs[0].plot(Tdata, 100*(koT_data-koT_pred)/koT_data, '.')
+    axs[0].hlines(0, 0.9*min(low_t_range), 1.1*max(low_t_range))
+    axs[0].set_xlabel("Temperature (K)")
+    # axs[0].set_ylabel("residuals in % of k/T")
+    axs[0].set_ylabel("residuals in % of k")
+    axs[0].set_xlim(0.9*min(low_t_range), 1.1*max(low_t_range))
+    axs[0].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
+    axs[0].semilogx()
+    # AXS 1
+    # axs[1].plot(Tdata, kdata-kpred, '.')
+    axs[1].plot(Tdata, perc_diff_arr, '.', c=cmap(np.pi/10))
+    axs[1].hlines(0, 0.9*min(hi_t_range), 1.1*max(hi_t_range))
+    axs[1].set_xlabel("Temperature (K)")
+    axs[1].set_ylabel("residuals in % of k")
+    axs[1].set_xlim(0.9*min(hi_t_range), 1.1*max(hi_t_range))
+    axs[1].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
+    axs[1].semilogx()
+    plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf")
+    plt.show()
+    return
+
+def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False):
     """
     Description : Produces a beautiful plot of the raw data with the fit.
 
@@ -228,127 +380,12 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
 
     Returns : 
     - null
-    """
-    raw_directory = path_dict[material_name]
-    if points:
-        markers = ['o', 's', 'd', 'P','3', '*']
-        i = 0
-        for ref_name in data_dict.keys():
-            T, k, koT = data_dict[ref_name].T
-            plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
-            i+=1
-            if i == len(markers):
-                i = 0
+    """    
+    plot_full(material_name, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False)
 
-    
-    Tdata = np.concatenate([(data_dict[ref_name].T[0]) for ref_name in data_dict])
-    kdata = np.concatenate([(data_dict[ref_name].T[1]) for ref_name in data_dict])
-    fit_range = [100e-3, 1.1*max(Tdata)]
+    plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], fill=True)
 
-    # low_xs = np.linspace(fit_args["low_fit_range"][0]/5,fit_args["low_fit_range"][1],100)
-    low_xs = np.linspace(fit_range[0],fit_args["low_fit_range"][1],100)
-    low_fit_val = low_xs*np.polyval(fit_args["low_fit_param"], low_xs)
-    # hi_xs = np.linspace(fit_args["hi_fit_range"][0],fit_args["hi_fit_range"][1]*5,100)
-    hi_xs = np.linspace(fit_args["hi_fit_range"][0],fit_range[1],100)
-    hi_fit_val = 10**np.polyval(fit_args["hi_fit_param"], np.log10(hi_xs))
-    
-    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]
-    kpred = loglog_func(Tdata, low_param, hi_param, erf_param)
-    # and append it to the array resVal
-    diff = kpred-kdata
-    perc_diff_arr = 100*diff/kpred
-    avg_perc_diff = np.mean(abs(perc_diff_arr))
-    if fits=="split":
-        plt.plot(low_xs, low_fit_val, c='b')
-        plt.plot(hi_xs, hi_fit_val, c='b')
-    xs = np.logspace(-1,4,100)
-    k_fit = loglog_func(xs, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
-    if fits=="combined":
-        plt.plot(xs, k_fit, label='combined fit', c="c")
-        if fill:
-            plt.fill_between(xs, k_fit*(1+avg_perc_diff/100), (k_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c")
-    plt.legend(loc='center right', bbox_to_anchor=(1.4, 0.5))
-    plt.xlabel("Temperature (K)")
-    plt.ylabel("k")
-    plt.title(f"{material_name}")
-    plt.semilogx()
-    plt.semilogy()
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf")
-    plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
-    # if show:
-    plt.show()
-    plt.clf()
-    
-    fig, axs = plt.subplots(2, figsize=(8, 6))
-    i = 0
-    for ref_name in data_dict.keys():
-        T, k, koT = data_dict[ref_name].T
-        print()
-        axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
-        axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
-        i+=1
-        if i == len(markers):
-            i = 0
-    
-    # AXS 0
-    koT_fit = (1/xs)*loglog_func(xs, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
-    axs[0].set_xlabel("T")
-    axs[0].set_ylabel("k/T")
-    axs[0].title.set_text("Low Temperature Fit")
-    axs[0].set_xlim(0.9*min(low_xs), 1.1*max(low_xs))
-    axs[0].set_ylim(0.9*min(np.polyval(fit_args["low_fit_param"], low_xs)), 1.1*max(np.polyval(fit_args["low_fit_param"], low_xs)))
-    axs[0].plot(xs, koT_fit, label='combined fit', c="c")
-    axs[0].grid(True, which="both", ls="-", color='0.65')
-    if fill:
-        axs[0].fill_between(xs, koT_fit*(1+avg_perc_diff/100), (koT_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c")
-    # AXS 1
-    # axs[1].loglog(hi_xs, hi_fit_val)
-    axs[1].plot(hi_xs, hi_fit_val, c="c")
-    axs[1].semilogx()
-    axs[1].grid(True, which="both", ls="-", color='0.65')
-    axs[1].set_ylabel("k")
-    axs[1].set_xlabel("T")
-    axs[1].set_xlim(0.9*min(hi_xs), 1.1*max(hi_xs))
-    axs[1].set_ylim(0.9*min(hi_fit_val), 1.1*max(hi_fit_val))
-    axs[1].title.set_text("High Temperature Fit")
-    if fill:
-        axs[1].fill_between(hi_xs, hi_fit_val*(1+avg_perc_diff/100), (hi_fit_val*(1-avg_perc_diff/100)), alpha=0.25, color="c")
-    plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
-    plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf")
-    # if show:
-    plt.show()
-
-    # Residual Plots
-
-    koT_pred = (1/Tdata)*loglog_func(Tdata, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
-    koT_data = (1/Tdata)*kdata
-    fig, axs = plt.subplots(2, figsize=(8, 6))
-    # axs[0].plot(Tdata, koT_data-koT_pred, '.')
-    axs[0].plot(Tdata, perc_diff_arr, '.', c=cmap(np.pi/10))
-    # axs[0].plot(Tdata, 100*(koT_data-koT_pred)/koT_data, '.')
-    axs[0].hlines(0, 0.9*min(low_xs), 1.1*max(low_xs))
-    axs[0].set_xlabel("Temperature (K)")
-    # axs[0].set_ylabel("residuals in % of k/T")
-    axs[0].set_ylabel("residuals in % of k")
-    axs[0].set_xlim(0.9*min(low_xs), 1.1*max(low_xs))
-    axs[0].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
-    axs[0].semilogx()
-    # AXS 1
-    # axs[1].plot(Tdata, kdata-kpred, '.')
-    100*(kdata-kpred)/kdata
-    axs[1].plot(Tdata, perc_diff_arr, '.', c=cmap(np.pi/10))
-    axs[1].hlines(0, 0.9*min(hi_xs), 1.1*max(hi_xs))
-    axs[1].set_xlabel("Temperature (K)")
-    axs[1].set_ylabel("residuals in % of k")
-    axs[1].set_xlim(0.9*min(hi_xs), 1.1*max(hi_xs))
-    axs[1].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
-    axs[1].semilogx()
-    plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf")
-    plt.show()
-
-    
+    plot_residuals(material_name, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2])
 
     return
 
