@@ -28,7 +28,7 @@ def get_datafiles(raw_path):
     print(f"Found {len(raw_files)} measurements.")
     return raw_files
 
-def parse_raw(material_name, raw_directory, plots=False):
+def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
     """
     Arguments : 
     - material_name - a pointer for the material name, this much match the folder name.
@@ -42,7 +42,7 @@ def parse_raw(material_name, raw_directory, plots=False):
     extension = ".csv"
     raw_files = [file for file in all_files if file.endswith(extension)]
     
-    big_data = np.empty((0,3), float)
+    big_data = np.empty((0,4), float)
     data_dict = dict()
     with open(f"{raw_directory}\\references.txt", 'w') as file:
         for f in raw_files:
@@ -51,10 +51,20 @@ def parse_raw(material_name, raw_directory, plots=False):
             file.write(str(file1[0]))
             file.write("\n \n")
             ref_name = f[:-4]
-            raw_data = np.array(file1[2:,:], dtype=float)
+            raw_data = np.array(file1[2:,:], dtype=float)           
+            
+            if weight_const != 0:
+                # year weights
+                year = ref_name[-4:]
+                weights = np.ones((len(raw_data),1))*(1/(weight_const*(2024-int(year))))
+            else:
+                weights = np.ones((len(raw_data),1))
+            raw_data = np.append(raw_data, weights, axis = 1)
+
             big_data = np.append(big_data, raw_data, axis=0)
+
             data_dict[ref_name] = raw_data
-            T, k, koT = raw_data.T
+            T, k, koT, weights = raw_data.T
             if plots:
                 plt.plot(T, k, '.', label=ref_name)
     if plots:
@@ -63,7 +73,7 @@ def parse_raw(material_name, raw_directory, plots=False):
         plt.ylabel("k")
         plt.semilogx()
         plt.semilogy()
-        plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf")
+        plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
         plt.show()
         plt.clf()
 
@@ -215,7 +225,7 @@ def create_tc_csv(data, output_file):
 def plot_datapoints(data_dict):
     i = 0
     for ref_name in data_dict.keys():
-        T, k, koT = data_dict[ref_name].T
+        T, k, koT, ws = data_dict[ref_name].T
         plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
         i+=1
         if i == len(markers):
@@ -268,7 +278,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     plt.title(f"{material_name}")
     plt.semilogx()
     plt.semilogy()
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf")
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
     plt.show()
     plt.clf()
@@ -292,7 +302,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     fig, axs = plt.subplots(2, figsize=(8, 6))
     i = 0
     for ref_name in data_dict.keys():
-        T, k, koT = data_dict[ref_name].T
+        T, k, koT, ws = data_dict[ref_name].T
         print()
         axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
         axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
@@ -326,7 +336,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
         axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c")
     plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf")
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     # if show:
     plt.show()
 
@@ -359,7 +369,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
     axs[1].semilogx()
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf")
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.show()
     return
 
@@ -395,6 +405,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
 ######################### FITTING #############################
 ###############################################################
 ###############################################################
+'''
 def fit_thermal_conductivity(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types=("k/T", "loglog"), plots=False):
     """
     Arguments :
@@ -465,7 +476,7 @@ def fit_thermal_conductivity(big_data, save_path, erf_loc = 20, fit_orders = (3,
                 "combined_fit_range" : np.array([min(lowT), max(hiT)]).tolist()}
     return arg_dict
 
-
+'''
 def loglog_func(T, low_param, hi_param, erf_param):
     """
     Description : Takes a temperature (or temp array) and fit arguments returns the estimated k value.
