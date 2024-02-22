@@ -396,11 +396,11 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     Returns : 
     - null
     """    
-    plot_full(material_name, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False)
+    plot_full(material_name, path_dict, data_dict, fit_args, fit_range, points, fits, fill)
 
-    plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], fill=True)
+    plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range, fill)
 
-    plot_residuals(material_name, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2])
+    plot_residuals(material_name, path_dict, data_dict, fit_args, fit_range)
 
     return
 
