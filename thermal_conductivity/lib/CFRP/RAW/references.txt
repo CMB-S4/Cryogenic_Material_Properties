@@ -1,0 +1,16 @@
+['Crowley' 'assembly_Tlow_0.27K' '2022']
+ 
+['Crowley' 'assembly_Tlow_0.36K' '2022']
+ 
+['Crowley' 'Tlow_0.3K' '2022']
+ 
+['Crowley' 'Tlow_1.4K' '2022']
+ 
+['Crowley' 'Tlow_1.4K' '2022']
+ 
+['Crowley' 'tube_Tlow_0.1K' '2022']
+ 
+['Crowley' 'tube_Tlow_0.25K' '2022']
+ 
+['Crowley' 'tube_Tlow_0.5K' '2022']
+ 

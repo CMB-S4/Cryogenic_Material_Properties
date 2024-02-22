@@ -321,7 +321,8 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[0].set_ylabel("k/T")
     axs[0].title.set_text("Low Temperature Fit")
     axs[0].set_xlim(0.9*min(low_t_range), 1.1*max(low_t_range))
-    axs[0].set_ylim(0.9*min(low_fit_k/low_t_range), 1.1*max(low_fit_k/low_t_range))
+    print(max(kdata[Tdata<1.1*max(low_t_range)]/Tdata[Tdata<1.1*max(low_t_range)]))
+    axs[0].set_ylim(0.8*min(low_fit_k/low_t_range), 1.2*max(kdata[Tdata<1.1*max(low_t_range)]/Tdata[Tdata<1.1*max(low_t_range)]))
     axs[0].plot(full_T_range, koT_fit, label='combined fit', c="c")
     axs[0].grid(True, which="both", ls="-", color='0.65')
     if fill:
