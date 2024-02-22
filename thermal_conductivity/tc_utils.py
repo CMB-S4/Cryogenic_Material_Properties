@@ -63,7 +63,7 @@ def parse_raw(material_name, raw_directory, plots=False):
         plt.ylabel("k")
         plt.semilogx()
         plt.semilogy()
-        plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf")
+        plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
         plt.show()
         plt.clf()
 
@@ -268,7 +268,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     plt.title(f"{material_name}")
     plt.semilogx()
     plt.semilogy()
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf")
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
     plt.show()
     plt.clf()
@@ -326,7 +326,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
         axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c")
     plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf")
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     # if show:
     plt.show()
 
@@ -359,7 +359,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
     axs[1].semilogx()
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf")
+    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.show()
     return
 
