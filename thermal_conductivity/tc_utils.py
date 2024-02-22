@@ -56,7 +56,8 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
             if weight_const != 0:
                 # year weights
                 year = ref_name[-4:]
-                weights = np.ones((len(raw_data),1))*(1/(weight_const*(2024-int(year))))
+                weights = np.ones((len(raw_data),1))*(1-(weight_const*(2024-int(year))))
+                weights[weights<0]=0 # replaces all negative weights with 0
             else:
                 weights = np.ones((len(raw_data),1))
             raw_data = np.append(raw_data, weights, axis = 1)
@@ -65,6 +66,7 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
 
             data_dict[ref_name] = raw_data
             T, k, koT, weights = raw_data.T
+            
             if plots:
                 plt.plot(T, k, '.', label=ref_name)
     if plots:
@@ -76,6 +78,9 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
         plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
         plt.show()
         plt.clf()
+
+    if len(big_data[:,3][big_data[:,3]!=0]) == 0:
+                print(f"Weight set to loss of {weight_const*100}% per year - No remaining data to fit")
 
     return big_data, data_dict
 
@@ -226,7 +231,7 @@ def plot_datapoints(data_dict):
     i = 0
     for ref_name in data_dict.keys():
         T, k, koT, ws = data_dict[ref_name].T
-        plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
+        plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
         i+=1
         if i == len(markers):
             i = 0
@@ -304,8 +309,8 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     for ref_name in data_dict.keys():
         T, k, koT, ws = data_dict[ref_name].T
         print()
-        axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
-        axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6))
+        axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
+        axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
         i+=1
         if i == len(markers):
             i = 0
