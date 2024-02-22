@@ -276,7 +276,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     # Plots the fits as they are seperately (rather then the combined fit)
     if fits=="split":
         plt.plot(low_t_range, low_fit_k, c='b')
-        plt.plot(hi_t_range, hi_fit_k, c='b')        
+        plt.plot(hi_t_range, hi_fit_k, c='b')
     plt.legend(loc='center right', bbox_to_anchor=(1.4, 0.5))
     plt.xlabel("Temperature (K)")
     plt.ylabel("k")
@@ -389,7 +389,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     - fit_args      - combined fit arguments
     - fit_range     - default=[100e-3,25e2] -
     - points        - default=True          - Boolean argument, if true, data points are added to the plot.
-    - fits          - options: 'combined', 'low', 'hi', other - defines which fits to plot.
+    - fits          - options: 'combined', 'split', other - defines which fits to plot.
     - fill          - default=False         - Boolean argument, if true, 15% confidence interval is shaded around plot.
     - show          - default=True          - Boolean argument, if true, plot is shown in notebook.
 
@@ -490,18 +490,9 @@ def loglog_func(T, low_param, hi_param, erf_param):
     - T - temperature at which to estimate the thermal conductivity.
     """
     low_fit = T*np.polyval(low_param, T)
+    erf_low = 0.5*(1-erf(15*(np.log10((T)/erf_param))))
     hi_fit = 10**np.polyval(hi_param, np.log10(T))
-
-    if erf_param==0:
-        erf_hi = 0
-        erf_low = 1
-    elif erf_param==-1:
-        erf_low = 0
-        erf_hi = 1
-    else:
-        erf_low = 0.5*(1-erf(15*(np.log10((T)/erf_param))))
-        erf_hi = 0.5*(1+erf(15*(np.log10(T/erf_param))))
-
+    erf_hi = 0.5*(1+erf(15*(np.log10(T/erf_param))))
     k = low_fit*erf_low+hi_fit*erf_hi
 
     return k
