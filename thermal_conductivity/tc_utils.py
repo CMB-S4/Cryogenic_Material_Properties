@@ -126,36 +126,36 @@ def make_fit_dict(fit_args):
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
         while len(param_str_arr) < len(result):
-            param_str_arr = np.append(param_str_arr, "0")
+            param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
         dict_vals = np.append(dict_vals, param_str_arr)
     
         mat_dict = dict(zip(keys, dict_vals))
         output_array.append(mat_dict)
     return output_array
 
-def create_data_table(data, output_file):
-    """
-    Description : Formats a dictionary in string style for saving to text file formats and saves to txt file.
-    """
-    # Extract column names from the first dictionary
-    columns = list(data[0].keys())
+# def create_data_table(data, output_file):
+#     """
+#     Description : Formats a dictionary in string style for saving to text file formats and saves to txt file.
+#     """
+#     # Extract column names from the first dictionary
+#     columns = list(data[0].keys())
+#     # Find the maximum width for each column
+#     column_widths = {column: max(len(str(row[column])) for row in data) for column in columns}
+#     for key in column_widths.keys():
+#         if len(key)>column_widths[key]:
+#             column_widths[key] = len(key)
+#     # Open the output file in write mode
+#     with open(output_file, 'w') as file:
+#         print(column.ljust(column_widths[column]) for column in columns)
+#         # Write the header row
+#         file.write('| ' + ' | '.join(column.ljust(column_widths[column]) for column in columns) + ' |\n')
+#         # Write the separator row
+#         file.write('| ' + '---'.join(['-' * column_widths[column] for column in columns]) + ' |\n')
 
-    # Find the maximum width for each column
-    column_widths = {column: max(len(str(row[column])) for row in data) for column in columns}
-    for key in column_widths.keys():
-        if len(key)>column_widths[key]:
-            column_widths[key] = len(key)
-    # Open the output file in write mode
-    with open(output_file, 'w') as file:
-        # Write the header row
-        file.write('| ' + ' | '.join(column.ljust(column_widths[column]) for column in columns) + ' |\n')
-        # Write the separator row
-        file.write('| ' + '---'.join(['-' * column_widths[column] for column in columns]) + ' |\n')
-
-        # Write each data row
-        for row in data:
-            file.write('| ' + ' | '.join(str(row[column]).ljust(column_widths[column]) for column in columns) + ' |\n')
-    return
+#         # Write each data row
+#         for row in data:
+#             file.write('| ' + ' | '.join(str(row[column]).ljust(column_widths[column]) for column in columns) + ' |\n')
+#     return
 
 ###############################################################
 ###############################################################
@@ -201,25 +201,25 @@ def compile_csv(path_to_RAW):
 
     return output_array
 
-def create_tc_csv(data, output_file):
-    """
-    Description : Formats a dictionary and saves to csv file.
-    """
-    # Extract column names from the first dictionary
-    columns = list(data[0].keys())
+# def create_tc_csv(data, output_file):
+#     """
+#     Description : Formats a dictionary and saves to csv file.
+#     """
+#     # Extract column names from the first dictionary
+#     columns = list(data[0].keys())
 
-    # Open the output file in write mode with newline='' to ensure consistent line endings
-    with open(output_file, 'w', newline='') as csvfile:
-        # Create a CSV writer object
-        csv_writer = csv.writer(csvfile)
+#     # Open the output file in write mode with newline='' to ensure consistent line endings
+#     with open(output_file, 'w', newline='') as csvfile:
+#         # Create a CSV writer object
+#         csv_writer = csv.writer(csvfile)
 
-        # Write the header row
-        csv_writer.writerow(columns)
+#         # Write the header row
+#         csv_writer.writerow(columns)
 
-        # Write each data row
-        for row in data:
-            csv_writer.writerow([str(row[column]) for column in columns])
-    return
+#         # Write each data row
+#         for row in data:
+#             csv_writer.writerow([str(row[column]) for column in columns])
+#     return
 
 ###############################################################
 ###############################################################
@@ -272,7 +272,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
         plt.plot(full_T_range, k_fit_combined, label='combined fit', c="c")
         if fill:
             avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
-            plt.fill_between(full_T_range, k_fit_combined*(1+avg_perc_diff/100), (k_fit_combined*(1-avg_perc_diff/100)), alpha=0.25, color="c")
+            plt.fill_between(full_T_range, k_fit_combined*(1+avg_perc_diff/100), (k_fit_combined*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
     # Plots the fits as they are seperately (rather then the combined fit)
     if fits=="split":
         plt.plot(low_t_range, low_fit_k, c='b')
@@ -321,13 +321,12 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[0].set_ylabel("k/T")
     axs[0].title.set_text("Low Temperature Fit")
     axs[0].set_xlim(0.9*min(low_t_range), 1.1*max(low_t_range))
-    print(max(kdata[Tdata<1.1*max(low_t_range)]/Tdata[Tdata<1.1*max(low_t_range)]))
     axs[0].set_ylim(0.8*min(low_fit_k/low_t_range), 1.2*max(kdata[Tdata<1.1*max(low_t_range)]/Tdata[Tdata<1.1*max(low_t_range)]))
     axs[0].plot(full_T_range, koT_fit, label='combined fit', c="c")
     axs[0].grid(True, which="both", ls="-", color='0.65')
     if fill:
         avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
-        axs[0].fill_between(full_T_range, koT_fit*(1+avg_perc_diff/100), (koT_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c")
+        axs[0].fill_between(full_T_range, koT_fit*(1+avg_perc_diff/100), (koT_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
     # AXS 1
     # axs[1].loglog(hi_xs, hi_fit_val)
     axs[1].plot(hi_t_range, hi_fit_k, c="c")
@@ -339,7 +338,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].set_ylim(0.9*min(hi_fit_k), 1.1*max(hi_fit_k))
     axs[1].title.set_text("High Temperature Fit")
     if fill:
-        axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c")
+        axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
     plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
