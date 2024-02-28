@@ -277,7 +277,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     if fits=="split":
         plt.plot(low_t_range, low_fit_k, c='b')
         plt.plot(hi_t_range, hi_fit_k, c='b')        
-    plt.legend(loc='center right', bbox_to_anchor=(1.4, 0.5))
+    plt.legend(loc='center right', bbox_to_anchor=(1.5, 0.5))
     plt.xlabel("Temperature (K)")
     plt.ylabel("k")
     plt.title(f"{material_name}")
@@ -339,7 +339,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].title.set_text("High Temperature Fit")
     if fill:
         axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
-    plt.legend(loc='center right', bbox_to_anchor=(1.3, 1.2))
+    plt.legend(loc='center right', bbox_to_anchor=(1.5, 1.2))
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     # if show:
