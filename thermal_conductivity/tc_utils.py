@@ -272,7 +272,14 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
         plt.plot(full_T_range, k_fit_combined, label='combined fit', c="c")
         if fill:
             avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
-            plt.fill_between(full_T_range, k_fit_combined*(1+avg_perc_diff/100), (k_fit_combined*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
+            low_avg_perc_diff, hi_avg_perc_diff = [0,0]
+            if len(Tdata[Tdata<30])>0:
+                low_avg_perc_diff, low_perc_diff_arr = get_percdiff(Tdata[Tdata<30], kdata[Tdata<30], fit_args)
+            if len(Tdata[Tdata>30])>0:
+                hi_avg_perc_diff, hi_perc_diff_arr = get_percdiff(Tdata[Tdata>30], kdata[Tdata>30], fit_args)
+            plt.fill_between(full_T_range, k_fit_combined*(1+avg_perc_diff/100), (k_fit_combined*(1-avg_perc_diff/100)),
+                             alpha=0.25, color="c",
+                             label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}, low: {np.char.mod('%0.' + str(2) + 'f', low_avg_perc_diff)}, hi: {np.char.mod('%0.' + str(2) + 'f', hi_avg_perc_diff)}%")
     # Plots the fits as they are seperately (rather then the combined fit)
     if fits=="split":
         plt.plot(low_t_range, low_fit_k, c='b')
@@ -326,7 +333,13 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[0].grid(True, which="both", ls="-", color='0.65')
     if fill:
         avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
-        axs[0].fill_between(full_T_range, koT_fit*(1+avg_perc_diff/100), (koT_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
+        low_avg_perc_diff, hi_avg_perc_diff = [0,0]
+        if len(Tdata[Tdata<30])>0:
+            low_avg_perc_diff, low_perc_diff_arr = get_percdiff(Tdata[Tdata<30], kdata[Tdata<30], fit_args)
+        if len(Tdata[Tdata>30])>0:
+            hi_avg_perc_diff, hi_perc_diff_arr = get_percdiff(Tdata[Tdata>30], kdata[Tdata>30], fit_args)
+        axs[0].fill_between(full_T_range, koT_fit*(1+avg_perc_diff/100), (koT_fit*(1-avg_perc_diff/100)), alpha=0.25, color="c",
+                            label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}, low: {np.char.mod('%0.' + str(2) + 'f', low_avg_perc_diff)}, hi: {np.char.mod('%0.' + str(2) + 'f', hi_avg_perc_diff)}%")
     # AXS 1
     # axs[1].loglog(hi_xs, hi_fit_val)
     axs[1].plot(hi_t_range, hi_fit_k, c="c")
@@ -338,7 +351,8 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].set_ylim(0.9*min(hi_fit_k), 1.1*max(hi_fit_k))
     axs[1].title.set_text("High Temperature Fit")
     if fill:
-        axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c", label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
+        axs[1].fill_between(hi_t_range, hi_fit_k*(1+avg_perc_diff/100), (hi_fit_k*(1-avg_perc_diff/100)), alpha=0.25, color="c",
+                            label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}, low: {np.char.mod('%0.' + str(2) + 'f', low_avg_perc_diff)}, hi: {np.char.mod('%0.' + str(2) + 'f', hi_avg_perc_diff)}%")
     plt.legend(loc='center right', bbox_to_anchor=(1.5, 1.2))
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
