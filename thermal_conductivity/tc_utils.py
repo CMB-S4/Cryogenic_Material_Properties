@@ -77,7 +77,6 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
         plt.semilogy()
         plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
         plt.show()
-        plt.clf()
 
     if len(big_data[:,3][big_data[:,3]!=0]) == 0:
                 print(f"Weight set to loss of {weight_const*100}% per year - No remaining data to fit")
@@ -264,6 +263,7 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
 def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     # Plots the data points
+    plt.figure(figsize=(8, 6))
     if points:
         plot_datapoints(data_dict)
 
@@ -293,8 +293,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
     plt.show()
-    plt.clf()
-
+    
     return
 
 def get_percdiff(Tdata, kdata, fit_args):
@@ -326,7 +325,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     koT_fit = (1/full_T_range)*loglog_func(full_T_range, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
     axs[0].set_xlabel("T")
     axs[0].set_ylabel("k/T")
-    axs[0].title.set_text("Low Temperature Fit")
+    axs[0].title.set_text(f"{material_name}\nLow Temperature Fit")
     axs[0].set_xlim(0.9*min(low_t_range), 1.1*max(low_t_range))
     axs[0].set_ylim(0.8*min(low_fit_k/low_t_range), 1.2*max(kdata[Tdata<1.1*max(low_t_range)]/Tdata[Tdata<1.1*max(low_t_range)]))
     axs[0].plot(full_T_range, koT_fit, label='combined fit', c="c")
@@ -378,6 +377,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[0].set_xlim(0.9*min(low_t_range), 1.1*max(low_t_range))
     axs[0].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
     axs[0].semilogx()
+    axs[0].title.set_text(f"{material_name}")
     # AXS 1
     # axs[1].plot(Tdata, kdata-kpred, '.')
     axs[1].plot(Tdata, perc_diff_arr, '.', c=cmap(np.pi/10))
@@ -390,6 +390,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.show()
+
     return
 
 def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False):
