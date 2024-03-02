@@ -132,29 +132,51 @@ def make_fit_dict(fit_args):
         output_array.append(mat_dict)
     return output_array
 
-# def create_data_table(data, output_file):
-#     """
-#     Description : Formats a dictionary in string style for saving to text file formats and saves to txt file.
-#     """
-#     # Extract column names from the first dictionary
-#     columns = list(data[0].keys())
-#     # Find the maximum width for each column
-#     column_widths = {column: max(len(str(row[column])) for row in data) for column in columns}
-#     for key in column_widths.keys():
-#         if len(key)>column_widths[key]:
-#             column_widths[key] = len(key)
-#     # Open the output file in write mode
-#     with open(output_file, 'w') as file:
-#         print(column.ljust(column_widths[column]) for column in columns)
-#         # Write the header row
-#         file.write('| ' + ' | '.join(column.ljust(column_widths[column]) for column in columns) + ' |\n')
-#         # Write the separator row
-#         file.write('| ' + '---'.join(['-' * column_widths[column] for column in columns]) + ' |\n')
+def make_arg_dict(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):
+    low_func = f"{fit_orders[0]} order {fit_types[0]}"
+    hi_func = f"{fit_orders[1]} order {fit_types[1]}"
+    
+    low_param = np.array(low_fit)
+    hi_param = np.array(hi_fit)
+    
+    all_params = np.append(np.append(low_param, hi_param), erf_loc)
 
-#         # Write each data row
-#         for row in data:
-#             file.write('| ' + ' | '.join(str(row[column]).ljust(column_widths[column]) for column in columns) + ' |\n')
-#     return
+    arg_dict = {"low_function_type"  : low_func,
+                "low_fit_param"      : low_param.tolist(),
+                "low_fit_range"      : np.array([min(low_fit_xs), max(low_fit_xs)]).tolist(),
+                "hi_function_type"   : hi_func,
+                "hi_fit_param"       : hi_param.tolist(),
+                "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
+                "combined_function_type" : "loglog",
+                "combined_fit_param" : all_params.tolist(),
+                "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()}
+    return arg_dict
+
+def split_data(big_data, erf_loc):
+    # divide the data array into three columns
+    T, k, koT, weights = [big_data[:,0], big_data[:,1], big_data[:,2], big_data[:,3]]
+
+    
+
+    # Find the low range
+    # lowT, hiT = [T[T<erf_loc], T[T>erf_loc]]
+    
+    # if (len(lowT) == 0) or (len(hiT) ==0):
+    #     print("ERROR  - data split results in 0-length array, please adjust split location")
+    #     print(f"NOTE   - min(T) = {min(T)}, max(T) = {max(T)} ")
+    #     print(f"{(len(lowT))} {(len(hiT))}")
+
+    #     erf_loc = np.mean(T)
+
+    low_ws, hi_ws = [weights[T<erf_loc], weights[T>erf_loc]]
+
+    # Find the low range
+    lowT, lowT_k, lowT_koT = [T[T<erf_loc], k[T<erf_loc], koT[T<erf_loc]]
+    
+    # Find the high range
+    hiT, hiT_k, hiT_koT = [T[T>erf_loc], k[T>erf_loc], koT[T>erf_loc]]
+
+    return [lowT, lowT_k, lowT_koT, low_ws, hiT, hiT_k, hiT_koT, hi_ws]
 
 ###############################################################
 ###############################################################
@@ -200,25 +222,72 @@ def compile_csv(path_to_RAW):
 
     return output_array
 
-# def create_tc_csv(data, output_file):
-#     """
-#     Description : Formats a dictionary and saves to csv file.
-#     """
-#     # Extract column names from the first dictionary
-#     columns = list(data[0].keys())
+def create_data_table(data, output_file):
+    """
+    Description : Formats a dictionary in string style for saving to text file formats and saves to txt file.
+    """
+    # Extract column names from the first dictionary
+    longest = 0
+    longest_arg = 0
+    for i in range(len(data)):
+        if len(data[i].keys())>longest:
+            longest = len(data[i].keys())
+            longest_arg = i
+    
+    columns = list(data[longest_arg].keys())
+    # Find the maximum width for each column
+    column_widths = {column: (len(str(column))+12) for column in columns}
+    # Open the output file in write mode
+    with open(output_file, 'w') as file:
+        # Write the header row
+        file.write('| ' + ' | '.join(column.ljust(column_widths[column]) for column in columns) + ' |\n')
+        # Write the separator row
+        file.write('| ' + '---'.join(['-' * column_widths[column] for column in columns]) + ' |\n')
 
-#     # Open the output file in write mode with newline='' to ensure consistent line endings
-#     with open(output_file, 'w', newline='') as csvfile:
-#         # Create a CSV writer object
-#         csv_writer = csv.writer(csvfile)
+        for row in data:
+            file.write("| ")
+            write_row = []
+            for param in columns:
+                if np.isin(param, list(row.keys())):
+                    write_row.append(str(row[param]))
+                else:
+                    write_row.append("^")
+            for i in range(len(write_row)):
+                file.write(''.join(write_row[i]).ljust(column_widths[list(column_widths.keys())[i]])+" | ")
+            file.write('\n')
+    return
 
-#         # Write the header row
-#         csv_writer.writerow(columns)
+def create_tc_csv(data, output_file):
+    """
+    Description : Formats a dictionary and saves to csv file.
+    """
+    # Extract column names from the first dictionary
+    longest = 0
+    longest_arg = 0
+    for i in range(len(data)):
+        if len(data[i].keys())>longest:
+            longest = len(data[i].keys())
+            longest_arg = i
+    # Extract column names from the first dictionary
+    columns = list(data[longest_arg].keys())
+        # Open the output file in write mode with newline='' to ensure consistent line endings
+    with open(output_file, 'w', newline='') as csvfile:
+        # Create a CSV writer object
+        csv_writer = csv.writer(csvfile)
 
-#         # Write each data row
-#         for row in data:
-#             csv_writer.writerow([str(row[column]) for column in columns])
-#     return
+        # Write the header row
+        csv_writer.writerow(columns)
+
+        # Write each data row
+        for row in data:
+            write_row = []
+            for param in columns:
+                if np.isin(param, list(row.keys())):
+                    write_row.append(str(row[param]))
+                else:
+                    write_row.append("-")
+            csv_writer.writerow(write_row)
+    return
 
 ###############################################################
 ###############################################################
@@ -425,8 +494,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
 ######################### FITTING #############################
 ###############################################################
 ###############################################################
-'''
-def fit_thermal_conductivity(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types=("k/T", "loglog"), plots=False):
+def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types=("k/T", "loglog"), plots=False):
     """
     Arguments :
     - big_data   - Array of measurement data concatenated (should be of shape: [N, 3])
@@ -439,64 +507,74 @@ def fit_thermal_conductivity(big_data, save_path, erf_loc = 20, fit_orders = (3,
     Returns :
     - arg_dict - Dictionary of fit arguments - includes low fit, high fit, and combined fit arguments.
     """
-    # divide the data array into three columns
-    T = big_data[:,0]
-    k = big_data[:,1]
-    koT = big_data[:,2]
+    
+    dsplit = split_data(big_data, erf_loc)
+    lowT, lowT_k, lowT_koT, low_ws, hiT, hiT_k, hiT_koT, hi_ws = dsplit
 
-    # Find the low range
-    lowT = T[T<erf_loc]
-    lowT_k = k[T<erf_loc]
-    lowT_koT = koT[T<erf_loc]
-
-    # Find the high range
-    hiT = T[T>erf_loc]
-    hiT_k = k[T>erf_loc]
     # Take a log10 of the high range
     log_hi_T = np.log10(hiT)
     log_hi_k = np.log10(hiT_k)
-    if (len(lowT) == 0) or (len(lowT) ==0):
-        print("ERROR  - data split results in 0-length array, please adjust split location")
-        print(f"NOTE   - min(T) = {min(T)}, max(T) = {max(T)} ")
     # Fit the low data
-    if fit_types[0] == "k/T":
-        lofit_full = np.polyfit(lowT, lowT_koT, fit_orders[0], full=True)
-        low_fit, residuals_lo, rank_lo, sing_vals_lo, rcond_lo = lofit_full
-        low_fit_xs = np.linspace(np.min(lowT), np.max(lowT), 100)
-        low_poly1d = np.poly1d(low_fit)
+    try:
+        if (fit_types[0] == "k/T") and (len(lowT)!=0):
+            low_fit_xs, low_fit = koT_function(lowT, lowT_koT, fit_orders[0], low_ws)
+        elif (len(lowT)==0):
+            low_fit = [0]
+            print(f"Only using high fit {min(T)} > 20")
 
+        # Fit the high data
+        
+        if fit_types[1] == "loglog" and (len(hiT)!=0):
+            hi_fit_xs, hi_fit = logk_function(log_hi_T, log_hi_k, fit_orders[1], hi_ws)
+        elif (len(hiT)==0):
+            hi_fit = [0]
+            print(f"Only using low fit {max(T)} < 20")
 
-    # Fit the high data
-    if fit_types[1] == "loglog":
-        hifit_full = np.polyfit(log_hi_T, log_hi_k, fit_orders[1], full=True)
-        hi_fit, residuals_hi, rank_hi, sing_vals_hi, rcond_hi = hifit_full
-        hi_fit_xs = np.linspace(np.min(log_hi_T), np.max(log_hi_T), 100)
-        hi_poly1d = np.poly1d(hi_fit)
+    except np.linalg.LinAlgError:
+        print("LinAlgError - likely not enough points after weight to fit the data.")
+        raise np.linalg.LinAlgError()
         
     # # Combine the fits
     # xrange_total = np.linspace(min(lowT), max(hiT), 100)
     # logk = loglog(xrange_total, low_poly1d, hi_poly1d, erf_place)
     # #
 
-    low_func = f"{fit_orders[0]} order {fit_types[0]}"
-    hi_func = f"{fit_orders[1]} order {fit_types[1]}"
-    
-    low_param = np.array(low_fit)
-    hi_param = np.array(hi_fit)
-    all_params = np.append(np.append(low_param, hi_param), erf_loc)
+    if plots:
+        fig, axs = plt.subplots(2, figsize=(8, 6))
+        axs[0].plot(lowT, lowT_koT,'.')
+        axs[0].plot(low_fit_xs, np.polyval(low_fit, low_fit_xs))
+        axs[0].set_xlabel("T")
+        axs[0].set_ylabel("k/T")
+        axs[0].title.set_text("Low Temperature Fit")
+        axs[1].loglog(10**hi_fit_xs, 10**np.polyval(hi_fit, hi_fit_xs))
+        axs[1].loglog(hiT, hiT_k, '.')
+        axs[1].grid(True, which="both", ls="-", color='0.65')
+        axs[1].set_ylabel("k")
+        axs[1].set_xlabel("T")
+        axs[1].title.set_text("High Temperature Fit")
+        plt.subplots_adjust(wspace=0.4, hspace=0.4)
+        plt.savefig(f"{save_path}\\fits_subplots.pdf", dpi = 300, format="pdf")
+        plt.show()
+        plt.clf()
 
-    arg_dict = {"low_function_type"  : low_func,
-                "low_fit_param"      : low_param.tolist(),
-                "low_fit_range"      : np.array([min(low_fit_xs), max(low_fit_xs)]).tolist(),
-                "hi_function_type"   : hi_func,
-                "hi_fit_param"       : hi_param.tolist(),
-                "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
-                "combined_function_type" : "loglog",
-                "combined_fit_param" : all_params.tolist(),
-                "combined_fit_range" : np.array([min(lowT), max(hiT)]).tolist()}
+
+    arg_dict = make_arg_dict(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
     return arg_dict
 
-'''
+def koT_function(T, koT, orders, weights):
+    low_fit_xs = np.linspace(np.min(T), np.max(T), 100)
+    lofit_full = np.polyfit(T, koT, orders, full=True, w=weights)
+    low_fit, residuals_lo, rank_lo, sing_vals_lo, rcond_lo = lofit_full
+    low_poly1d = np.poly1d(low_fit)
+    return low_fit_xs, low_fit
+
+def logk_function(logT, logk, orders, weights):
+    fit_T = np.linspace(np.min(logT), np.max(logT), 100)
+    fit_full = np.polyfit(logT, logk, orders, full=True, w=weights)
+    fit, residuals_hi, rank_hi, sing_vals_hi, rcond_hi =  fit_full
+    # hi_poly1d = np.poly1d(fit)
+    return fit_T, fit
+
 def loglog_func(T, low_param, hi_param, erf_param):
     """
     Description : Takes a temperature (or temp array) and fit arguments returns the estimated k value.
