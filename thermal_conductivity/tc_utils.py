@@ -7,8 +7,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-import os, string, yaml, csv, h5py
-from scipy.special import erf
+import string, yaml, csv, h5py
+import sys,os
+sys.path.append(os.getcwd())
 
 from fit_types import * # Imports the different fit types from the associated file
 
@@ -159,6 +160,36 @@ def make_arg_dict(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "combined_fit_param" : all_params.tolist(),
                 "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()}
     return arg_dict
+
+def make_monofit_dict(fit_param, fit_range, fit_type):  
+    arg_dict = {"combined_function_type" : fit_type,
+                "combined_fit_param" : fit_param.tolist(),
+                "combined_fit_range" : np.array(fit_range).tolist()}
+    return arg_dict
+
+def make_monofit_format(fit_args):
+    """
+    Description : Makes a dictionary of strings with the appropriate formating and headings to be saved in other file formats.
+    """
+    num_fit_param_combined = len(fit_args["combined_fit_param"])
+
+    result = list(generate_alphabet_array(num_fit_param_combined, "l"))
+    
+    output_array = []
+    keys = ["Fit Type", "Low Temp", "High Temp"] + result
+
+    for i in ["combined"]:
+        dict_vals = []
+        dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
+        dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
+        param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
+        while len(param_str_arr) < len(result):
+            param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
+        dict_vals = np.append(dict_vals, param_str_arr)
+    
+        mat_dict = dict(zip(keys, dict_vals))
+        output_array.append(mat_dict)
+    return output_array
 
 def split_data(big_data, erf_loc):
     # divide the data array into three columns

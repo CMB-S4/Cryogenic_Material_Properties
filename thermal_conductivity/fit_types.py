@@ -1,6 +1,9 @@
 ## Author: Henry Nachman
 import numpy as np
+from scipy.special import erf
 
+
+######################################################################
 def koT_function(T, koT, orders, weights):
     low_fit_xs = np.linspace(np.min(T), np.max(T), 100)
     lofit_full = np.polyfit(T, koT, orders, full=True, w=weights)
@@ -36,5 +39,14 @@ def loglog_func(T, low_param, hi_param, erf_param):
         erf_hi = 0.5*(1+erf(15*(np.log10(T/erf_param))))
 
     k = low_fit*erf_low+hi_fit*erf_hi
+
+    return k
+
+######################################################################
+
+def power_law(T, params):
+    A, B = params
+
+    k = (A*(10**(-3)))*T**(B)
 
     return k

@@ -3,11 +3,18 @@
 ## which it then compiles and outputs - creating easy to use, human-readable, files
 ## containing the thermal conductivity fits for the entire library.
 
-from thermal_conductivity.tc_utils import *
-import os
+import os, sys
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-path_to_lib = f"{os.getcwd()}\\thermal_conductivity\\lib"
+os.chdir(f"{os.path.dirname(os.path.abspath(__file__))}\\thermal_conductivity")
+
+# import sys
+# sys.path.append(os.getcwd())
+
+
+from thermal_conductivity.fit_types import *
+from thermal_conductivity.tc_utils import *
+
+path_to_lib = f"{os.getcwd()}\\lib"
 mat_directories = [folder for folder in os.listdir(path_to_lib) if not folder.endswith(".md")]
 
 path_to_RAW = dict()
@@ -19,5 +26,5 @@ for mat in mat_directories:
 print(path_to_RAW)
 
 output_array = compile_csv(path_to_RAW)
-create_data_table(output_array, "thermal_conductivity_compilation.txt")
-create_tc_csv(output_array, "thermal_conductivity_compilation.csv")
+create_data_table(output_array, "..\\thermal_conductivity_compilation.txt")
+create_tc_csv(output_array, "..\\thermal_conductivity_compilation.csv")
