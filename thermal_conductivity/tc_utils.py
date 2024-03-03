@@ -108,7 +108,7 @@ def generate_alphabet_array(n, case = "l"):
         alphabet = list(string.ascii_uppercase)
     return alphabet[:n]
     
-def make_fit_dict(fit_args):
+def format_combofit(fit_args):
     """
     Description : Makes a dictionary of strings with the appropriate formating and headings to be saved in other file formats.
     """
@@ -141,7 +141,7 @@ def make_fit_dict(fit_args):
         output_array.append(mat_dict)
     return output_array
 
-def make_arg_dict(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):
+def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):
     low_func = f"{fit_orders[0]} order {fit_types[0]}"
     hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
@@ -161,13 +161,13 @@ def make_arg_dict(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()}
     return arg_dict
 
-def make_monofit_dict(fit_param, fit_range, fit_type):  
+def dict_monofit(fit_param, fit_range, fit_type):  
     arg_dict = {"combined_function_type" : fit_type,
                 "combined_fit_param" : fit_param.tolist(),
                 "combined_fit_range" : np.array(fit_range).tolist()}
     return arg_dict
 
-def make_monofit_format(fit_args):
+def format_monofit(fit_args):
     """
     Description : Makes a dictionary of strings with the appropriate formating and headings to be saved in other file formats.
     """
@@ -559,7 +559,6 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
             low_fit_xs, low_fit = koT_function(lowT, lowT_koT, fit_orders[0], low_ws)
         elif (len(lowT)==0):
             low_fit = [0]
-            print(f"Only using high fit {min(T)} > 20")
 
         # Fit the high data
         
@@ -567,7 +566,6 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
             hi_fit_xs, hi_fit = logk_function(log_hi_T, log_hi_k, fit_orders[1], hi_ws)
         elif (len(hiT)==0):
             hi_fit = [0]
-            print(f"Only using low fit {max(T)} < 20")
 
     except np.linalg.LinAlgError:
         print("LinAlgError - likely not enough points after weight to fit the data.")
@@ -597,7 +595,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
         plt.clf()
 
 
-    arg_dict = make_arg_dict(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
+    arg_dict = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
     return arg_dict
 
 
