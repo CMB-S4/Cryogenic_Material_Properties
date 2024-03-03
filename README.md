@@ -7,7 +7,7 @@ This Git Repository will serve to store raw thermal conductivity (TC) data and o
 The repository is being actively developed by Henry Nachman and Dr. Nicholas Galitzki at the University of Texas at Austin. 
 
 ## Operation
-Most users of this repository will only ever use the thermal_conductivity_compilation files, which may then be imported into other programs. These files contain the multi-order fits to real thermal conductivity data.
+Most users of this repository will only ever use the thermal_conductivity_compilation files, which may then be imported into other programs. These files contain the multi-order fits to real thermal conductivity data. The *compile_TC.py* is responsible for compiling each individual material fit, and exporting the full .csv and .txt files.  
 
 For users who wish to adjust the fits, add more data, or investigate the 'behind the scenes' of this repository, it is encouraged to familiarize oneself with the 'thermal_conductivity_tutorial.ipynb' notebook (found in the thermal_conductivity folder) in its entirety.
 This notebook produces all of the plots and fits (and puts them in the appropriate folders).
@@ -49,6 +49,10 @@ or in python form
     logk = low_range*erf_low+hi_range*erf_hi
     # logk = np.log10(np.abs(T*(low_fit(T))))*0.5*(1-erf(15*(np.log10(10*T/erf_param))))+(hi_fit(np.log10(T)))*0.5*(1+erf(15*(np.log10(T/erf_param))))
 ```
+
+## Other Fits
+Occasionally, when access to the raw thermal conductivity measurements is not possible, the thermal conductivity fits themselves will be taken directly from reference literature. There may also be times when the data from a particular material is poorly fit by the above method. In these cases, the fit may be of a different form than the fit described above. The handle this, the files describing the fit parameters will contain a *Fit Type* identification. This ID can serve as a pointer to the included *fit_types.py* file, which describes the different fit types. 
+
 
 ## Organizational Structure
 All current development exists within the 'thermal_conductivity' folder

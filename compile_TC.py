@@ -1,3 +1,8 @@
+## Author: Henry Nachman
+## Description: This file searches the subfolder library of materials for thermal conductivity fits
+## which it then compiles and outputs - creating easy to use, human-readable, files
+## containing the thermal conductivity fits for the entire library.
+
 from thermal_conductivity.tc_utils import *
 import os
 
