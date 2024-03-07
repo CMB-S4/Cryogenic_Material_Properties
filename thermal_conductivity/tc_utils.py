@@ -243,13 +243,13 @@ def make_fit_lh5(fit_args, save_path):
             f.create_dataset(f"{key}", data=fit_args[key])
     return comp_file
 
-def compile_csv(path_to_RAW):
+def compile_csv(path_to_fits):
     """
     Description : Compiles the fit data of every material and outputs to a single array.
     """
     output_array = []
-    for mat in path_to_RAW.keys():
-        file = os.path.split(path_to_RAW[mat])[0]
+    for mat in path_to_fits.keys():
+        file = path_to_fits[mat]
         max_fit_param = 0
         material_file = np.loadtxt(f"{file}\\{mat}.csv", dtype=str, delimiter=',')
         headers = material_file[0]
