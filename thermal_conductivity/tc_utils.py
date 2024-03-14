@@ -85,7 +85,8 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
         plt.semilogx()
         plt.semilogy()
         plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
-        plt.show()
+        # plt.show()
+        plt.close()
 
     if len(big_data[:,3][big_data[:,3]!=0]) == 0:
                 print(f"Weight set to loss of {weight_const*100}% per year - No remaining data to fit")
@@ -400,7 +401,8 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     plt.semilogy()
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
-    plt.show()
+    # plt.show()
+    plt.close()
     
     return
 
@@ -422,7 +424,6 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     i = 0
     for ref_name in data_dict.keys():
         T, k, koT, ws = data_dict[ref_name].T
-        print()
         axs[0].plot(T, koT, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
         axs[1].plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
         i+=1
@@ -464,7 +465,8 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     # if show:
-    plt.show()
+    # plt.show()
+    plt.close()
 
     return
 
@@ -497,7 +499,8 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].semilogx()
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf", bbox_inches='tight')
-    plt.show()
+    # plt.show()
+    plt.close()
 
     return
 
@@ -591,8 +594,8 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
         axs[1].title.set_text("High Temperature Fit")
         plt.subplots_adjust(wspace=0.4, hspace=0.4)
         plt.savefig(f"{save_path}\\fits_subplots.pdf", dpi = 300, format="pdf")
-        plt.show()
-        plt.clf()
+        # plt.show()
+        plt.close()
 
 
     arg_dict = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
