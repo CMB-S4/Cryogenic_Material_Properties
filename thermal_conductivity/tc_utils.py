@@ -562,6 +562,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
             low_fit_xs, low_fit = koT_function(lowT, lowT_koT, fit_orders[0], low_ws)
         elif (len(lowT)==0):
             low_fit = [0]
+            low_fit_xs = [0]
 
         # Fit the high data
         
@@ -569,6 +570,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
             hi_fit_xs, hi_fit = logk_function(log_hi_T, log_hi_k, fit_orders[1], hi_ws)
         elif (len(hiT)==0):
             hi_fit = [0]
+            hi_fit_xs = [0]
 
     except np.linalg.LinAlgError:
         print("LinAlgError - likely not enough points after weight to fit the data.")
