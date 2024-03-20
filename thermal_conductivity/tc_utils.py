@@ -207,7 +207,6 @@ def split_data(big_data, erf_loc):
     #     print(f"{(len(lowT))} {(len(hiT))}")
 
     #     erf_loc = np.mean(T)
-
     low_ws, hi_ws = [weights[T<erf_loc], weights[T>erf_loc]]
 
     # Find the low range
@@ -269,12 +268,18 @@ def create_data_table(data, output_file):
     # Extract column names from the first dictionary
     longest = 0
     longest_arg = 0
+    columns = []
     for i in range(len(data)):
-        if len(data[i].keys())>longest:
-            longest = len(data[i].keys())
-            longest_arg = i
+        for key in data[i].keys():
+            if not key in columns:
+                columns.append(key)
+        # print(columns)
+        # if len(data[i].keys())>longest:
+        #     longest = len(data[i].keys())
+        #     longest_arg = i
     
-    columns = list(data[longest_arg].keys())
+    # columns = list(data[longest_arg].keys())
+                
     # Find the maximum width for each column
     column_widths = {column: (len(str(column))+12) for column in columns}
     # Open the output file in write mode
@@ -302,14 +307,20 @@ def create_tc_csv(data, output_file):
     Description : Formats a dictionary and saves to csv file.
     """
     # Extract column names from the first dictionary
-    longest = 0
-    longest_arg = 0
+    # longest = 0
+    # longest_arg = 0
+    # for i in range(len(data)):
+    #     if len(data[i].keys())>longest:
+    #         longest = len(data[i].keys())
+    #         longest_arg = i
+    # # Extract column names from the first dictionary
+    # columns = list(data[longest_arg].keys())
+
+    columns = []
     for i in range(len(data)):
-        if len(data[i].keys())>longest:
-            longest = len(data[i].keys())
-            longest_arg = i
-    # Extract column names from the first dictionary
-    columns = list(data[longest_arg].keys())
+        for key in data[i].keys():
+            if not key in columns:
+                columns.append(key)
         # Open the output file in write mode with newline='' to ensure consistent line endings
     with open(output_file, 'w', newline='') as csvfile:
         # Create a CSV writer object
@@ -325,7 +336,7 @@ def create_tc_csv(data, output_file):
                 if np.isin(param, list(row.keys())):
                     write_row.append(str(row[param]))
                 else:
-                    write_row.append("-")
+                    write_row.append("^")
             csv_writer.writerow(write_row)
     return
 
