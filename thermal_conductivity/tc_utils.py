@@ -107,7 +107,10 @@ def generate_alphabet_array(n, case = "l"):
         alphabet = list(string.ascii_lowercase)
     else:
         alphabet = list(string.ascii_uppercase)
-    return alphabet[:n]
+    if n>1:
+        return alphabet[:n]
+    else:
+        return []
     
 def format_combofit(fit_args):
     """
@@ -140,6 +143,45 @@ def format_combofit(fit_args):
     
         mat_dict = dict(zip(keys, dict_vals))
         output_array.append(mat_dict)
+    return output_array
+
+def format_splitfit(fit_args, fit = "low"):
+    """
+    Description : Makes a dictionary of strings with the appropriate formating and headings to be saved in other file formats.
+    """
+    
+    max_fit_param = 0
+    
+    num_fit_param_hi = len(fit_args["hi_fit_param"])
+    num_fit_param_lo = len(fit_args["low_fit_param"])
+    if fit=="low":
+        num_fit_param_hi = 0
+    elif fit=="hi":
+        num_fit_param_lo = 0
+    num_fit_param_combined = len(fit_args["combined_fit_param"])
+
+    n = num_fit_param_combined
+    result_lo = generate_alphabet_array(num_fit_param_lo, "l")
+    result_hi = generate_alphabet_array(num_fit_param_hi, "h")
+    result = np.append(result_lo, result_hi)
+    result = np.append(result, "erf param")
+    result = list(result)
+    
+    output_array = []
+    keys = ["Fit Type", "Low Temp", "High Temp"] + result
+
+    dict_vals = []
+    dict_vals = np.append(dict_vals, np.array(fit_args[f"{fit}_function_type"], dtype=str).flatten())
+    dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{fit}_fit_range"], dtype=float)).flatten())
+    param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{fit}_fit_param"], dtype=float)).flatten()
+    while len(param_str_arr) < len(result):
+        param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
+    
+    param_str_arr = np.where(param_str_arr == "0.00000e+00", "^", param_str_arr)
+    dict_vals = np.append(dict_vals, param_str_arr)
+
+    mat_dict = dict(zip(keys, dict_vals))
+    output_array.append(mat_dict)
     return output_array
 
 def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):
@@ -184,12 +226,16 @@ def format_monofit(fit_args):
         dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
+
         while len(param_str_arr) < len(result):
             param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
+    
+        param_str_arr = np.where(param_str_arr == "0.00000e+00", "^", param_str_arr)
         dict_vals = np.append(dict_vals, param_str_arr)
     
         mat_dict = dict(zip(keys, dict_vals))
         output_array.append(mat_dict)
+    
     return output_array
 
 def split_data(big_data, erf_loc):
@@ -250,16 +296,26 @@ def compile_csv(path_to_fits):
     output_array = []
     for mat in path_to_fits.keys():
         file = path_to_fits[mat]
-        max_fit_param = 0
-        material_file = np.loadtxt(f"{file}\\{mat}.csv", dtype=str, delimiter=',')
-        headers = material_file[0]
-        headers = np.append(["Material Name"], headers)
-        comb_fit = material_file[-1]
-        comb_fit = np.append([f"{mat}"], comb_fit)
-        mat_dict = dict(zip(headers, comb_fit))
-        output_array.append(mat_dict)
+        if not os.path.exists(f"{file}\\{mat}.csv"):
+            for i in ["lo", "hi"]:
+                material_file = np.loadtxt(f"{file}\\{mat}_{i}.csv", dtype=str, delimiter=',')
+                headers = material_file[0]
+                headers = np.append(["Material Name"], headers)
+                comb_fit = material_file[-1]
+                comb_fit = np.append([f"{mat}_{i}"], comb_fit)
+                mat_dict = dict(zip(headers, comb_fit))
+                output_array.append(mat_dict)
+        else:
+            material_file = np.loadtxt(f"{file}\\{mat}.csv", dtype=str, delimiter=',')
+            headers = material_file[0]
+            headers = np.append(["Material Name"], headers)
+            comb_fit = material_file[-1]
+            comb_fit = np.append([f"{mat}"], comb_fit)
+            mat_dict = dict(zip(headers, comb_fit))
+            output_array.append(mat_dict)
 
     return output_array
+
 
 def create_data_table(data, output_file):
     """
@@ -294,7 +350,9 @@ def create_data_table(data, output_file):
             write_row = []
             for param in columns:
                 if np.isin(param, list(row.keys())):
-                    write_row.append(str(row[param]))
+                    add = str(row[param])
+                    add = add.replace("0.00000e+00", "^")
+                    write_row.append(add)
                 else:
                     write_row.append("^")
             for i in range(len(write_row)):
@@ -334,7 +392,9 @@ def create_tc_csv(data, output_file):
             write_row = []
             for param in columns:
                 if np.isin(param, list(row.keys())):
-                    write_row.append(str(row[param]))
+                    add = str(row[param])
+                    add = add.replace("0.00000e+00", "^")
+                    write_row.append(add)
                 else:
                     write_row.append("^")
             csv_writer.writerow(write_row)
