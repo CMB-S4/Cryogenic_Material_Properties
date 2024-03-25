@@ -375,12 +375,12 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
     kdata = np.concatenate([(data_dict[ref_name].T[1]) for ref_name in data_dict])
 
     # redefines the plot range based on data
-    fit_range = [100e-3, 1.1*max(Tdata)]
+    fit_range = [100e-4, 1.1*max(Tdata)]
     full_T_range = np.logspace(np.log10(fit_range[0]),np.log10(fit_range[1]),100)
     return Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory
 
 
-def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False):
+def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], points=True, fits="combined", fill=False):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     # Plots the data points
     plt.figure(figsize=(8, 6))
@@ -427,7 +427,7 @@ def get_percdiff(Tdata, kdata, fit_args):
     avg_perc_diff = np.mean(abs(perc_diff_arr)) # finds the average of that percent difference
     return avg_perc_diff, perc_diff_arr
 
-def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], fill=True):
+def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], fill=True):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
 
     # Now let's get to plotting
@@ -481,7 +481,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
 
     return
 
-def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2]):
+def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2]):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
     # Residual Plots
@@ -515,7 +515,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
 
     return
 
-def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-3,25e2], points=True, fits="combined", fill=False):
+def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], points=True, fits="combined", fill=False):
     """
     Description : Produces a beautiful plot of the raw data with the fit.
 
@@ -524,7 +524,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     - path_dict     - dictionary type of paths to data
     - data_dict     - dictionary of raw data with reference information as keys
     - fit_args      - combined fit arguments
-    - fit_range     - default=[100e-3,25e2] -
+    - fit_range     - default=[100e-4,25e2] -
     - points        - default=True          - Boolean argument, if true, data points are added to the plot.
     - fits          - options: 'combined', 'low', 'hi', other - defines which fits to plot.
     - fill          - default=False         - Boolean argument, if true, 15% confidence interval is shaded around plot.
