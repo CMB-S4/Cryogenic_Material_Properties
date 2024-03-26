@@ -4,26 +4,28 @@ Compilation of material properties at cryogenic temperatures for use in design a
 
 This Git Repository will serve to store raw thermal conductivity (TC) data and other material properties and analysis tools (in Python) for streamlined use. The data is compiled from decades of published resources. The repository also includes the reference information for each set of measurements. 
 
-The repository is being actively developed by Henry Nachman and Dr. Nicholas Galitzki at the University of Texas at Austin. 
+The repository is being actively developed by Henry Nachman, Oorie Desai, and Dr. Nicholas Galitzki at the University of Texas at Austin. 
 
 ## Operation
-Most users of this repository will only ever use the thermal_conductivity_compilation files, which may then be imported into other programs. These files contain the multi-order fits to real thermal conductivity data. The *compile_TC.py* is responsible for compiling each individual material fit, and exporting the full .csv and .txt files.  
+Most users of this repository will only ever use the thermal_conductivity_compilation files, which may then be imported into other programs. These files contain the multi-order fits to real thermal conductivity data. The *compile_TC.py* is responsible for compiling each individual material fit, and exporting the full .csv and .txt files. It is also how the compilation files are updated after changes in the library.  
 
-For users who wish to adjust the fits, add more data, or investigate the 'behind the scenes' of this repository, it is encouraged to familiarize oneself with the 'thermal_conductivity_tutorial.ipynb' notebook (found in the thermal_conductivity folder) in its entirety.
-This notebook produces all of the plots and fits (and puts them in the appropriate folders).
+For users who wish to adjust the fits, add more data, or investigate the 'behind the scenes' of this repository, it is encouraged to familiarize oneself with the 'fit_data.ipynb' notebook (found in the thermal_conductivity folder) in its entirety.
+This notebook (in addition to the functions found in the tc_utils.py file) produces all of the plots and fits (and puts them in the appropriate folders).
 
-The output of the notebook is a compiled .csv and .txt file with the thermal conductivity fit parameters for each material. 
+The output of the notebook is a .csv and .txt file with the thermal conductivity fit parameters for each material. 
 
 ## Compilation File
 The compilation file is of the following structure:
 ```
-| Material Name | Fit Type | Low Temp | High Temp | a        | b       | c       | d       | A       | B        | C       | D        | erf param |
-| ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| SS304         | loglog   | 0.385    | 1672.000  | -0.00002 | 0.00036 | 0.00049 | 0.07217 | 0.21898 | -1.62951 | 4.42078 | -3.11248 | 20.00000  |
+| Material Name             | Fit Type             | Low Temp             | High Temp             | Perc Err             | a             | b             | c             | d             | e             | f             | g             | h             | i             | erf param             | A             | B             | C             | D             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SS304                     | loglog               | 0.385                | 1672.000              | 3.953                | 2.23367e-07   | -5.04296e-05  | 3.01386e-03   | 6.96502e-02   | ^             | ^             | ^             | ^             | ^             | 1.19786e+02           | 3.42081e-02   | -1.71132e-01  | 6.23536e-01   | 1.49213e-01   | 
 ```
-Fit Type : defines the structure of the fit - currently there is a single fit type, as defined in the Fitting Method section below.
+Fit Type : Defines the structure of the fit depending on the source of the fit parameters.
 
 Low Temp/High Temp : Define the range (low, high) of the fit function in Kelvin (K)
+
+Perc Err: Defines the average percent error of the fit, as reported by the fit source, or the fitting algorithm.
 
 lower case letters : Define the fit parameters for the low temperature fit (a+bT+cT^2+...)
 
@@ -32,7 +34,7 @@ upper case letters : Define the fit parameters for the high temperature fit (A+B
 erf param : Defines the temperature point (in K) at which the error function is positioned
 
 ## Fitting Method
-The thermal conductivity fits are produced by first fitting the low temperature data and the high temperature data separately. Then, the two fits are connected using an error function.
+The thermal conductivity fits that are produced from raw data are done so by first fitting the low temperature data and the high temperature data separately. Then, the two fits are connected using an error function.
 
 The final fit follows the following structure:
 ```
@@ -51,7 +53,9 @@ or in python form
 ```
 
 ## Other Fits
-Occasionally, when access to the raw thermal conductivity measurements is not possible, the thermal conductivity fits themselves will be taken directly from reference literature. There may also be times when the data from a particular material is poorly fit by the above method. In these cases, the fit may be of a different form than the fit described above. The handle this, the files describing the fit parameters will contain a *Fit Type* identification. This ID can serve as a pointer to the included *fit_types.py* file, which describes the different fit types. 
+Occasionally, when access to the raw thermal conductivity measurements is not possible, the thermal conductivity fits themselves will be taken directly from reference literature. There may also be times when the data from a particular material is poorly fit by the above method. In these cases, the fit may be of a different form than the fit described above. To handle this, the files describing the fit parameters will contain a *Fit Type* identification. This ID can serve as a pointer to the included *fit_types.py* file, which describes the different fit types. 
+
+Currently, many of the available fits in the repository are taken from work done by Ray Radebaugh and associates at NIST (see. https://trc.nist.gov/cryogenics/materials/materialproperties.htm). These fits are identified with a NIST fit ID.
 
 
 ## Organizational Structure
@@ -61,14 +65,21 @@ thermal_conductivity
     - thermal_conductivity_tutorial.ipynb
     - lib
         - SS304
-            - plot files
-            - fit.lh5
+            - plots
+                - plot files
+            - fits
+                - fit.lh5
+                - SS304.csv
+                - SS304.txt
+            - NIST
+                reference.txt
+                SS304.csv
             - RAW
                 - references.txt
                 - measurement1.csv
                 - measurement2.csv 
                 - ...
-        - Other materials eventually
+        - Other materials
 ```
 
 ## Plotting

@@ -1,6 +1,22 @@
-Within this folder you will find the very helpful jupyter notebook titled 
+Within this folder you will find the code and python jupyter notebooks needed to analyze and compile the thermal conductivity data.
+
+To fit the data:
+
 ```
-thermal_conductivity_tutorial.ipynb
+fit_data.ipynb
 ```
 
-In it, you will find a documented method for going from RAW thermal conductivity data to the combined fits file. Many of the necessary functions are stored in the tc_utils.py file and must be imported into the notebook before running.
+To see the different fit types:
+```
+fit_types.py
+```
+
+To manually add a fit from an external source:
+```
+manual_add.ipynb
+```
+
+To scrape thermal conductivity fits from the NIST website:
+```
+NIST_scrape.ipynb
+```
