@@ -1,2 +1,2 @@
-Fit Type,Low Temp,High Temp,A,B,C,D,erf param
-3 order loglog,148.150,1273.150,4.81506e-02,-2.21432e-01,6.46708e-01,1.25346e-01,^
+Fit Type,Low Temp,High Temp,Perc Err,A,B,C,D,erf param
+3 order loglog,148.150,1273.150,2.415,4.81506e-02,-2.21432e-01,6.46708e-01,1.25346e-01,^

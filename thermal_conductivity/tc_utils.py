@@ -130,12 +130,13 @@ def format_combofit(fit_args):
     result = list(result)
     
     output_array = []
-    keys = ["Fit Type", "Low Temp", "High Temp"] + result
+    keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err"] + result
 
     for i in ["low", "hi", "combined"]:
         dict_vals = []
         dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
+        dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"{i}_perc_err"])))
         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
         while len(param_str_arr) < len(result):
             param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
@@ -168,11 +169,12 @@ def format_splitfit(fit_args, fit = "low"):
     result = list(result)
     
     output_array = []
-    keys = ["Fit Type", "Low Temp", "High Temp"] + result
+    keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err"] + result
 
     dict_vals = []
     dict_vals = np.append(dict_vals, np.array(fit_args[f"{fit}_function_type"], dtype=str).flatten())
     dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{fit}_fit_range"], dtype=float)).flatten())
+    dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"{fit}_perc_err"])))
     param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{fit}_fit_param"], dtype=float)).flatten()
     while len(param_str_arr) < len(result):
         param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
@@ -184,7 +186,7 @@ def format_splitfit(fit_args, fit = "low"):
     output_array.append(mat_dict)
     return output_array
 
-def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):
+def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):#, kdata):
     low_func = f"{fit_orders[0]} order {fit_types[0]}"
     hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
@@ -193,6 +195,8 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     
     all_params = np.append(np.append(low_param, hi_param), erf_loc)
 
+
+    #########
     arg_dict = {"low_function_type"  : low_func,
                 "low_fit_param"      : low_param.tolist(),
                 "low_fit_range"      : np.array([min(low_fit_xs), max(low_fit_xs)]).tolist(),
@@ -671,7 +675,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
         plt.close()
 
 
-    arg_dict = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
+    arg_dict = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)#, k)
     return arg_dict
 
 
