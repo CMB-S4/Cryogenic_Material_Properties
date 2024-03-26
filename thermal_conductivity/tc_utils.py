@@ -208,10 +208,11 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()}
     return arg_dict
 
-def dict_monofit(fit_param, fit_range, fit_type):  
+def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):  
     arg_dict = {"combined_function_type" : fit_type,
                 "combined_fit_param" : fit_param.tolist(),
-                "combined_fit_range" : np.array(fit_range).tolist()}
+                "combined_fit_range" : np.array(fit_range).tolist(),
+                "combined_perc_err": perc_err}
     return arg_dict
 
 def format_monofit(fit_args):
@@ -223,12 +224,14 @@ def format_monofit(fit_args):
     result = list(generate_alphabet_array(num_fit_param_combined, "l"))
     
     output_array = []
-    keys = ["Fit Type", "Low Temp", "High Temp"] + result
+    keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err"] + result
 
     for i in ["combined"]:
         dict_vals = []
         dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
+        dict_vals = np.append(dict_vals, fit_args[f"{i}_perc_err"])
+
         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
 
         while len(param_str_arr) < len(result):
