@@ -14,6 +14,8 @@ This notebook (in addition to the functions found in the tc_utils.py file) produ
 
 The output of the notebook is a .csv and .txt file with the thermal conductivity fit parameters for each material. 
 
+The analysis_tools folder includes sample jupyter notebooks, excel spreadsheets and more.
+
 ## Compilation File
 The compilation file is of the following structure:
 ```
