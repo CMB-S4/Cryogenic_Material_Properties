@@ -50,3 +50,9 @@ def power_law(T, params):
     k = (A*(10**(-3)))*T**(B)
 
     return k
+
+#################################################################
+
+def NIST1(T, params):
+    k = 10**np.polyval(params, np.log10(T))
+    return k
