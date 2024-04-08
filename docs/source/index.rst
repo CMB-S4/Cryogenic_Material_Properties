@@ -18,7 +18,7 @@ Info on the CMR
    :maxdepth: 3
    :caption: Repository Documentation
 
-   repo/
+   repo/intro
 
 .. toctree::
    :maxdepth: 3
