@@ -15,7 +15,6 @@ release = '04-08-2024'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    ...
     'sphinx_rtd_theme',
 ]
 
