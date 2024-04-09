@@ -21,3 +21,24 @@ To do so, follow the outline steps:
 |300|14.42851886|0.048095063|
 |320|14.75183857|0.046099496|
 |...|...|...|
+
+
+.. list-table:: Title
+   :widths: 25 25 50
+   :header-rows: 2
+
+   * - TITLE OF REFERENCE
+     - AUTHORS (separated by non-comma delimiter)
+     - REFERENCE SOURCE
+   * - **T (K)** 
+     - **k (W/m-K)**
+     - **k/T** 
+   * - 293
+     - 14.31
+     - 0.0488
+   * - 300
+     - 14.43
+     - 0.0481
+   * - 320
+     - 14.75
+     - 0.0461

@@ -3,9 +3,9 @@ Repository Structure
 
 All current development exists within the 'thermal_conductivity' folder
 
-thermal_conductivity_conductivity.csv
-thermal_conductivity_conductivity.txt
-compile_TC.py
+* thermal_conductivity_conductivity.csv
+* thermal_conductivity_conductivity.txt
+* compile_TC.py
   * thermal_conductivity
     * fit_data.ipynb
     * fit_types.py
