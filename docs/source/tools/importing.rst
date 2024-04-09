@@ -6,7 +6,9 @@ Python
 To import the compilation files in Python
 
 .. code-block:: python
+    
     TC_data = np.loadtxt("thermal_conductivity_compilation.csv", dtype=str, delimiter=',')
+
 
 Excel
 `````
