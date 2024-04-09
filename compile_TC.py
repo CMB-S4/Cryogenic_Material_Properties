@@ -4,6 +4,7 @@
 ## containing the thermal conductivity fits for the entire library.
 
 import os, sys
+from time import time
 os.chdir(f"{os.path.dirname(os.path.abspath(__file__))}\\thermal_conductivity")
 
 from thermal_conductivity.fit_types import *
