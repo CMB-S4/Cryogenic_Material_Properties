@@ -2,24 +2,18 @@ Repository Structure
 ====================
 
 All current development exists within the 'thermal_conductivity' folder
-```
-thermal_conductivity
-    - thermal_conductivity_tutorial.ipynb
-    - lib
-        - SS304
-            - plots
-                - plot files
-            - fits
-                - fit.lh5
-                - SS304.csv
-                - SS304.txt
-            - NIST
-                reference.txt
-                SS304.csv
-            - RAW
-                - references.txt
-                - measurement1.csv
-                - measurement2.csv 
-                - ...
-        - Other materials
-```
+
+thermal_conductivity_conductivity.csv
+thermal_conductivity_conductivity.txt
+compile_TC.py
+  * thermal_conductivity
+    * fit_data.ipynb
+    * fit_types.py
+    * manual_add.ipynb
+    * NIST_scrape.ipynb
+    * lib
+      * <Material Name>
+        * fits
+        * NIST
+        * plots
+        * RAW

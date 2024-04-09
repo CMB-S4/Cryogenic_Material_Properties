@@ -22,7 +22,7 @@ or in python form
     logk = low_range*erf_low+hi_range*erf_hi
 
 Other Fits
-==========
+``````````
 
 Occasionally, when access to the raw thermal conductivity measurements is not possible, the thermal conductivity fits themselves will be taken directly from reference literature. There may also be times when the data from a particular material is poorly fit by the above method. In these cases, the fit may be of a different form than the fit described above. To handle this, the files describing the fit parameters will contain a *Fit Type* identification. This ID can serve as a pointer to the included *fit_types.py* file, which describes the different fit types. 
 
