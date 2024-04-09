@@ -1,0 +1,46 @@
+Option Compare Text
+
+Sub ConCalc(temp, formtype, IParametersL, IParametersU, erfparam, Conductivity)
+   
+    
+Conductivity = 0#
+sc = 0
+
+
+Reenter:
+
+Select Case formtype
+Case "NIST-1"
+    ' Debug.Print "NIST 1 Case"
+    ' Code in the NIST-1 Case here
+    logtemp = Log(temp) / Log(10#)
+    For I = 1 To 15
+        Conductivity = Conductivity + IParametersL(I) * logtemp ^ (I - 1)
+    Next I
+    Conductivity = 10 ^ Conductivity
+    ' Debug.Print "CHECKPOINT 2"
+    
+Case "loglog"
+    lowfit = 0
+    hifit = 0
+    logtemp = Log(temp) / Log(10#)
+    For I = 1 To 15
+        lowfit = lowfit + IParametersL(I) * temp ^ (I)
+    Next I
+    For I = 1 To 15
+        hicomp = IParametersL(I) * logtemp ^ (I - 1)
+        hifit = hifit + 10 ^ hicomp
+    Next I
+    erflow = 0.5 * (1 - WorksheetFunction.Erf(15 * (Log(temp / erfparam) / Log(10#))))
+    erfhi = 0.5 * (1 + WorksheetFunction.Erf(15 * (Log(temp / erfparam) / Log(10#))))
+
+    Conductivity = lowfit * erflow + hifit * erfhi
+        
+    
+Case Else
+
+
+End Select
+    
+
+End Sub

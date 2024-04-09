@@ -1,0 +1,63 @@
+Option Compare Text
+
+Function Conductivity(Material As String, Temperature As Double) As Double
+
+Dim ParametersUpper(50) As Double
+Dim ParametersLower(50) As Double
+Dim Parameters(50) As Double
+Dim Headers(50) As String
+Dim ParamName As String
+Dim ParamType As String
+Dim LowTemp As Double
+Dim HiTemp As Double
+Dim erfparam As Double
+
+Set DataSource = ThisWorkbook.Worksheets("ConductivityParameters")
+'Set DataSource = Workbooks("ThermalConductivities_NIST_4.xls").Worksheets("ConductivityParameters")
+
+' reads the first column of the Ith row and checks to see if it is the material
+For I = 1 To 100
+    ParamName = DataSource.Cells(I, 1).Value
+    If (ParamName = Material) Then Exit For
+Next I
+If (I = 100) Then
+    Conductivity = 0#
+    Stop
+End If
+
+'Sets the row of material
+Index = I
+erfparam = 0
+
+Debug.Print "Conductivity Checkpoint1"
+For I = 1 To 35
+    'junk = DataSource.Cells(Index, I + 5)
+    'starts at the I+5 and moves right to collect all parameters
+    Parameter = DataSource.Cells(Index, I + 5)
+    Headers(I) = DataSource.Cells(1, I + 5)
+    ' Check if the header is lowercase or uppercase and assign the parameter accordingly
+    If Headers(I) = "" Then
+        ' If header is empty, exit the loop
+        Exit For
+    End If
+    If Headers(I) = "Erf Param" Then
+        erfparam = Parameter
+    End If
+    If Asc(Left(Headers(I), 1)) >= 97 And Asc(Left(Headers(I), 1)) <= 122 Then
+        ParametersLower(I) = Parameter
+    ElseIf Asc(Left(Headers(I), 1)) >= 65 And Asc(Left(Headers(I), 1)) <= 90 Then
+        ParametersUpper(I) = Parameter
+    End If
+Next I
+    ParamType = DataSource.Cells(Index, 2)
+    LowTemp = DataSource.Cells(Index, 3)
+    HiTemp = DataSource.Cells(Index, 4)
+
+Debug.Print "Conductivity Checkpoint2"
+Call ConCalc(Temperature, ParamType, ParametersLower, ParametersUpper, erfparam, Conductivity)
+
+I = 1 + 1
+End Function
+
+
+

@@ -179,7 +179,7 @@ def format_splitfit(fit_args, fit = "low"):
     while len(param_str_arr) < len(result):
         param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
     
-    param_str_arr = np.where(param_str_arr == "0.00000e+00", "^", param_str_arr)
+    # param_str_arr = np.where(param_str_arr == "0.00000e+00", "^", param_str_arr)
     dict_vals = np.append(dict_vals, param_str_arr)
 
     mat_dict = dict(zip(keys, dict_vals))
@@ -237,7 +237,7 @@ def format_monofit(fit_args):
         while len(param_str_arr) < len(result):
             param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
     
-        param_str_arr = np.where(param_str_arr == "0.00000e+00", "^", param_str_arr)
+        # param_str_arr = np.where(param_str_arr == "0.00000e+00", "^", param_str_arr)
         dict_vals = np.append(dict_vals, param_str_arr)
     
         mat_dict = dict(zip(keys, dict_vals))
@@ -358,10 +358,11 @@ def create_data_table(data, output_file):
             for param in columns:
                 if np.isin(param, list(row.keys())):
                     add = str(row[param])
-                    add = add.replace("0.00000e+00", "^")
+                    # add = add.replace("0.00000e+00", "^")                    
+                    add = add.replace( "^", "0.00000e+00")
                     write_row.append(add)
                 else:
-                    write_row.append("^")
+                    write_row.append("0.0e+00")
             for i in range(len(write_row)):
                 file.write(''.join(write_row[i]).ljust(column_widths[list(column_widths.keys())[i]])+" | ")
             file.write('\n')
@@ -400,10 +401,11 @@ def create_tc_csv(data, output_file):
             for param in columns:
                 if np.isin(param, list(row.keys())):
                     add = str(row[param])
-                    add = add.replace("0.00000e+00", "^")
+                    # add = add.replace("0.00000e+00", "^")
+                    add = add.replace( "^", "0.00000e+00")
                     write_row.append(add)
                 else:
-                    write_row.append("^")
+                    write_row.append("0.00e+00")
             csv_writer.writerow(write_row)
     return
 

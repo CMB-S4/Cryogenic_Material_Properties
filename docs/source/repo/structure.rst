@@ -14,7 +14,6 @@ All current development exists within the 'thermal_conductivity' folder
     * manual_add.ipynb
     * NIST_scrape.ipynb
     * lib
-    
       * <Material Name>
         * fits
         * NIST

@@ -1,0 +1,8 @@
+Function CoolingPower(TempOut As Double, TempIn As Double, Power4k As Double, Efficency As Double)
+ 
+ cp = 5.205453 * TempOut - 18.689101
+ ci = 5.205453 * TempIn - 18.689101
+ CoolingPower = (cp - ci) * Efficency * Power4k / 21
+
+ 
+End Function
