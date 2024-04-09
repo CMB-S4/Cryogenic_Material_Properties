@@ -13,18 +13,21 @@ Info on the CMR
    :caption: User Guide:
 
    user/intro
+   user/starting
 
 .. toctree::
    :maxdepth: 3
    :caption: Repository Documentation
 
-   repo/intro
+   repo/structure
+   repo/fitting
 
 .. toctree::
    :maxdepth: 3
    :caption: Tools
 
-   tools/intro
+   tools/importing
+   tools/thermalmodel
 
 Indices and tables
 ==================
