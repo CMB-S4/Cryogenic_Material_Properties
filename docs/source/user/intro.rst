@@ -12,4 +12,4 @@ Ultimately, the output of the code pipeline are a .csv and a .txt file with the 
 About Us and Contact
 ````````
 
-This repository was created in support of the mission of the CMB-S4 collaboration. It is designed primarily with the desires and experiences of researchers in experimental cosmology in mind. However, it is the hope of the developers that this repository can serve as a useful tool for scientists and researchers regardless in a wide range of fields beyond our own. As such, we encourage any user who may wish to contribute their own expertise to get in contact with us to help further develop this repository. 
+This repository was created in support of the mission of the CMB-S4 collaboration. It is designed primarily with the desires and experiences of researchers in experimental cosmology in mind. However, it is the hope of the developers that this repository can serve as a useful tool for scientists and researchers in a wide range of fields beyond our own. As such, we encourage any user who may wish to contribute their own expertise to get in contact with us to help further develop this repository. 
