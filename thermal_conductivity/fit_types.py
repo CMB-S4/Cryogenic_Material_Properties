@@ -18,7 +18,7 @@ def logk_function(logT, logk, orders, weights):
     # hi_poly1d = np.poly1d(fit)
     return fit_T, fit
 
-def loglog_func(T, low_param, hi_param, erf_param):
+def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
     """
     Description : Takes a temperature (or temp array) and fit arguments returns the estimated k value.
 
@@ -35,8 +35,8 @@ def loglog_func(T, low_param, hi_param, erf_param):
         erf_low = 0
         erf_hi = 1
     else:
-        erf_low = 0.5*(1-erf(15*(np.log10((T)/erf_param))))
-        erf_hi = 0.5*(1+erf(15*(np.log10(T/erf_param))))
+        erf_low = 0.5*(1-erf(erf_multiplicity*(np.log10((T)/erf_param))))
+        erf_hi = 0.5*(1+erf(erf_multiplicity*(np.log10(T/erf_param))))
 
     k = low_fit*erf_low+hi_fit*erf_hi
 
@@ -55,4 +55,35 @@ def power_law(T, params):
 
 def NIST1(T, params):
     k = 10**np.polyval(params, np.log10(T))
+    return k
+
+
+
+#################################################################
+
+def RRadebaugh1(T, low_param, hi_param, erf_param):
+    k = loglog_func(T, low_param, hi_param, erf_param)
+    return k
+
+def RRadebaugh3(T, low_param, hi_param, erf_param):
+    k = loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=10)
+    return k
+
+def RRadebaugh2(T, low_param, hi_param, erf_param):
+    
+    low_fit = T*np.polyval(low_param, T)
+    hi_fit = 10**np.polyval(hi_param, np.log10(T))
+
+    if erf_param==0:
+        erf_hi = 0
+        erf_low = 1
+    elif erf_param==-1:
+        erf_low = 0
+        erf_hi = 1
+    else:
+        erf_multiplicity = 1/7
+        erf_low = 0.5*(1-erf(erf_multiplicity*(T -erf_param)))
+        erf_hi = 0.5*(1+erf(erf_multiplicity*(T - erf_param)))
+
+    k = low_fit*erf_low+hi_fit*erf_hi
     return k
