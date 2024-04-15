@@ -186,7 +186,7 @@ def format_splitfit(fit_args, fit = "low"):
     output_array.append(mat_dict)
     return output_array
 
-def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc):#, kdata):
+def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err=[0,0,0]):#, kdata):
     low_func = f"{fit_orders[0]} order {fit_types[0]}"
     hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
@@ -205,7 +205,8 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
                 "combined_function_type" : "loglog",
                 "combined_fit_param" : all_params.tolist(),
-                "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()}
+                "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()
+                }
     return arg_dict
 
 def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):  

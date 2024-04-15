@@ -1,7 +1,12 @@
 [
     {
-        "name": "Ti-6Al-4V",
+        "name": "Ti6Al4V",
         "parent": "NA",
         "source": "RAW"
+    },
+    {
+        "name": "Ti6Al4V",
+        "parent": "NA",
+        "source": "NIST"
     }
 ]

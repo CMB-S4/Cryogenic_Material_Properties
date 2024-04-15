@@ -1,12 +1,17 @@
 [
     {
         "name": "SS304",
-        "parent": "Steel",
+        "parent": "StainlessSteel",
         "source": "RAW"
     },
     {
         "name": "SS304",
-        "parent": "NA",
+        "parent": "StainlessSteel",
+        "source": "other"
+    },
+    {
+        "name": "SS304",
+        "parent": "StainlessSteel",
         "source": "NIST"
     }
 ]

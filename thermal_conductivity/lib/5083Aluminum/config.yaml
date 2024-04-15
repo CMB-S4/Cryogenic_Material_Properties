@@ -1,7 +1,7 @@
 [
     {
         "name": "5083Aluminum",
-        "parent": "Aluminum",
+        "parent": "NA",
         "source": "NIST"
     }
 ]
