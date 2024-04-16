@@ -4,7 +4,7 @@
 ## containing the thermal conductivity fits for the entire library.
 
 import os, sys
-from time import time
+from datetime import datetime
 os.chdir(f"{os.path.dirname(os.path.abspath(__file__))}\\thermal_conductivity")
 
 from thermal_conductivity.fit_types import *
@@ -32,9 +32,12 @@ for mat in mat_directories:
         path_to_nistfits[mat] = nist_str
 
 output_array = compile_csv(path_to_fits)
-create_data_table(output_array, "..\\thermal_conductivity_compilation.txt")
-create_tc_csv(output_array, "..\\thermal_conductivity_compilation.csv")
+
+current_date = datetime.now().date()
+
+create_data_table(output_array, f"..\\thermal_conductivity_compilation_{current_date}.txt")
+create_tc_csv(output_array, f"..\\thermal_conductivity_compilation_{current_date}.csv")
 
 output_array = compile_csv(path_to_nistfits)
-create_data_table(output_array, "..\\thermal_conductivity_compilation_NIST.txt")
-create_tc_csv(output_array, "..\\thermal_conductivity_compilation_NIST.csv")
+create_data_table(output_array, f"..\\thermal_conductivity_compilation_NIST_{current_date}.txt")
+create_tc_csv(output_array, f"..\\thermal_conductivity_compilation_NIST_{current_date}.csv")

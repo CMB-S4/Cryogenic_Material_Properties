@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import string, yaml, csv, h5py
 import sys,os
+from datetime import datetime
 sys.path.append(os.getcwd())
 
 from fit_types import * # Imports the different fit types from the associated file
@@ -308,7 +309,7 @@ def compile_csv(path_to_fits):
             for i in ["lo", "hi"]:
                 material_file = np.loadtxt(f"{file}\\{mat}_{i}.csv", dtype=str, delimiter=',')
                 headers = material_file[0]
-                headers = np.append(["Material Name"], headers)
+                headers = np.append([f"Material Name"], headers)
                 comb_fit = material_file[-1]
                 comb_fit = np.append([f"{mat}_{i}"], comb_fit)
                 mat_dict = dict(zip(headers, comb_fit))
