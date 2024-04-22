@@ -24,6 +24,9 @@ In python form this fit is as follows:
 
     logk = low_range*erf_low+hi_range*erf_hi
 
+
+Please note, the python polynomial fitting convention is to sort the parameters from highest order to lowest order. This does not however match typical convention of ``a + bx + cx**2``. 
+
 Other Fits
 ``````````
 
