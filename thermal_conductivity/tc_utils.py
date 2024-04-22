@@ -419,10 +419,40 @@ def create_tc_csv(data, output_file):
 
 def plot_datapoints(data_dict):
     i = 0
+    m = 1
     for ref_name in data_dict.keys():
         T, k, koT, ws = data_dict[ref_name].T
-        plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none',label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
+        plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none', label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
+        # Adjustments for CFRP
+        # print(ref_name) #, contains_word = bool(re.search(r'\b{}\b'.format(re.escape(word_to_check)), phrase)))
+        # if m == 1:
+        #     label="Clearwater"
+        #     marker = markers[1]
+        #     c=cmap((m%6)/6)
+        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
+        # elif m==6:
+        #     label = "DPP"
+        #     marker = markers[2]
+        #     c=cmap((m%6)/6)
+        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
+        # elif m==8:
+        #     label = "Graphlite"
+        #     marker = markers[3]
+        #     c=cmap((m%6)/6)
+        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
+        # elif m==9:
+        #     label = "Runyan/Jones \nGraphlite"
+        #     marker = markers[5]
+        #     c=cmap((m%6)/6)
+        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
+        # else:
+        #     label="none"
+        # plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', c=c, alpha=np.mean(ws))
+        # Adjustments for SS304 simplified
+        # plt.plot(T, k, marker=markers[i], ms=15, mfc='none', ls='none', label=f"Ref {m}", c=cmap((i%6)/6), alpha=np.mean(ws))
+
         i+=1
+        m+=1
         if i == len(markers):
             i = 0
     return
@@ -454,13 +484,13 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
 def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], points=True, fits="combined", fill=False):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     # Plots the data points
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(13, 11))
     if points:
         plot_datapoints(data_dict)
 
     k_fit_combined = loglog_func(full_T_range, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
     if fits=="combined":
-        plt.plot(full_T_range, k_fit_combined, label='combined fit', c="c")
+        plt.plot(full_T_range, k_fit_combined, linewidth=3, label='fit', c="c")
         if fill:
             avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
             low_avg_perc_diff, hi_avg_perc_diff = [0,0]
@@ -470,15 +500,20 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
                 hi_avg_perc_diff, hi_perc_diff_arr = get_percdiff(Tdata[Tdata>30], kdata[Tdata>30], fit_args)
             plt.fill_between(full_T_range, k_fit_combined*(1+avg_perc_diff/100), (k_fit_combined*(1-avg_perc_diff/100)),
                              alpha=0.25, color="c",
-                             label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}, low: {np.char.mod('%0.' + str(2) + 'f', low_avg_perc_diff)}, hi: {np.char.mod('%0.' + str(2) + 'f', hi_avg_perc_diff)}%")
+                             label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}%")
+                            #  label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}, low: {np.char.mod('%0.' + str(2) + 'f', low_avg_perc_diff)}, hi: {np.char.mod('%0.' + str(2) + 'f', hi_avg_perc_diff)}%")
     # Plots the fits as they are seperately (rather then the combined fit)
     if fits=="split":
         plt.plot(low_t_range, low_fit_k, c='b')
         plt.plot(hi_t_range, hi_fit_k, c='b')        
-    plt.legend(loc='center right', bbox_to_anchor=(1.5, 0.5))
-    plt.xlabel("Temperature (K)")
-    plt.ylabel("k")
-    plt.title(f"{material_name}")
+    # plt.legend(loc='center right', bbox_to_anchor=(1.5, 0.5), fontsize=20)
+    fs = 26
+    plt.legend(loc='upper left', fontsize=fs)    
+    plt.xlabel("Temperature [K]", fontsize=fs)
+    plt.xticks(fontsize=fs)
+    plt.yticks(fontsize=fs)
+    plt.ylabel("k [W/m/K]", fontsize=fs)
+    plt.title(f"{material_name}", fontsize=32)
     plt.semilogx()
     plt.semilogy()
     plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')

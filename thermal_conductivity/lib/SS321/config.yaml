@@ -3,5 +3,10 @@
         "name": "SS321",
         "parent": "StainlessSteel",
         "source": "RAW"
+    },
+    {
+        "name": "SS321",
+        "parent": "StainlessSteel",
+        "source": "other"
     }
 ]

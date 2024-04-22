@@ -6,7 +6,12 @@
     },
     {
         "name": "SS316",
-        "parent": "NA",
+        "parent": "StainlessSteel",
+        "source": "other"
+    },
+    {
+        "name": "SS316",
+        "parent": "StainlessSteel",
         "source": "NIST"
     }
 ]
