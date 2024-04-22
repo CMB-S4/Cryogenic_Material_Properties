@@ -1,3 +1,6 @@
+Compilation File
+==============
+
 The compilation file is of the following structure:
 ```
 | Material Name             | Fit Type             | Low Temp             | High Temp             | Perc Err             | a             | b             | c             | d             | e             | f             | g             | h             | i             | erf param             | A             | B             | C             | D             |
