@@ -62,17 +62,50 @@ def NIST1(T, params):
 #################################################################
 
 def RRadebaugh1(T, low_param, hi_param, erf_param):
+    low_param = np.flip(low_param)
+    hi_param = np.flip(hi_param)
     k = loglog_func(T, low_param, hi_param, erf_param)
     return k
 
 def RRadebaugh3(T, low_param, hi_param, erf_param):
+    low_param = np.flip(low_param)
+    hi_param = np.flip(hi_param)
+
     k = loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=10)
     return k
 
 def RRadebaugh2(T, low_param, hi_param, erf_param):
-    
+    low_param = np.flip(low_param)
+    hi_param = np.flip(hi_param)
+
+    print(np.poly1d(low_param))
+    print(np.poly1d(hi_param))
+
     low_fit = T*np.polyval(low_param, T)
     hi_fit = 10**np.polyval(hi_param, np.log10(T))
+    print(low_fit, hi_fit)
+    if erf_param==0:
+        erf_hi = 0
+        erf_low = 1
+    elif erf_param==-1:
+        erf_low = 0
+        erf_hi = 1
+    else:
+        erf_multiplicity = 1/7
+        erf_low = 0.5*(1-erf(erf_multiplicity*(T -erf_param)))
+        erf_hi = 0.5*(1+erf(erf_multiplicity*(T - erf_param)))
+
+    k = low_fit*erf_low+hi_fit*erf_hi
+    return k
+
+def RRadebaugh3(T, low_param, hi_param, erf_param):
+    h = hi_param[-1]
+    low_param = np.flip(low_param)
+    hi_param = np.flip(hi_param[:-1])
+
+    low_fit = T*np.polyval(low_param, T)
+    hi_fit = np.polyval(hi_param, np.log10(T)) + h*np.exp(np.log10(T))
+    hi_fit = 10**hi_fit
 
     if erf_param==0:
         erf_hi = 0
