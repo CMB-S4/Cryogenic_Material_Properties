@@ -23,7 +23,6 @@ The repository is being actively developed by Henry Nachman, Oorie Desai, and Dr
    :maxdepth: 3
    :caption: Repository Documentation
 
-   repo/structure
    repo/fitting
    repo/comparison
    repo/compfile

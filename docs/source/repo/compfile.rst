@@ -19,3 +19,7 @@ lower case letters : Define the fit parameters for the low temperature fit ``(a+
 upper case letters : Define the fit parameters for the high temperature fit ``(A+B*Log10(T)+C*(Log10(T))^2+D*(Log10(T))^3+...)``
 
 erf param : Defines the temperature point (in K) at which the error function is positioned
+
+
+The compiled file is conveniently output in both .txt format, as well as .csv. The .txt is designed to be human readable... see below:
+.. image:: images/compFile.png
