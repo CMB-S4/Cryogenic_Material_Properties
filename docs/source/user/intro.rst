@@ -9,6 +9,17 @@ For users who wish to adjust the fits, add more data, or investigate the 'behind
 
 Ultimately, the output of the code pipeline are a .csv and a .txt file with the thermal conductivity fit parameters for each material. The code also produces plots for each material. 
 
+Goals and Motivation
+````````````````````
+- **Data:** Compile and house a repository of cryogenic material data (beginning with thermal conductivity and eventually expanding to other desired properties)
+- **Fitting:** Develop a method of fitting data to produce high quality, adaptable fits which can be used for calculations
+    - And store fits created by others for materials for which raw data is not available
+- **Transparency:** Produce a transparent database that saves references to data and clearly shows and explains how fits are procured
+- **Tools:** Provide example tools demonstrating the operation of the pipeline output in scientific applications
+- **Versatility:** Develop a pipeline that can be easily updated by users as new data is added, or changed depending on specific scientific goals.
+
+
+
 About Us and Contact
 ````````
 
