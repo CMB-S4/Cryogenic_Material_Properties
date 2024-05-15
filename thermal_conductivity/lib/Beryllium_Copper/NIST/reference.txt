@@ -1,1 +1,1 @@
-Beryllium Copper
+['Wadd Technical Report. Part II: Properties of Solids. Editor: Victor J. Johnson. A compendium of the properties of materials at low temperature (phase I). National Bureau of Standards. October 1960', '2 Be, 98 Cu, Held at 300C for Two Hhours. R. Berman, E.L. Foster, H.M. Rosenberg, Brit. J. A;;l. Physics 6, 181-182 (1955)']

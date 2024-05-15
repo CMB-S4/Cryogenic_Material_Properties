@@ -1,1 +1,1 @@
-Ti-6Al-4V
+['Thermal Properties Database for Materials at Cryogenic Temperatures. Ed. Holly M. Veres. P. 4.503']

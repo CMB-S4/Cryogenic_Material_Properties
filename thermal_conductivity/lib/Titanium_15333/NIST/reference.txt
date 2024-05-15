@@ -1,1 +1,1 @@
-Titanium 15-3-3-3
+['Thermal Conductivity and Specific Heat Measurements of Candidate Structural Materials for the JWST Optical Bench, E.R. Canavan and J.G. Tuttle, Advances in Cryogenic Engineering Vol. 52, 2006, p. 233-240.']

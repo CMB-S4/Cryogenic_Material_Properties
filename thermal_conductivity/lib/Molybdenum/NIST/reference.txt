@@ -1,1 +1,1 @@
-Molybdenum
+['CRC Materials Reference Handbook. Editors: James Shackelford and William Alexander. The TPRC Data Series. Y.S. Touloukian, R.W. Powell, C.Y. Ho, and P.G. Klemens. Volume 1: Thermal Conductivity-Metallic Elements and Alloys NewYork-Washington 1970', 'AKA Thermophysical Properties of Matter Volume 1 Thermal Conductivity-Metallic Elements and Alloys R.S. Touloukian, R.W. Powell, C.Y. Ho, P.G. Klemens']

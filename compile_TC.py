@@ -32,6 +32,7 @@ for mat in mat_directories:
     if os.path.exists(nist_str):
         path_to_nistfits[mat] = nist_str
     if os.path.exists(other_str):
+        print(other_str)
         path_to_otherfits[mat] = other_str
 
 output_array = compile_csv(path_to_fits)
@@ -44,3 +45,7 @@ create_tc_csv(output_array, f"..\\thermal_conductivity_compilation_{current_date
 output_array = compile_csv(path_to_nistfits)
 create_data_table(output_array, f"..\\thermal_conductivity_compilation_NIST_{current_date}.txt")
 create_tc_csv(output_array, f"..\\thermal_conductivity_compilation_NIST_{current_date}.csv")
+
+output_array = compile_csv(path_to_otherfits)
+create_data_table(output_array, f"..\\other_fits_{current_date}.txt")
+create_tc_csv(output_array, f"..\\other_fits_NIST_{current_date}.csv")
