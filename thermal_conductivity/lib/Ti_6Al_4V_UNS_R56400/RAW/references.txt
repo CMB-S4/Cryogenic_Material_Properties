@@ -1,0 +1,20 @@
+['Metals Handbook-10th ed.' 'ASM International' '1990']
+ 
+['Measurement of the thermal conductivity of the supports of CUORE cryostat'
+ 'M. Barucci-L. Lolli-L. Risegari-G. Ventura' '2008']
+ 
+['The Relationship between Electrical and Thermal Conductivities of Titanium Alloys'
+ 'H.W. Deem-W.D. Wood-C.F. Lucks' '1958']
+ 
+['Recommended values for thermophysical properties for commercial alloys'
+ 'K.C. Mills' '2002']
+ 
+['On the Physics of Machining Titanium Alloys Interactions between Cutting Parameters Microstructure and Wear'
+ 'M. Nouari-H. Makich' '2014']
+ 
+['Electrical and thermal conductivities and magnetization of some austenitic steels titanium and titanium alloys at cryogenic temperatures'
+ 'O. Umezawa-K. Ishikawa' '1992']
+ 
+['Specific heat and thermaluctivity of four commercial titanium alloys from 20 to 300 K'
+ 'W.T. Ziegler-J.C. Mullins-S.C.P Hwa' '1963']
+ 
