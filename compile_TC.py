@@ -15,6 +15,7 @@ mat_directories = [folder for folder in os.listdir(path_to_lib) if not folder.en
 
 path_to_fits = dict()
 path_to_nistfits = dict()
+path_to_otherfits = dict()
 
 for mat in mat_directories:
     mat_str = f"{path_to_lib}\\{mat}"
@@ -30,6 +31,8 @@ for mat in mat_directories:
 
     if os.path.exists(nist_str):
         path_to_nistfits[mat] = nist_str
+    if os.path.exists(other_str):
+        path_to_otherfits[mat] = other_str
 
 output_array = compile_csv(path_to_fits)
 
