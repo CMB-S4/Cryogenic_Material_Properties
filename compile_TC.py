@@ -32,7 +32,6 @@ for mat in mat_directories:
     if os.path.exists(nist_str):
         path_to_nistfits[mat] = nist_str
     if os.path.exists(other_str):
-        print(other_str)
         path_to_otherfits[mat] = other_str
 
 output_array = compile_csv(path_to_fits)
