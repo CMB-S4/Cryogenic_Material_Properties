@@ -57,7 +57,6 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
     with open(f"{raw_directory}{os.sep}references.txt", 'w') as file:
         for f in raw_files:
             f_path = raw_directory + os.sep + f
-            print(raw_directory, f, f_path)
             file1 = np.loadtxt(f_path, dtype=str, delimiter=',')
             file.write(str(file1[0]))
             file.write("\n \n")
@@ -86,7 +85,7 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
         plt.ylabel("k")
         plt.semilogx()
         plt.semilogy()
-        plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
+        plt.savefig(f"{os.path.split(raw_directory)[0]}{os.sep}{material_name}_RAWDATA.pdf", dpi=300, format="pdf", bbox_inches='tight')
         # plt.show()
         plt.close()
 
@@ -283,7 +282,7 @@ def make_fit_yaml(fit_args, save_path):
     """
     Description : Takes fit arguments and exports a yaml text file with the included information.
     """
-    with open(f"{save_path}\\{os.path.split(save_path)[1]}.yaml", 'w') as file:
+    with open(f"{save_path}{os.sep}{os.path.split(save_path)[1]}.yaml", 'w') as file:
         for key in fit_args.keys():
             yaml.dump(key, file)
             yaml.dump(np.array(fit_args[key]).tolist(), file)
@@ -293,7 +292,7 @@ def make_fit_lh5(fit_args, save_path):
     """
     Description : Takes fit arguments and exports a lh5 file with the included information.
     """
-    comp_file = f"{save_path}\\{os.path.split(save_path)[1]}.lh5"
+    comp_file = f"{save_path}{os.sep}{os.path.split(save_path)[1]}.lh5"
     with h5py.File(comp_file, "w") as f:
         for key in fit_args:
             f.create_dataset(f"{key}", data=fit_args[key])
@@ -306,9 +305,9 @@ def compile_csv(path_to_fits):
     output_array = []
     for mat in path_to_fits.keys():
         file = path_to_fits[mat]
-        if not os.path.exists(f"{file}\\{mat}.csv"):
+        if not os.path.exists(f"{file}{os.sep}{mat}.csv"):
             for i in ["lo", "hi"]:
-                material_file = np.loadtxt(f"{file}\\{mat}_{i}.csv", dtype=str, delimiter=',')
+                material_file = np.loadtxt(f"{file}{os.sep}{mat}_{i}.csv", dtype=str, delimiter=',')
                 headers = material_file[0]
                 headers = np.append([f"Material Name"], headers)
                 comb_fit = material_file[-1]
@@ -316,7 +315,7 @@ def compile_csv(path_to_fits):
                 mat_dict = dict(zip(headers, comb_fit))
                 output_array.append(mat_dict)
         else:
-            material_file = np.loadtxt(f"{file}\\{mat}.csv", dtype=str, delimiter=',')
+            material_file = np.loadtxt(f"{file}{os.sep}{mat}.csv", dtype=str, delimiter=',')
             headers = material_file[0]
             headers = np.append(["Material Name"], headers)
             comb_fit = material_file[-1]
@@ -517,7 +516,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     plt.title(f"{material_name}", fontsize=32)
     plt.semilogx()
     plt.semilogy()
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
+    plt.savefig(f"{os.path.split(raw_directory)[0]}{os.sep}{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
     # plt.show()
     plt.close()
@@ -581,7 +580,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
                             label=f"{np.char.mod('%0.' + str(2) + 'f', avg_perc_diff)}, low: {np.char.mod('%0.' + str(2) + 'f', low_avg_perc_diff)}, hi: {np.char.mod('%0.' + str(2) + 'f', hi_avg_perc_diff)}%")
     plt.legend(loc='center right', bbox_to_anchor=(1.5, 1.2))
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
+    plt.savefig(f"{os.path.split(raw_directory)[0]}{os.sep}{material_name}_subplots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     # if show:
     # plt.show()
     plt.close()
@@ -616,7 +615,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     axs[1].set_ylim(0.9*min(perc_diff_arr), 1.1*max(perc_diff_arr))
     axs[1].semilogx()
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
-    plt.savefig(f"{os.path.split(raw_directory)[0]}\\{material_name}_ResidualPlots.pdf", dpi=300, format="pdf", bbox_inches='tight')
+    plt.savefig(f"{os.path.split(raw_directory)[0]}{os.sep}{material_name}_ResidualPlots.pdf", dpi=300, format="pdf", bbox_inches='tight')
     # plt.show()
     plt.close()
 
@@ -713,7 +712,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
         axs[1].set_xlabel("T")
         axs[1].title.set_text("High Temperature Fit")
         plt.subplots_adjust(wspace=0.4, hspace=0.4)
-        plt.savefig(f"{save_path}\\fits_subplots.pdf", dpi = 300, format="pdf")
+        plt.savefig(f"{save_path}{os.sep}fits_subplots.pdf", dpi = 300, format="pdf")
         # plt.show()
         plt.close()
 
