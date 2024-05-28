@@ -57,6 +57,7 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
     with open(f"{raw_directory}{os.sep}references.txt", 'w') as file:
         for f in raw_files:
             f_path = raw_directory + os.sep + f
+            print(raw_directory, f, f_path)
             file1 = np.loadtxt(f_path, dtype=str, delimiter=',')
             file.write(str(file1[0]))
             file.write("\n \n")
