@@ -1,0 +1,74 @@
+['Reference correlations for the thermal conductivity of solid BK7 - PMMA - Pyrex 7740 - Pyroceram 9606 and SS304'
+ 'K.D. Antoniadis - A. Tyrou - M.J. Assael - X. Li - J. Wu - and H.P. Ebert'
+ 'International Journal of Thermophysics 41:98 (2020) 35 pages ']
+ 
+['Measurement of the thermal conductivity of the supports of CUORE cryostat'
+ 'M. Barucci-L. Lolli-L. Risegari-G. Ventura' '2008']
+ 
+['Measurement of select thermophysical properties of the NPL certified reference material stainless steel 310'
+ 'J. Blumm-A. Lindemann-B. Niedrig-R. Campbell' '2007']
+ 
+['Thermal conductivity of selected stainless steels' 'Bogaard' '1983']
+ 
+['Thermophysical properties of stainless steels'
+ 'R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho' '1993']
+ 
+['Thermal conductivity of some steels at low temperature'
+ 'M.S.R. Chari and J. De Nobel' 'Physica 25 (1959) pp. 73-83']
+ 
+['Thermal conductivity and electrical resistivity of eight selected AISI stainless steels'
+ 'T.K. Chu and C.Y. Ho'
+ '"Proc. 15th Thermal Conductivity Conf. Plenum Press New York (1977) pp. 79-104"']
+ 
+['An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy '
+ 'J.M. Corsan-N.J. Budd-W.F. Heminger' '1991']
+ 
+['Commercial apparatus for measuring transport properties from 1.9 to 390 K'
+ '"N.R. Dilley - R.C. Black - L. Montes - A. Wilson - and M.B. Simmonds"'
+ 'Mat. Res. Soc. Symp. Proc. 691 (2002) pp. G3.5.1 to G3.5.6']
+ 
+['Thermal conductivity of iron plain carbon and stainless steels an Inconel 718 from 360 K to 900 K'
+ 'L. Filoni' '1987']
+ 
+['Electrical resistivity measured by millisecond pulse-heating in comparison to thermal conductivity of stainless steel AISI 316L at elevated temperature'
+ 'E. Kaschnitz-H. Kaschnitz-T. Schleutker-A. Gulhan-B. Bonvoisin' '2017']
+ 
+['Thermal conductivity of some metals and alloys in the temperature range 4.2-273 K'
+ 'B.A. Marisov-V.I. Khotkevich-G.M. Zlobintsev-V.V. Kozinets' '1967']
+ 
+['Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K'
+ 'G.N. Mikhailova' '1971']
+ 
+['Guarded double-cylinder apparatus for determining thermal conductivities from 80 to 860 K'
+ 'E. Moeller'
+ '"Proc. 8th Thermal Conductivity Conf. Plenum Press New York (1969) pp. 701-711"']
+ 
+['The thermal conductivity of metals and alloys at low temperatures II. Data on iron and steels between 25 and 300 K'
+ '"R.W. Powers - J.B. Ziegler - and H. L. Johnston"'
+ 'U.S. Air Force Rept. USAF TR-264-6 (1951)']
+ 
+['Thermal conductivity of selected alloys at low temperatues'
+ '"R.P. Tye - R.W. Hayden - and S.C. Spinney"'
+ 'Adv. Cryog. Eng. Vol. 22 (1975) pp. 136-144']
+ 
+['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
+ 'W. Stutius and J.R. Dillinger' 'J. Appl. Phys. 44 (1973) pp. 2887-2888']
+ 
+['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
+ 'W. Stutius and J.R. Dillinger' '1973']
+ 
+['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
+ 'Stutius-Dillinger' '1973']
+ 
+['Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures'
+ 'O. Umezawa-K. Ishikawa' '1992']
+ 
+['Thermal conductivity of a sample of type 316 stainless steel'
+ 'T.W. Watson-E.R. Robinson' '1963']
+ 
+['Thermal conductivity of technical materials at low temperatures'
+ "N.V.Zavaritskii-A.G. Zel'Dovich" '1956']
+ 
+['Special state standard of the unit of thermal conductivity of solids in the temperature range between 60 K and 300 K'
+ 'V.A. Zhdanovich-Yu. R. Chaskin' '1976']
+ 

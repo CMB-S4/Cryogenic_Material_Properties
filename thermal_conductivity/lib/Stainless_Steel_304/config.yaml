@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Stainless_Steel_304",
+        "parent": "Stainless_Steel_General",
+        "source": "RAW"
+    },
+    {
+        "name": "Stainless_Steel_304",
+        "parent": "Stainless_Steel_General",
+        "source": "other"
+    },
+    {
+        "name": "Stainless_Steel_304",
+        "parent": "Stainless_Steel_General",
+        "source": "NIST"
+    }
+]
