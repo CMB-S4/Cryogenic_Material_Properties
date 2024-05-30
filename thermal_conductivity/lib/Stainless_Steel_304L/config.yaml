@@ -1,7 +1,7 @@
 [
     {
         "name": "Stainless_Steel_304L",
-        "parent": "NA",
+        "parent": "Stainless_Steel",
         "source": "NIST"
     }
 ]

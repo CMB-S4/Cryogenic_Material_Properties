@@ -1,12 +1,12 @@
 [
     {
         "name": "Stainless_Steel_321",
-        "parent": "NA",
+        "parent": "Stainless_Steel",
         "source": "RAW"
     },
     {
         "name": "Stainless_Steel_321",
-        "parent": "NA",
+        "parent": "Stainless_Steel",
         "source": "other"
     }
 ]
