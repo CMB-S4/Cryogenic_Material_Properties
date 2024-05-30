@@ -346,7 +346,7 @@ def create_data_table(data, output_file):
     # columns = list(data[longest_arg].keys())
                 
     # Find the maximum width for each column
-    column_widths = {column: (len(str(column))+12) for column in columns}
+    column_widths = {column: (len(str(column))+18) for column in columns}
     # Open the output file in write mode
     with open(output_file, 'w') as file:
         # Write the header row
@@ -361,10 +361,10 @@ def create_data_table(data, output_file):
                 if np.isin(param, list(row.keys())):
                     add = str(row[param])
                     # add = add.replace("0.00000e+00", "^")                    
-                    add = add.replace( "^", "0.00000e+00")
+                    add = add.replace( "^", "0.00e+00")
                     write_row.append(add)
                 else:
-                    write_row.append("0.0e+00")
+                    write_row.append("0.00e+00")
             for i in range(len(write_row)):
                 file.write(''.join(write_row[i]).ljust(column_widths[list(column_widths.keys())[i]])+" | ")
             file.write('\n')
