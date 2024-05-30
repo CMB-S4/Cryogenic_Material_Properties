@@ -1,1 +1,1 @@
-['Properties of Copper and Copper Alloys at Cryogenic Temperature NIST Monograph 177 N.J. Simon, E.S. Drexler, and R.P. Reed February 1992, p 7-23']
+['Thermal Conductivities of Copper and Copper Alloys Powell, R.L., Rogers, W.M., and Roder, H.M. Advances in Cryogenic Engineering vol. 2, 1956, pp. 166-171.']
