@@ -24,7 +24,13 @@ def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
 
     Arguments : 
     - T - temperature at which to estimate the thermal conductivity.
+    - low_param: in form a + bT + cT**2 ...
+    
+    Make sure to remove trailing zeros 
     """
+    low_param = low_param[::-1] ################################### 20240531
+    hi_param = hi_param[::-1] ################################### 20240531
+
     low_fit = T*np.polyval(low_param, T)
     hi_fit = 10**np.polyval(hi_param, np.log10(T))
 

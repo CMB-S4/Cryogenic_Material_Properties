@@ -192,8 +192,11 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
     low_param = np.array(low_fit)
+    low_param = low_param[::-1] ################################### 2024053
+
     hi_param = np.array(hi_fit)
-    
+    hi_param = hi_param[::-1] ################################### 20240531
+
     all_params = np.append(np.append(low_param, hi_param), erf_loc)
 
 
@@ -211,6 +214,7 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     return arg_dict
 
 def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):  
+    fit_param = fit_param[::-1] ################################### 20240531
     arg_dict = {"combined_function_type" : fit_type,
                 "combined_fit_param" : fit_param.tolist(),
                 "combined_fit_range" : np.array(fit_range).tolist(),
@@ -489,7 +493,11 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     if points:
         plot_datapoints(data_dict)
 
-    k_fit_combined = loglog_func(full_T_range, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
+    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1] ################################### 20240531
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+
+    k_fit_combined = loglog_func(full_T_range, low_param, hi_param, fit_args["combined_fit_param"][-1])
     if fits=="combined":
         plt.plot(full_T_range, k_fit_combined, linewidth=3, label='fit', c="c")
         if fill:
@@ -509,7 +517,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
         plt.plot(hi_t_range, hi_fit_k, c='b')        
     # plt.legend(loc='center right', bbox_to_anchor=(1.5, 0.5), fontsize=20)
     fs = 26
-    plt.legend(loc='upper left', fontsize=fs)    
+    plt.legend(loc='center right', bbox_to_anchor=(1.7, 0.5), fontsize=fs)    
     plt.xlabel("Temperature [K]", fontsize=fs)
     plt.xticks(fontsize=fs)
     plt.yticks(fontsize=fs)
@@ -526,6 +534,9 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
 
 def get_percdiff(Tdata, kdata, fit_args):
     low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1]
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+
     # Calculates the predicted k value for the measured T values (rather than a continuous range)
     kpred_discrete = loglog_func(Tdata, low_param, hi_param, erf_param)
 
@@ -537,6 +548,10 @@ def get_percdiff(Tdata, kdata, fit_args):
 def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], fill=True):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
 
+    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1] ################################### 20240531
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+    
     # Now let's get to plotting
     fig, axs = plt.subplots(2, figsize=(8, 6))
     i = 0
@@ -549,7 +564,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
             i = 0
     
     # AXS 0
-    koT_fit = (1/full_T_range)*loglog_func(full_T_range, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
+    koT_fit = (1/full_T_range)*loglog_func(full_T_range, low_param, hi_param, fit_args["combined_fit_param"][-1])
     axs[0].set_xlabel("T")
     axs[0].set_ylabel("k/T")
     axs[0].title.set_text(f"{material_name}\nLow Temperature Fit")
@@ -591,8 +606,14 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
 def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2]):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
+
+    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1] ################################### 20240531
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+    
+
     # Residual Plots
-    koT_pred = (1/Tdata)*loglog_func(Tdata, fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_param"][-1])
+    koT_pred = (1/Tdata)*loglog_func(Tdata, low_param, hi_param, fit_args["combined_fit_param"][-1])
     koT_data = (1/Tdata)*kdata
     fig, axs = plt.subplots(2, figsize=(8, 6))
     # axs[0].plot(Tdata, koT_data-koT_pred, '.')
