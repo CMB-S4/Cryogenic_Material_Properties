@@ -2,6 +2,11 @@
     {
         "name": "Aluminum_6063T5",
         "parent": "NA",
+        "source": "other"
+    },
+    {
+        "name": "Aluminum_6063T5",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

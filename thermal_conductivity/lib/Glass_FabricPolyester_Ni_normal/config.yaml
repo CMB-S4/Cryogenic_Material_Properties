@@ -2,6 +2,11 @@
     {
         "name": "Glass_FabricPolyester_Ni_normal",
         "parent": "NA",
+        "source": "other"
+    },
+    {
+        "name": "Glass_FabricPolyester_Ni_normal",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

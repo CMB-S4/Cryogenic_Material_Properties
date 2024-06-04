@@ -18,6 +18,11 @@ def logk_function(logT, logk, orders, weights):
     # hi_poly1d = np.poly1d(fit)
     return fit_T, fit
 
+def Nppoly(T, param):
+    return T*np.polyval(param, T)
+def polylog(T, param):
+    return 10**np.polyval(param, np.log10(T))
+
 def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
     """
     Description : Takes a temperature (or temp array) and fit arguments returns the estimated k value.
@@ -31,8 +36,8 @@ def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
     low_param = low_param[::-1] ################################### 20240531
     hi_param = hi_param[::-1] ################################### 20240531
 
-    low_fit = T*np.polyval(low_param, T)
-    hi_fit = 10**np.polyval(hi_param, np.log10(T))
+    low_fit = Nppoly(T, low_param)
+    hi_fit = polylog(T, hi_param)
 
     if erf_param==0:
         erf_hi = 0
@@ -174,7 +179,7 @@ Case 3  'Tcheby polynomial in ln(T) giving ln(g), a=# parameters, b=low temp, c=
     Conductivity = 2.71828 ^ Conductivity
     
 """
-def NIST5a_4(T, params):
+def lowTextrapolate(T, params):
     k = 0
     if T > params[10]:
         logtemp = np.log10(T)
@@ -214,7 +219,7 @@ Case 4 'Extrapolation to lower temp, either by using a*T^1.8, or better with dat
 """
 
 
-def NIST5a_5(temp, IParameters):
+def NBS(temp, IParameters):
     L_0 = 0.00000002443
     beta = IParameters[1] / L_0 * 1 / IParameters[0]
     
@@ -244,7 +249,7 @@ def NIST5a_5(temp, IParameters):
     return Conductivity
 
 """
-Case 5 'Classic NBS equations for Al, Cu, Fe, W using measured RRR values
+Case 5 'Classic NBS (National Bureau of Standards) equations for Al, Cu, Fe, W using measured RRR values
         'See NBSIR 84-3007 June 1984 Thermal Conductivity of Al, Cu, Fe, W
         'for temperatures from 1K to the melting point
     L_0 = 0.00000002443

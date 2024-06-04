@@ -2,6 +2,11 @@
     {
         "name": "Molybdenum",
         "parent": "NA",
+        "source": "other"
+    },
+    {
+        "name": "Molybdenum",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

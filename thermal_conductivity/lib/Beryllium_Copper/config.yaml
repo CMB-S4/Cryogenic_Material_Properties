@@ -2,6 +2,11 @@
     {
         "name": "Beryllium_Copper",
         "parent": "NA",
+        "source": "other"
+    },
+    {
+        "name": "Beryllium_Copper",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

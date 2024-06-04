@@ -2,6 +2,11 @@
     {
         "name": "Nylon",
         "parent": "NA",
+        "source": "other"
+    },
+    {
+        "name": "Nylon",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

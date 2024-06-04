@@ -207,7 +207,7 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "hi_function_type"   : hi_func,
                 "hi_fit_param"       : hi_param.tolist(),
                 "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
-                "combined_function_type" : "loglog",
+                "combined_function_type" : "comppoly",
                 "combined_fit_param" : all_params.tolist(),
                 "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist()
                 }
@@ -675,7 +675,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
 ######################### FITTING #############################
 ###############################################################
 ###############################################################
-def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types=("k/T", "loglog"), plots=False):
+def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types=("Nppoly", "polylog"), plots=False):
     """
     Arguments :
     - big_data   - Array of measurement data concatenated (should be of shape: [N, 3])
@@ -697,7 +697,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
     log_hi_k = np.log10(hiT_k)
     # Fit the low data
     try:
-        if (fit_types[0] == "k/T") and (len(lowT)!=0):
+        if (fit_types[0] == "Nppoly") and (len(lowT)!=0):
             low_fit_xs, low_fit = koT_function(lowT, lowT_koT, fit_orders[0], low_ws)
         elif (len(lowT)==0):
             low_fit = [0]
@@ -705,7 +705,7 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
 
         # Fit the high data
         
-        if fit_types[1] == "loglog" and (len(hiT)!=0):
+        if fit_types[1] == "polylog" and (len(hiT)!=0):
             hi_fit_xs, hi_fit = logk_function(log_hi_T, log_hi_k, fit_orders[1], hi_ws)
         elif (len(hiT)==0):
             hi_fit = [0]

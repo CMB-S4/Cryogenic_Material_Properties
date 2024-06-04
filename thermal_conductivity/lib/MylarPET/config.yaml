@@ -2,6 +2,11 @@
     {
         "name": "MylarPET",
         "parent": "NA",
+        "source": "other"
+    },
+    {
+        "name": "MylarPET",
+        "parent": "NA",
         "source": "NIST"
     }
 ]
