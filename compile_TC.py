@@ -55,6 +55,8 @@ def make_pathtofit(mat_direct, subset=None, fits_to_parse="ALL"):
     return path_to_fit_dict
 
 current_date = datetime.now().date()
+print(current_date)
+current_date = current_date.strftime('%Y%m%d')
 
 # Want to create 4 output files
 # 1. Plain Bagel : Simple file that has only 1 fit per material and ignores weird materials
