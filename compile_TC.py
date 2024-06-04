@@ -58,7 +58,7 @@ current_date = datetime.now().date()
 
 # Want to create 4 output files
 # 1. Plain Bagel : Simple file that has only 1 fit per material and ignores weird materials
-simple_mat_direct = ["Aluminum_110", "Beryllium_Copper","Brass","CFRP","Constantan","Cu_OFHC_RRR50",
+simple_mat_direct = ["Aluminum_1100", "Beryllium_Copper","Brass","CFRP","Constantan","Cu_OFHC_RRR50",
                      "G10_FR4","Glass_FabricPolyester_He_warp","Graphite","Inconel_718","Invar_Fe36Ni",
                      "Iron","Kapton","Ketron","Kevlar49_Composite_Aramid","Lead","Macor","Manganin",
                      "Molybdenum","MylarPET","NbTi","Nichrome","Nickel_Steel_Fe_2.25_Ni","Nylon",

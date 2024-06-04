@@ -2,6 +2,11 @@
     {
         "name": "Aluminum_1100",
         "parent": "NA",
+        "source": "RAW"
+    },
+    {
+        "name": "Aluminum_1100",
+        "parent": "NA",
         "source": "NIST"
     }
 ]
