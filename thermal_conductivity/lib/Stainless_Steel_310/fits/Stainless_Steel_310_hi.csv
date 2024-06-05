@@ -1,2 +1,2 @@
-Fit Type,Low Temp,High Temp,Perc Err,A,B,C,D,erf param
-3 order polylog,148.150,1273.150,2.268,1.25346e-01,6.46708e-01,-2.21432e-01,4.81506e-02,0.00000e+00
+Fit Type,Low Temp,High Temp,Perc Err,erf param,A,B,C
+3 order polylog,148.150,1273.150,2.268,1.25346e-01,6.46708e-01,-2.21432e-01,4.81506e-02

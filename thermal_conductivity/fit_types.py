@@ -35,10 +35,9 @@ def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
     """
     low_param = low_param[::-1] ################################### 20240531
     hi_param = hi_param[::-1] ################################### 20240531
-
     low_fit = Nppoly(T, low_param)
     hi_fit = polylog(T, hi_param)
-
+    
     if erf_param==0:
         erf_hi = 0
         erf_low = 1
