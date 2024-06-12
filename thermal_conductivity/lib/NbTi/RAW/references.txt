@@ -1,15 +1,20 @@
+1979 C. Schmidt Sample 1.csv
 ['\ufeff"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi"'
  'C. Schmidt' 'Rev. Sci. Instrum. 50  454–457 (1979)']
  
+1979 C. Schmidt Sample 2.csv
 ['\ufeff"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi"'
  'C. Schmidt' 'Rev. Sci. Instrum. 50  454–457 (1979)']
  
+1992 J. R. Olson rod.csv
 ['\ufeffThermal conductivity of some common cryostat materials between 0.05 and 2 K'
  'J.R. Olson' 'Cryogenics 1993 Vol 33  No 7']
  
+1992 J. R. Olson wire.csv
 ['\ufeffThermal conductivity of some common cryostat materials between 0.05 and 2 K'
  'J.R. Olson' 'Cryogenics 1993 Vol 33  No 7']
  
+NbTi.csv
 ['\ufeffThermal conductance at millikelvin temperatures of woven ribbon cable with phosphor-bronze clad superconducting wires'
  'A. L. Woodcraft-- G. Ventura-- V. Martelli-- W.  S. Holland '
  'Cryogenics Vol 50 Issue 8']

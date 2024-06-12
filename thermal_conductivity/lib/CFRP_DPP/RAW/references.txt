@@ -1,4 +1,8 @@
-['Crowley' 'Tlow_0.3K' '2022']
+Crowley_DPP__0.3K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'Tlow_1.4K' '2022']
+Crowley_DPP__1.4K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  

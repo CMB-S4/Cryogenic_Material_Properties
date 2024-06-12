@@ -58,6 +58,8 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
         for f in raw_files:
             f_path = raw_directory + os.sep + f
             file1 = np.loadtxt(f_path, dtype=str, delimiter=',')
+            file.write(f)
+            file.write("\n")
             file.write(str(file1[0]))
             file.write("\n \n")
             ref_name = f[:-4]

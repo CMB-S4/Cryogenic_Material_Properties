@@ -1,18 +1,36 @@
-['Crowley' 'tube_Tlow_0.25K' '2022']
+Crowley_Clearwater_0.25K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'assembly_Tlow_0.27K' '2022']
+Crowley_Clearwater_0.27K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'assembly_Tlow_0.36K' '2022']
+Crowley_Clearwater_0.36K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'tube_Tlow_0.1K' '2022']
+Crowley_Clearwater__0.1K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'tube_Tlow_0.5K' '2022']
+Crowley_Clearwater__0.5K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'Tlow_0.3K' '2022']
+Crowley_DPP__0.3K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'Tlow_1.4K' '2022']
+Crowley_DPP__1.4K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['Crowley' 'Tlow_1.4K' '2022']
+Crowley_Graphlite__1.4K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['CST Graphlite CF Rode' 'RunyanJones' '2008']
+RunyanJones_Graphlite_2008.csv
+['Thermal Conductivity of Thermally-Isolating Polymeric and Composite Structural Support Materials Between 0.3 and 4 K'
+ ' M.C.Runyan-W.C.Jones' '2008']
  

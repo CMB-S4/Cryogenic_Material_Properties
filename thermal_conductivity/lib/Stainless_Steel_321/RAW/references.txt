@@ -1,18 +1,24 @@
+Bogaard_1993.csv
 ['Thermophysical properties of stainless steels'
  'R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho' '1993']
  
+Marisov_1967.csv
 ['Thermal conductivity of some metals and alloys in the temperature range 4.2-273 K'
  'B.A. Marisov-V.I. Khotkevich-G.M. Zlobintsev-V.V. Kozinets' '1967']
  
+Mikhailova_1971.csv
 ['Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K'
  'G.N. Mikhailova' '1971']
  
+StitiusEtAl_1973.csv
 ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
  'W. Stutius and J.R. Dillinger' '1973']
  
+Zavaritskii_1956.csv
 ['Thermal conductivity of technical materials at low temperatures'
  "N.V.Zavaritskii-A.G. Zel'Dovich" '1956']
  
+Zhdanovich_1976.csv
 ['Special state standard of the unit of thermal conductivity of solids in the temperature range between 60 K and 300 K'
  'V.A. Zhdanovich-Yu. R. Chaskin' '1976']
  

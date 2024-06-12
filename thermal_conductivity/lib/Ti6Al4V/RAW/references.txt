@@ -1,20 +1,27 @@
+ASMI_1990.csv
 ['Metals Handbook-10th ed.' 'ASM International' '1990']
  
+BarucciEtAl_2008.csv
 ['Measurement of the thermal conductivity of the supports of CUORE cryostat'
  'M. Barucci-L. Lolli-L. Risegari-G. Ventura' '2008']
  
+DeemEtAl_1958.csv
 ['The Relationship between Electrical and Thermal Conductivities of Titanium Alloys'
  'H.W. Deem-W.D. Wood-C.F. Lucks' '1958']
  
+Mills_2002.csv
 ['Recommended values for thermophysical properties for commercial alloys'
  'K.C. Mills' '2002']
  
+Nouari_2014.csv
 ['On the Physics of Machining Titanium Alloys Interactions between Cutting Parameters Microstructure and Wear'
  'M. Nouari-H. Makich' '2014']
  
+UmezawaEtAl_1992.csv
 ['Electrical and thermal conductivities and magnetization of some austenitic steels titanium and titanium alloys at cryogenic temperatures'
  'O. Umezawa-K. Ishikawa' '1992']
  
+ZieglerEtAl_1963.csv
 ['Specific heat and thermaluctivity of four commercial titanium alloys from 20 to 300 K'
  'W.T. Ziegler-J.C. Mullins-S.C.P Hwa' '1963']
  

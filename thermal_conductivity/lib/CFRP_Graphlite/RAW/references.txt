@@ -1,4 +1,8 @@
-['Crowley' 'Tlow_1.4K' '2022']
+Crowley_Graphlite__1.4K_2022.csv
+['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+ 'Crowley et al' '2022']
  
-['CST Graphlite CF Rode' 'RunyanJones' '2008']
+RunyanJones_Graphlite_2008.csv
+['Thermal Conductivity of Thermally-Isolating Polymeric and Composite Structural Support Materials Between 0.3 and 4 K'
+ ' M.C.Runyan-W.C.Jones' '2008']
  

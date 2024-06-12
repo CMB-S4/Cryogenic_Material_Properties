@@ -1,9 +1,12 @@
+BlummEtAl_2007.csv
 ['Measurement of select thermophysical properties of the NPL certified reference material stainless steel 310'
  'J. Blumm-A. Lindemann-B. Niedrig-R. Campbell' '2007']
  
+CorsanEtAl_1991.csv
 ['An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy '
  'J.M. Corsan-N.J. Budd-W.F. Heminger' '1991']
  
+StutiusEtAl_1973.csv
 ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
  'Stutius-Dillinger' '1973']
  
