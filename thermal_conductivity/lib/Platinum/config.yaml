@@ -2,11 +2,6 @@
     {
         "name": "Platinum",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Platinum",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

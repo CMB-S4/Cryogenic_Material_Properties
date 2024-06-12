@@ -2,11 +2,6 @@
     {
         "name": "Polystyrene_1.99_lbft3_Freon",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Polystyrene_1.99_lbft3_Freon",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

@@ -2,11 +2,6 @@
     {
         "name": "Inconel_718",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Inconel_718",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

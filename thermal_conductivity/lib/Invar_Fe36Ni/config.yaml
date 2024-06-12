@@ -2,11 +2,6 @@
     {
         "name": "Invar_Fe36Ni",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Invar_Fe36Ni",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

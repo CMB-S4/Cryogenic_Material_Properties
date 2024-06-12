@@ -2,11 +2,6 @@
     {
         "name": "PVC_3.5_lbft3_CO2",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "PVC_3.5_lbft3_CO2",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

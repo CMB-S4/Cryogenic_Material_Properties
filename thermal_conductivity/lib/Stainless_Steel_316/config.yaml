@@ -7,11 +7,6 @@
     {
         "name": "Stainless_Steel_316",
         "parent": "Stainless_Steel",
-        "source": "other"
-    },
-    {
-        "name": "Stainless_Steel_316",
-        "parent": "Stainless_Steel",
         "source": "NIST"
     }
 ]

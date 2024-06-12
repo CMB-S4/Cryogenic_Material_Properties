@@ -2,11 +2,6 @@
     {
         "name": "Wood_Balsa_6_lbft3",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Wood_Balsa_6_lbft3",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

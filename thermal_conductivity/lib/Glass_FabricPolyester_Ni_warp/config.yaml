@@ -2,11 +2,6 @@
     {
         "name": "Glass_FabricPolyester_Ni_warp",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Glass_FabricPolyester_Ni_warp",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

@@ -2,11 +2,6 @@
     {
         "name": "Stainless_Steel_304L",
         "parent": "Stainless_Steel",
-        "source": "other"
-    },
-    {
-        "name": "Stainless_Steel_304L",
-        "parent": "Stainless_Steel",
         "source": "NIST"
     }
 ]

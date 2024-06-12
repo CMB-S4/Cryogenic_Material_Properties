@@ -2,11 +2,6 @@
     {
         "name": "Polystyrene_6.24_lbft3",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Polystyrene_6.24_lbft3",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

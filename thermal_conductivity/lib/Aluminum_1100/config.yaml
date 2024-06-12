@@ -7,11 +7,6 @@
     {
         "name": "Aluminum_1100",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Aluminum_1100",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

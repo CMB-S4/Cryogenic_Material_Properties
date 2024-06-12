@@ -2,11 +2,6 @@
     {
         "name": "Wood_Beechwood_grain",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Wood_Beechwood_grain",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

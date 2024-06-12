@@ -2,11 +2,6 @@
     {
         "name": "Polyurethane_3.06_lbft3_He",
         "parent": "NA",
-        "source": "other"
-    },
-    {
-        "name": "Polyurethane_3.06_lbft3_He",
-        "parent": "NA",
         "source": "NIST"
     }
 ]

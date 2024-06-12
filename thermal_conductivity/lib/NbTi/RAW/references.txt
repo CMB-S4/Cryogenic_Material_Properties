@@ -14,8 +14,3 @@
 ['\ufeffThermal conductivity of some common cryostat materials between 0.05 and 2 K'
  'J.R. Olson' 'Cryogenics 1993 Vol 33  No 7']
  
-NbTi.csv
-['\ufeffThermal conductance at millikelvin temperatures of woven ribbon cable with phosphor-bronze clad superconducting wires'
- 'A. L. Woodcraft-- G. Ventura-- V. Martelli-- W.  S. Holland '
- 'Cryogenics Vol 50 Issue 8']
- 
