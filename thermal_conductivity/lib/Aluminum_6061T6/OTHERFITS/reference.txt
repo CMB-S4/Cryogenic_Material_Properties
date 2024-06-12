@@ -1,1 +1,0 @@
-['Thermal Properties Database for Materials at Cryogenic Temperatures. Ed. Holly M. Veres. Volume 1', 'Recommended values of the Thermophysical Properties of eight Alloys,Major Constituents and their Oxides Y.S.Touloukian ( Purdue University) Feb, 1965']
