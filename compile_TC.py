@@ -54,6 +54,24 @@ def make_pathtofit(mat_direct, subset=None, fits_to_parse="ALL"):
     
     return path_to_fit_dict
 
+# # This code block deletes the old files
+# os.chdir(f"{os.getcwd()}{os.sep}..")
+# all_files = os.listdir(f"{os.getcwd()}")
+# exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
+# old_date = exist_files[0][-12:-4]
+# old_csvs = [file for file in all_files if file.endswith(f"{old_date}.csv")]
+# old_txts = [file for file in all_files if file.endswith(f"{old_date}.txt")]
+
+# old_files = np.hstack((old_csvs, old_txts))
+# print(old_files)
+# for file in old_files:
+#     os.remove(file)
+# print(f"Removing files from date: {old_date}")
+# os.chdir(f"{os.getcwd()}{os.sep}thermal_conductivity")
+
+
+# This code block finds all the files with data.
+
 current_date = datetime.now().date()
 print(current_date)
 current_date = current_date.strftime('%Y%m%d')
