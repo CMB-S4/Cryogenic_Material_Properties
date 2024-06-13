@@ -2,6 +2,12 @@
 import numpy as np
 from scipy.special import erf
 
+def get_func_type(key):
+    fit_type_dict = {"polylog":polylog,
+                     "3 order polylog": polylog,
+                     "Nppoly":Nppoly,
+                     "comppoly":loglog_func}
+    return fit_type_dict[key]
 
 ######################################################################
 def koT_function(T, koT, orders, weights):
