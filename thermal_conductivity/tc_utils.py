@@ -113,7 +113,7 @@ def generate_alphabet_array(n, case = "l"):
     if n>1:
         return alphabet[:n]
     else:
-        return []
+        return [] ####################################### 20240612
     
 def format_combofit(fit_args):
     """
@@ -131,7 +131,7 @@ def format_combofit(fit_args):
     result = np.append(result_lo, result_hi)
     # result = np.append(result, "erf param") ################################### 20240605
     result = list(result)
-    
+
     output_array = []
     keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err", "erf param"] + result ################################### 20240605
 
@@ -159,9 +159,9 @@ def format_splitfit(fit_args, fit = "low"):
     num_fit_param_hi = len(fit_args["hi_fit_param"])
     num_fit_param_lo = len(fit_args["low_fit_param"])
     if fit=="low":
-        num_fit_param_hi = 0
+        num_fit_param_hi = -1
     elif fit=="hi":
-        num_fit_param_lo = 0
+        num_fit_param_lo = -1
     num_fit_param_combined = len(fit_args["combined_fit_param"])
 
     n = num_fit_param_combined
@@ -170,7 +170,6 @@ def format_splitfit(fit_args, fit = "low"):
     result = np.append(result_lo, result_hi)
     # result = np.append(result, "erf param") ################################### 20240605
     result = list(result)
-    
     output_array = []
     keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err", "erf param"] + result ################################### 20240605
 
@@ -188,7 +187,7 @@ def format_splitfit(fit_args, fit = "low"):
     output_array.append(mat_dict)
     return output_array
 
-def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err=[0,0,0]):#, kdata):
+def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err=[0,0,0], fit_catch="NONE"):#, kdata):
     low_func = f"{fit_orders[0]} order {fit_types[0]}"
     hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
@@ -198,7 +197,12 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     hi_param = np.array(hi_fit)
     hi_param = hi_param[::-1] ################################### 20240531
 
-    all_params = np.append(erf_loc, np.append(low_param, hi_param)) ################################### 20240605
+    if fit_catch == "low":
+        all_params = np.append(erf_loc, [low_param]) ################################### 20240605
+    elif fit_catch == "high":
+        all_params = np.append(erf_loc, [hi_param])################################### 20240612
+    else:
+        all_params = np.append(erf_loc, np.append(low_param, hi_param))################################### 20240612
 
 
     #########
