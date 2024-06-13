@@ -6,7 +6,10 @@ def get_func_type(key):
     fit_type_dict = {"polylog":polylog,
                      "3 order polylog": polylog,
                      "Nppoly":Nppoly,
-                     "comppoly":loglog_func}
+                     "comppoly":loglog_func,
+                     "TchebyLnT":NIST5a_3,
+                     "NIST-copperfit": NIST5a_2,
+                     "lowTextrapolate":lowTextrapolate}
     return fit_type_dict[key]
 
 ######################################################################
@@ -163,7 +166,10 @@ Case 1   'NIST type formulation, see first sheet
     Conductivity = 10 ^ Conductivity
 """
 
-def NIST5a_2(T, params):
+def NIST5a_2(T, param_dictionary):
+    params = param_dictionary["low_param"]
+    if len(params)<=8:
+        params = np.append(params, [0])
     k = params[0] + params[2] * T ** (0.5) + params[4] * T + params[6] * T ** (1.5) + params[8] * T ** (2)
     k = k / (1 + params[1] * T ** (0.5) + params[3] * T + params[5] * T ** (1.5) + params[7] * T ** (2))
     k = 10 ** k
@@ -176,12 +182,13 @@ Case 2  'NIST formulation for OFHC Copper
 
 """
 
-def NIST5a_3(T, params):
+def NIST5a_3(T, param_dictionary):
+    params = param_dictionary["low_param"]
     lnT = np.log(T)
     x = ((lnT - params[1]) - (params[2] - lnT)) / (params[2] - params[1])
     k = 0
-    for i in range(3,3+params[0]):
-        k = k + params(i) * np.cos((i - 3) * np.arccos(x))
+    for i in range(3,3+int(params[0])):
+        k = k + params[i] * np.cos((i - 3) * np.arccos(x))
     k = np.exp(k)
     return k
 """
@@ -194,18 +201,21 @@ Case 3  'Tcheby polynomial in ln(T) giving ln(g), a=# parameters, b=low temp, c=
     Conductivity = 2.71828 ^ Conductivity
     
 """
-def lowTextrapolate(T, params):
-    k = 0
-    if T > params[10]:
-        logtemp = np.log10(T)
-        for i in range(1, 10):
-            k += params[i - 1] * logtemp ** (i - 1)
-        k = 10 ** k
-    elif T > params[11]:
-        k = params[13] * T ** params[12]
-    else:
-        k = params[16] * T ** params[15]
-    
+def lowTextrapolate(T, param_dictionary):
+    params = param_dictionary["low_param"]
+    k = []
+    for i in range(len(T)):
+        k_plus = 0
+        if T[i] > params[0]:
+            logtemp = np.log10(T[i])
+            for i in range(1, 10):
+                k_plus += params[i - 1] * logtemp ** (i - 1)
+            k = np.append(k, 10 ** (k_plus))
+        elif T[i] > params[1]:
+            k = np.append(k, params[3] * T ** params[2])
+        else:
+            # k = params[16] * T ** params[15]
+            k = np.append(k, -1*T[i])
     return k
 
 """
