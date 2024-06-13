@@ -24,12 +24,18 @@ def logk_function(logT, logk, orders, weights):
     # hi_poly1d = np.poly1d(fit)
     return fit_T, fit
 
-def Nppoly(T, param):
+def Nppoly(T, param_dictionary):
+    param = param_dictionary["low_param"]
     return T*np.polyval(param, T)
-def polylog(T, param):
+def polylog(T, param_dictionary):
+    print(len(param_dictionary["hi_param"]))
+    if len(param_dictionary["hi_param"])!=0:
+        param = param_dictionary["hi_param"]
+    else:
+        param = param_dictionary["low_param"]
     return 10**np.polyval(param, np.log10(T))
 
-def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
+def loglog_func(T, param_dictionary, erf_multiplicity=15): #**kwargs
     """
     Description : Takes a temperature (or temp array) and fit arguments returns the estimated k value.
 
@@ -39,10 +45,14 @@ def loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=15):
     
     Make sure to remove trailing zeros 
     """
+    low_param = param_dictionary["low_param"]
+    hi_param  = param_dictionary["hi_param"]
+    erf_param = param_dictionary["low_param"]
+
     low_param = low_param[::-1] ################################### 20240531
     hi_param = hi_param[::-1] ################################### 20240531
-    low_fit = Nppoly(T, low_param)
-    hi_fit = polylog(T, hi_param)
+    low_fit = Nppoly(T, param_dictionary)
+    hi_fit = polylog(T, param_dictionary)
     
     if erf_param==0:
         erf_hi = 0
