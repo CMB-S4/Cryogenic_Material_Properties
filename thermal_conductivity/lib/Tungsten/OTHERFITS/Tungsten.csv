@@ -1,2 +1,3 @@
-Fit Type,Low Temp,High Temp,Perc Err
-NBS,0.300,3695.000,??
+Fit Type,Low Temp,High Temp,Perc Err,a
+NBS,0.300,3695.000,??,4.84E-08
+
