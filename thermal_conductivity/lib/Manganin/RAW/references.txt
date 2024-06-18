@@ -10,7 +10,7 @@
  
 1999 I. Peroni 4%Ni.csv
 ['\ufeffThermal conductivity of manganin below 1 K'
- 'I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura\xa0'
+ 'I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura '
  'Nuclear Physics B 1999']
  
 2017 G. Ventura.csv
