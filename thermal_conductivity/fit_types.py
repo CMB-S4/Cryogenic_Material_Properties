@@ -31,7 +31,7 @@ def Nppoly(T, param_dictionary):
     param = param_dictionary["low_param"]
     return T*np.polyval(param, T)
 def polylog(T, param_dictionary):
-    print(len(param_dictionary["hi_param"]))
+    # print(len(param_dictionary["hi_param"]))
     if len(param_dictionary["hi_param"])!=0:
         param = param_dictionary["hi_param"]
     else:
@@ -50,7 +50,7 @@ def loglog_func(T, param_dictionary, erf_multiplicity=15): #**kwargs
     """
     low_param = param_dictionary["low_param"]
     hi_param  = param_dictionary["hi_param"]
-    erf_param = param_dictionary["low_param"]
+    erf_param = param_dictionary["erf_param"]
 
     low_param = low_param[::-1] ################################### 20240531
     hi_param = hi_param[::-1] ################################### 20240531

@@ -1,0 +1,19 @@
+1998 G. Ventura.csv
+['\ufeffA simple method for measuring the low temperature thermal conductivity in thin wires'
+ 'G.\xa0Ventura--\xa0A.\xa0Bonetti--\xa0E.\xa0Gottardi-- \xa0L.\xa0Lanzi--\xa0I.\xa0Peroni--\xa0A.\xa0Peruzzi--\xa0G.\xa0Ponti\xa0'
+ 'Cryogenics Vol 38 1998']
+ 
+1999 I. Peroni 2%Ni.csv
+['\ufeffThermal conductivity of manganin below 1 K'
+ 'I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura '
+ 'Nuclear Physics B 1999']
+ 
+1999 I. Peroni 4%Ni.csv
+['\ufeffThermal conductivity of manganin below 1 K'
+ 'I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura\xa0'
+ 'Nuclear Physics B 1999']
+ 
+2017 G. Ventura.csv
+['\ufeffThermal Conductivity of Manganin Between 10mK and 54mK'
+ 'G. Ventura-- S. Giomi' 'International Journal of Thermophysics 2017']
+ 

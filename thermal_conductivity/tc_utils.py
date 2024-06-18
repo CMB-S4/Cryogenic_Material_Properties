@@ -188,9 +188,12 @@ def format_splitfit(fit_args, fit = "low"):
     return output_array
 
 def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err=[0,0,0], fit_catch="NONE"):#, kdata):
-    low_func = f"{fit_orders[0]} order {fit_types[0]}"
-    hi_func = f"{fit_orders[1]} order {fit_types[1]}"
+    # low_func = f"{fit_orders[0]} order {fit_types[0]}"
+    # hi_func = f"{fit_orders[1]} order {fit_types[1]}"
     
+    low_func = f"{fit_types[0]}"
+    hi_func = f"{fit_types[1]}"
+
     low_param = np.array(low_fit)
     low_param = low_param[::-1] ################################### 2024053
 
@@ -472,8 +475,8 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
     raw_directory = path_dict[material_name]
 
     # Extracts the fit parameters from the fit args object
-    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"] ################## 20240605
-
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    
     # Defines a range over which to model the fit
     if fit_args["low_fit_range"][1] == 0:
         upper_bound = fit_range[1]
@@ -484,11 +487,22 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
     else:
         lower_bound = fit_args["hi_fit_range"][0]
     
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+    if fit_type in ["Nppoly", "polylog", "comppoly"]:
+        low_param = low_param[::-1]
+        hi_param = hi_param[::-1]
+    param_dictionary = {"fit_type":  fit_type,
+                        "fit_range": [lower_bound, upper_bound],
+                        "low_param": low_param,
+                        "hi_param":  hi_param,
+                        "erf_param": erf_param}
+    
     low_t_range = np.linspace(fit_range[0],upper_bound,100)
-    low_fit_k = loglog_func(low_t_range, low_param, hi_param, erf_param)
+    low_fit_k = loglog_func(low_t_range, param_dictionary)
     low_fit_koT = low_fit_k/low_t_range
     hi_t_range = np.linspace(lower_bound,fit_range[1],100)
-    hi_fit_k = loglog_func(hi_t_range, low_param, hi_param, erf_param)
+    hi_fit_k = loglog_func(hi_t_range, param_dictionary)
     
     # extracts all the temp and tc data
     Tdata = np.concatenate([(data_dict[ref_name].T[0]) for ref_name in data_dict])
@@ -507,11 +521,21 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     if points:
         plot_datapoints(data_dict)
 
-    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"] ################################### 20240531, 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+    if fit_type in ["Nppoly", "polylog", "comppoly"]:
+        low_param = low_param[::-1]
+        hi_param = hi_param[::-1]
+    param_dictionary = {"fit_type":  fit_type,
+                        "fit_range": [min(Tdata), max(Tdata)],
+                        "low_param": low_param,
+                        "hi_param":  hi_param,
+                        "erf_param": erf_param}
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
 
-    k_fit_combined = loglog_func(full_T_range, low_param, hi_param, erf_param)
+    k_fit_combined = loglog_func(full_T_range, param_dictionary)
     if fits=="combined":
         plt.plot(full_T_range, k_fit_combined, linewidth=3, label='fit', c="c")
         if fill:
@@ -547,12 +571,21 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     return
 
 def get_percdiff(Tdata, kdata, fit_args):
-    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"] ################################### 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
-
+    if fit_type in ["Nppoly", "polylog", "comppoly"]:
+        low_param = low_param[::-1]
+        hi_param = hi_param[::-1]
+    param_dictionary = {"fit_type":  fit_type,
+                        "fit_range": [min(Tdata), max(Tdata)],
+                        "low_param": low_param,
+                        "hi_param":  hi_param,
+                        "erf_param": erf_param}
+    
     # Calculates the predicted k value for the measured T values (rather than a continuous range)
-    kpred_discrete = loglog_func(Tdata, low_param, hi_param, erf_param)
+    func = get_func_type(param_dictionary["fit_type"])
+    kpred_discrete = func(Tdata, param_dictionary)
 
     diff = kpred_discrete-kdata                 # the difference between the predicted and measured k values
     perc_diff_arr = 100*diff/kpred_discrete     # Calculates a percent difference 
@@ -562,7 +595,18 @@ def get_percdiff(Tdata, kdata, fit_args):
 def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], fill=True):
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
 
-    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"] ################################### 20240531 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+    if fit_type in ["Nppoly", "polylog", "comppoly"]:
+        low_param = low_param[::-1]
+        hi_param = hi_param[::-1]
+    param_dictionary = {"fit_type":  fit_type,
+                        "fit_range": [min(Tdata), max(Tdata)],
+                        "low_param": low_param,
+                        "hi_param":  hi_param,
+                        "erf_param": erf_param}
+    
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
     
@@ -578,7 +622,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
             i = 0
     
     # AXS 0
-    koT_fit = (1/full_T_range)*loglog_func(full_T_range, low_param, hi_param, fit_args["combined_fit_erfloc"]) # 20240605
+    koT_fit = (1/full_T_range)*loglog_func(full_T_range, param_dictionary) # 20240605
     axs[0].set_xlabel("T")
     axs[0].set_ylabel("k/T")
     axs[0].title.set_text(f"{material_name}\nLow Temperature Fit")
@@ -621,13 +665,23 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
 
-    low_param, hi_param, erf_param = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"] ################################### 20240531, 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    # low_param = low_param[::-1] ################################### 20240531
+    # hi_param = hi_param[::-1] ################################### 20240531
+    if fit_type in ["Nppoly", "polylog", "comppoly"]:
+        low_param = low_param[::-1]
+        hi_param = hi_param[::-1]
+    param_dictionary = {"fit_type":  fit_type,
+                        "fit_range": [min(Tdata), max(Tdata)],
+                        "low_param": low_param,
+                        "hi_param":  hi_param,
+                        "erf_param": erf_param}
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
     
 
     # Residual Plots
-    koT_pred = (1/Tdata)*loglog_func(Tdata, low_param, hi_param, fit_args["combined_fit_erfloc"])
+    koT_pred = (1/Tdata)*loglog_func(Tdata, param_dictionary)
     koT_data = (1/Tdata)*kdata
     fig, axs = plt.subplots(2, figsize=(8, 6))
     # axs[0].plot(Tdata, koT_data-koT_pred, '.')
