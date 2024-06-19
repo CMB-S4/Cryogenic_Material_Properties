@@ -3,13 +3,14 @@ import numpy as np
 from scipy.special import erf
 
 def get_func_type(key):
-    fit_type_dict = {"polylog":polylog,
+    fit_type_dict = {"polylog":         polylog,
                      "3 order polylog": polylog,
-                     "Nppoly":Nppoly,
-                     "comppoly":loglog_func,
-                     "TchebyLnT":NIST5a_3,
-                     "NIST-copperfit": NIST5a_2,
-                     "lowTextrapolate":lowTextrapolate}
+                     "Nppoly":          Nppoly,
+                     "comppoly":        loglog_func,
+                     "TchebyLnT":       NIST5a_3,
+                     "NIST-copperfit":  NIST5a_2,
+                     "lowTextrapolate": lowTextrapolate,
+                     "NIST-experf":     NIST_experf}
     return fit_type_dict[key]
 
 ######################################################################
@@ -87,7 +88,13 @@ def NIST1(T, params):
     k = 10**np.polyval(params, np.log10(T))
     return k
 
-
+def NIST_experf(T, param_dictionary):
+    params = param_dictionary["low_param"]
+    logT = np.log10(T)
+    a, b, c, d, e, f = params[0], params[1], params[2], params[3], params[4], params[5]
+    k_val = (a + b*logT)*((1-erf(2*(logT-c)))/(2))+(d+e*(np.exp(-1*logT/f)))*((1+erf(2*(logT-c)))/(2))
+    k = 10**k_val
+    return k
 #################################################################
 # From Ray Radebaugh
 def RRadebaugh1(T, low_param, hi_param, erf_param):
@@ -208,11 +215,11 @@ def lowTextrapolate(T, param_dictionary):
         k_plus = 0
         if T[i] > params[0]:
             logtemp = np.log10(T[i])
-            for i in range(1, 10):
-                k_plus += params[i - 1] * logtemp ** (i - 1)
+            for n in range(1, len(params)):
+                k_plus += params[n - 1] * logtemp ** (n - 1)
             k = np.append(k, 10 ** (k_plus))
         elif T[i] > params[1]:
-            k = np.append(k, params[3] * T ** params[2])
+            k = np.append(k, params[3] * T[i] ** params[2])
         else:
             # k = params[16] * T ** params[15]
             k = np.append(k, -1*T[i])
