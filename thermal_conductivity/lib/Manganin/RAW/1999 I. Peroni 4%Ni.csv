@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream:thermal_conductivity/lib/Manganin/RAW/1999 I. Peroni 4%Ni.csv
 ﻿Thermal conductivity of manganin below 1 K,I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura ,Nuclear Physics B 1999
 T (K),k (W/m/K),k/T
 1.22E-01,6.55E-03,5.37E-02
@@ -26,3 +27,33 @@ T (K),k (W/m/K),k/T
 9.20E-01,7.72E-02,8.39E-02
 9.64E-01,8.04E-02,8.33E-02
 1.02E+00,8.93E-02,8.76E-02
+=======
+﻿Thermal conductivity of manganin below 1 K,I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura ,Nuclear Physics B 1999
+T (K),k (W/m/K),k/T
+1.22E-01,6.60E-03,5.41E-02
+1.45E-01,7.53E-03,5.19E-02
+1.75E-01,1.03E-02,5.87E-02
+2.14E-01,1.26E-02,5.91E-02
+2.50E-01,1.47E-02,5.89E-02
+2.70E-01,1.66E-02,6.13E-02
+2.92E-01,1.77E-02,6.08E-02
+3.21E-01,1.94E-02,6.05E-02
+3.56E-01,2.18E-02,6.13E-02
+4.28E-01,2.74E-02,6.41E-02
+4.77E-01,3.02E-02,6.34E-02
+5.05E-01,3.24E-02,6.41E-02
+5.40E-01,3.47E-02,6.43E-02
+5.74E-01,3.75E-02,6.52E-02
+6.05E-01,4.10E-02,6.77E-02
+6.28E-01,4.27E-02,6.80E-02
+6.66E-01,4.67E-02,7.02E-02
+7.11E-01,5.04E-02,7.09E-02
+7.62E-01,5.56E-02,7.29E-02
+8.14E-01,5.99E-02,7.36E-02
+8.41E-01,6.42E-02,7.64E-02
+8.66E-01,6.93E-02,8.00E-02
+8.95E-01,7.03E-02,7.85E-02
+9.17E-01,7.64E-02,8.33E-02
+9.60E-01,8.01E-02,8.35E-02
+1.02E+00,8.95E-02,8.78E-02
+>>>>>>> Stashed changes:thermal_conductivity/lib/Manganin/RAW/1999 I. Peroni Sample 1.csv
