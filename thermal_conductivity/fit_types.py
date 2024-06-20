@@ -10,7 +10,8 @@ def get_func_type(key):
                      "TchebyLnT":       NIST5a_3,
                      "NIST-copperfit":  NIST5a_2,
                      "lowTextrapolate": lowTextrapolate,
-                     "NIST-experf":     NIST_experf}
+                     "NIST-experf":     NIST_experf,
+                     "powerlaw":       power_law}
     return fit_type_dict[key]
 
 ######################################################################
@@ -74,7 +75,8 @@ def loglog_func(T, param_dictionary, erf_multiplicity=15): #**kwargs
 
 ######################################################################
 
-def power_law(T, params):
+def power_law(T, param_dictionary):
+    params = param_dictionary["low_param"]
     A, B = params
 
     k = (A)*T**(B)
