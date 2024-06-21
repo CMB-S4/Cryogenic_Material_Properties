@@ -2,6 +2,11 @@
     {
         "name": "Kapton",
         "parent": "NA",
+        "source": "RAW"
+    },
+    {
+        "name": "Kapton",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

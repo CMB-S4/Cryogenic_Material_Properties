@@ -1,4 +1,4 @@
-﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K, with and without Alumina Particles as Filler",D. L. Rule-- D. R. Smith-- L. L. Sparks,NISTIR 3948 1990
+﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler",D. L. Rule-- D. R. Smith-- L. L. Sparks,NISTIR 3948 1990
 T(K),k(W/m/K),k/T
 5.14E+00,1.40E-02,2.72E-03
 6.18E+00,1.80E-02,2.91E-03
@@ -23,4 +23,3 @@ T(K),k(W/m/K),k/T
 2.83E+02,5.03E-01,1.78E-03
 2.92E+02,5.11E-01,1.75E-03
 3.06E+02,5.22E-01,1.71E-03
-,,
