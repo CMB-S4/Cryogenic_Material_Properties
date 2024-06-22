@@ -814,4 +814,11 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
     return arg_dict
 
 
+def find_gaps(data_array, threshold):
+    # Calculate differences between consecutive elements
+    diffs = np.diff(np.sort(data_array))
+    # Find indices where differences exceed threshold
+    major_gap_indices = np.where(diffs > threshold)[0]
 
+    # Return indices of major gaps
+    return major_gap_indices
