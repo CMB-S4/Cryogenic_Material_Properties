@@ -262,28 +262,49 @@ def format_monofit(fit_args):
     
     return output_array
 
+def find_closest(arr, val): 
+    diff_arr = arr-val
+    stored_T = max(diff_arr)
+    stored_index = 0
+    for i in range(len(arr)):
+        if (diff_arr[i] > 0) and (diff_arr[i] < stored_T):
+            stored_T = diff_arr[i]
+            stored_index = i
+        else:
+            pass
+    return stored_T, stored_index
+
 def split_data(big_data, erf_loc):
     # divide the data array into three columns
     T, k, koT, weights = [big_data[:,0], big_data[:,1], big_data[:,2], big_data[:,3]]
 
+    # # Version 2 of Code
+    # # Find the low range
+    # arg_low = np.argwhere(T<erf_loc)
+    # try:
+    #     next_T, next_index = find_closest(T, max(T[arg_low]))
+    #     arg_low = np.append(arg_low,[next_index])
+    # except ValueError:
+    #     pass
+    # print(erf_loc, arg_low)
+    # lowT, lowT_k, lowT_koT = [T[arg_low], k[arg_low], koT[arg_low]]
     
+    # # Find the high range
+    # # print(np.arange(0,len(T)), arg_low)
+    # arg_high = [i not in arg_low for i in np.arange(0,len(T))]
+    # try:
+    #     arg_high = np.append(arg_high, np.argmax(T[T<erf_loc]))
+    # except ValueError:
+    #     pass
+    # # if len(arg_high)==len(T):
+    # #     arg_high[-1] = False
+    # hiT, hiT_k, hiT_koT = [T[arg_high], k[arg_high], koT[arg_high]]
+    # low_ws, hi_ws = [weights[arg_low], weights[arg_high]]
 
-    # Find the low range
-    # lowT, hiT = [T[T<erf_loc], T[T>erf_loc]]
-    
-    # if (len(lowT) == 0) or (len(hiT) ==0):
-    #     print("ERROR  - data split results in 0-length array, please adjust split location")
-    #     print(f"NOTE   - min(T) = {min(T)}, max(T) = {max(T)} ")
-    #     print(f"{(len(lowT))} {(len(hiT))}")
-
-    #     erf_loc = np.mean(T)
-    low_ws, hi_ws = [weights[T<erf_loc], weights[T>erf_loc]]
-
-    # Find the low range
+    # Version 1 of Code
     lowT, lowT_k, lowT_koT = [T[T<erf_loc], k[T<erf_loc], koT[T<erf_loc]]
-    
-    # Find the high range
     hiT, hiT_k, hiT_koT = [T[T>erf_loc], k[T>erf_loc], koT[T>erf_loc]]
+    low_ws, hi_ws = [weights[T<erf_loc], weights[T>erf_loc]]
 
     return [lowT, lowT_k, lowT_koT, low_ws, hiT, hiT_k, hiT_koT, hi_ws]
 
