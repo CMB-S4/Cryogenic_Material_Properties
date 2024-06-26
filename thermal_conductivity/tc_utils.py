@@ -404,6 +404,7 @@ def create_data_table(data, output_file):
             for i in range(len(write_row)):
                 file.write(''.join(write_row[i]).ljust(column_widths[list(column_widths.keys())[i]])+" | ")
             file.write('\n')
+    print("Fit .txt exported")
     return
 
 def create_tc_csv(data, output_file):
@@ -445,6 +446,7 @@ def create_tc_csv(data, output_file):
                 else:
                     write_row.append("0.00e+00")
             csv_writer.writerow(write_row)
+    print("Fit CSV exported")
     return
 
 

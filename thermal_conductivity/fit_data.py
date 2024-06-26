@@ -34,7 +34,7 @@ def main():
 
     path_to_RAW = dict()
     if args.matlist != None:
-        print(f"Running only for materials: {args.matlist}")
+        print(f"\nRunning only for material(s): {args.matlist}")
         mat_directories = args.matlist
     else:
         pass
@@ -134,7 +134,7 @@ def main():
 
 
         if lenHi==0:
-            print(f"{mat} : Using a low fit")
+            print(f"\n{mat} : Using a low fit")
             low_fit_xs, low_fit = koT_function(T, koT, fit_orders[0], weights)
             hi_fit, hi_fit_xs, erf_loc = [[0], [0], 0]
             fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch = "low")
@@ -146,7 +146,7 @@ def main():
             fit_args["combined_perc_err"] =  perc_diff_low
             fit_args["combined_function_type"] = fit_types[0]
             if perc_diff_low > 50:
-                print(f"{mat} : Using a hi fit")
+                print(f"Poor low fit, using a hi fit type instead")
                 hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
                 low_fit, erf_loc = [[0], -1]
                 fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch = "high")
@@ -157,7 +157,7 @@ def main():
                 fit_args["combined_perc_err"] =  perc_diff_hi
                 
         elif lenLow==0:
-            print(f"{mat} : Using a hi fit")
+            print(f"\n{mat} : Using a hi fit")
             hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
             low_fit, low_fit_xs, erf_loc = [[0], [0], -1]
             fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
@@ -167,7 +167,7 @@ def main():
             fit_args["combined_perc_err"] =  perc_diff_hi
             fit_args["combined_function_type"] = fit_types[1]
         else:
-            print(f"{mat} : Using a combined fit")# - data exists on both sides of 20K")
+            print(f"\n{mat} : Using a combined fit")# - data exists on both sides of 20K")
             erf_locList = np.linspace(np.sort(T)[0], np.sort(T)[-1], 15)
             for erf_loc in erf_locList:
                 dsplit = split_data(big_data, erf_loc)
