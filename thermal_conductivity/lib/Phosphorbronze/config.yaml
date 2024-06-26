@@ -2,6 +2,11 @@
     {
         "name": "Phosphorbronze",
         "parent": "NA",
+        "source": "RAW"
+    },
+    {
+        "name": "Phosphorbronze",
+        "parent": "NA",
         "source": "other"
     }
 ]

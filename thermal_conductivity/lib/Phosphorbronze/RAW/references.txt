@@ -1,0 +1,17 @@
+1956 N. V. Zavaritskii.csv
+['﻿N/A' 'N.V. Zavaritskii-- A.G.  Zeldovich'
+ 'Sov. Phys. – Tech. Phys. 1956']
+ 
+2010 J. Tuttle JWST cable sample.csv
+['﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE'
+ 'J. Tuttle-- E. Canavan-- M. DiPirro' 'AIP Conference Proceedings 2010']
+ 
+2010 J. Tuttle without guard can and insulation.csv
+['﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE'
+ 'J. Tuttle-- E. Canavan-- M. DiPirro' 'AIP Conference Proceedings 2010']
+ 
+2017 S. Jayachandran.csv
+['﻿Characterization of various two-phase materials based on thermal conductivity using modified transient plane source method'
+ 'S. Jayachandran-- R. N. Prithiviraajan-- K. S. Reddy'
+ 'AIP Conference Proceedings 2017']
+ 
