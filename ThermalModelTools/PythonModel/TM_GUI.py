@@ -66,7 +66,7 @@ class CryoStage:
         self.root.title("Cryogenic Thermal Stage")
 
         abspath = os.path.abspath(__file__)
-        path_to_tcFiles = f"{os.path.split(abspath)[0]}{os.sep}"
+        path_to_tcFiles = f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}.."
         all_files = os.listdir(path_to_tcFiles)
         exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
         print(exist_files)

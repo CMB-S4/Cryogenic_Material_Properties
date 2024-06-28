@@ -1,0 +1,38 @@
+{
+    "Housekeeping Cables": {
+        "material": "Manganin",
+        "Dimensions": {
+            "OD": "0.004",
+            "ID": "0.0",
+            "length": "0.178"
+        },
+        "number": "152"
+    },
+    "G10 Support cylinder": {
+        "material": "G10_CR_Warp",
+        "Dimensions": {
+            "OD": "0.904",
+            "ID": "0.902",
+            "length": "0.75"
+        },
+        "number": "1"
+    },
+    "Steel Pot Tube": {
+        "material": "Stainless_Steel",
+        "Dimensions": {
+            "OD": "0.0254",
+            "ID": "0.0234",
+            "length": "0.075"
+        },
+        "number": "4"
+    },
+    "Thermometer Cables": {
+        "material": "NbTi",
+        "Dimensions": {
+            "OD": "0.004",
+            "ID": "0.0",
+            "length": "0.178"
+        },
+        "number": "10"
+    }
+}

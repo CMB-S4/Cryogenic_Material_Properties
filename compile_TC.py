@@ -57,20 +57,22 @@ def main():
         return path_to_fit_dict
 
     # # This code block deletes the old files
-    os.chdir(f"{os.getcwd()}{os.sep}..")
-    all_files = os.listdir(f"{os.getcwd()}")
-    exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
-    old_date = exist_files[0][-12:-4]
-    old_csvs = [file for file in all_files if file.endswith(f"{old_date}.csv")]
-    old_txts = [file for file in all_files if file.endswith(f"{old_date}.txt")]
+    try:
+        os.chdir(f"{os.getcwd()}{os.sep}..")
+        all_files = os.listdir(f"{os.getcwd()}")
+        exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
+        old_date = exist_files[0][-12:-4]
+        old_csvs = [file for file in all_files if file.endswith(f"{old_date}.csv")]
+        old_txts = [file for file in all_files if file.endswith(f"{old_date}.txt")]
 
-    old_files = np.hstack((old_csvs, old_txts))
-    # print(old_files)
-    for file in old_files:
-        os.remove(file)
-    print(f"Removing files from date: {old_date}")
-    os.chdir(f"{os.getcwd()}{os.sep}thermal_conductivity")
-
+        old_files = np.hstack((old_csvs, old_txts))
+        # print(old_files)
+        for file in old_files:
+            os.remove(file)
+        print(f"Removing files from date: {old_date}")
+        os.chdir(f"{os.getcwd()}{os.sep}thermal_conductivity")
+    except IndexError:
+        pass
 
     # This code block finds all the files with data.
 
@@ -80,7 +82,7 @@ def main():
 
     # Want to create 4 output files
     # 1. Plain Bagel : Simple file that has only 1 fit per material and ignores weird materials
-    simple_mat_direct = ["Aluminum_1100", "Beryllium_Copper","Brass","CFRP","Constantan","Cu_OFHC_RRR50",
+    simple_mat_direct = ["Aluminum_1100", "Beryllium_Copper","Brass","CFRP","Cu_OFHC_RRR50",
                         "G10_FR4","Glass_FabricPolyester_He_warp","Graphite","Inconel_718","Invar_Fe36Ni",
                         "Iron","Kapton","Ketron","Kevlar49_Composite_Aramid","Lead","Macor","Manganin",
                         "Molybdenum","MylarPET","NbTi","Nichrome","Nickel_Steel_Fe_2.25_Ni","Nylon",
@@ -89,6 +91,23 @@ def main():
                         "Torlon","Tungsten","VESPEL"]
     simple_bagel = make_pathtofit(mat_directories, subset=simple_mat_direct)
     output_array = compile_csv(simple_bagel)
+    bad_fit_mats = ["Constantan","Cu_OFHC","Stainless_Steel_310","Stainless_Steel_316"]
+    bad_simple_bagel = make_pathtofit(mat_directories, subset=bad_fit_mats)
+    bad_fit_output_array = compile_csv(bad_simple_bagel)
+
+    # Add a flag for bad materials
+    filler_arr = {}
+    filler_arr2 = {}
+    for key in output_array[-2]:
+        filler_arr[key] = "--"
+        filler_arr2[key] = "--"
+    filler_arr2["Material Name"] = "Flagged Materials Below :"
+    output_array = np.append(output_array, [filler_arr])
+    output_array = np.append(output_array, [filler_arr2])
+    output_array = np.append(output_array, [filler_arr])
+    output_array = np.append(output_array, bad_fit_output_array)
+    
+    #
     create_data_table(output_array, f"..\\tc_generic_{current_date}.txt")
     create_tc_csv(output_array, f"..\\tc_generic_{current_date}.csv")
 
