@@ -119,8 +119,8 @@ def main():
         ## First, let's collect the raw data from their csv files
         big_data, data_dict = parse_raw(mat, path_to_RAW[mat], plots=True, weight_const=0.00)
         T, k, koT, weights = [big_data[:,0], big_data[:,1], big_data[:,2], big_data[:,3]]
-
-        gaps = len(find_gaps(T, 100)) > 0
+        
+        gaps = len(find_gaps(T, 0.2)) > 0
         # print(find_gaps(T, 100))
         maxT, minT = [max(T), min(T)]
         fit_orders = [3,3]
