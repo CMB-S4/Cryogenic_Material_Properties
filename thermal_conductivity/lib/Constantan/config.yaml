@@ -2,6 +2,11 @@
     {
         "name": "Constantan",
         "parent": "NA",
+        "source": "RAW"
+    },
+    {
+        "name": "Constantan",
+        "parent": "NA",
         "source": "other"
     }
 ]
