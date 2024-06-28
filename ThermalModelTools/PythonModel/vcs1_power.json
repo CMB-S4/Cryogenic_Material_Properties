@@ -1,0 +1,34 @@
+[
+    {
+        "Housekeeping Cables": {
+            "conductivity integral": 28191791901.241898,
+            "area": 1.2566370614359172e-05,
+            "power per unit": 354268.50531389506,
+            "power total": 53848812.80771205
+        }
+    },
+    {
+        "G10 Support cylinder": {
+            "conductivity integral": 48.462604993885066,
+            "area": 3.141592653589799e-06,
+            "power per unit": 0.0001522497638226136,
+            "power total": 0.0001522497638226136
+        }
+    },
+    {
+        "Steel Pot Tube": {
+            "conductivity integral": 869.6106322986564,
+            "area": 3.141592653589788e-06,
+            "power per unit": 0.002731962373913029,
+            "power total": 0.010927849495652116
+        }
+    },
+    {
+        "Thermometer Cables": {
+            "conductivity integral": 10796175475.750917,
+            "area": 1.2566370614359172e-05,
+            "power per unit": 135668.74224594148,
+            "power total": 1356687.4224594147
+        }
+    }
+]

@@ -6,9 +6,8 @@ import numpy as np
 import sys, os, csv, json
 
 abspath = os.path.abspath(__file__)
-os.chdir(f"{os.path.split(abspath)[0]}{os.sep}")
-print(f"CWD {os.getcwd()}")
-sys.path.insert(0, f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}..{os.sep}thermal_conductivity")
+file_path = os.path.split(abspath)[0]
+sys.path.insert(0, f"{file_path}{os.sep}..{os.sep}..{os.sep}thermal_conductivity")
 
 # sys.path.append(f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}..")
 # sys.path.append(f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}..{os.sep}thermal_conductivity")
@@ -18,12 +17,13 @@ from tc_utils import *
 from fit_types import *
 
 
-with open('vcs1.json', 'r') as stage_file:
+with open(f'{file_path}{os.sep}vcs1.json', 'r') as stage_file:
     stage_data = json.load(stage_file)
 
 highT = 240
 lowT = 169
 
+stage_array = []
 for component in stage_data.keys():  # Print the parsed data from the file
     mat = stage_data[component]["material"]
     tc = get_thermal_conductivity(highT, mat)
@@ -36,4 +36,19 @@ for component in stage_data.keys():  # Print the parsed data from the file
     numUnits = int(stage_data[component]["number"])
     power_total = ppu*numUnits
 
-    print(f"{component} \nconductivity integral = {ConIntQuad} W/m\ncross sectional area = {area} m^2\npower per unit = {ppu} W\npower total = {power_total} W")
+    component_dict = {
+        component : {
+            "conductivity integral" : ConIntQuad,
+            "area"                  : area,
+            "power per unit"        : ppu,
+            "power total"           : power_total
+        }
+    }
+
+    stage_array.append(component_dict)
+
+    # print(f"{component} \nconductivity integral = {ConIntQuad} W/m\ncross sectional area = {area} m^2\npower per unit = {ppu} W\npower total = {power_total} W")
+filename = f"{file_path}{os.sep}vcs1_power.json"
+with open(filename, "w") as json_file:
+    json.dump(stage_array, json_file, indent=4)
+    print(f"Saved {len(stage_array)} components to {filename}")

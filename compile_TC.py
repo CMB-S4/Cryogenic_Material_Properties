@@ -5,14 +5,17 @@
 
 import os, sys
 from datetime import datetime
-os.chdir(f"{os.path.dirname(os.path.abspath(__file__))}\\thermal_conductivity")
+file_path = os.path.dirname(os.path.abspath(__file__))
+
+abspath = os.path.abspath(__file__)
+sys.path.insert(0, f"{os.path.split(abspath)[0]}")
 
 from thermal_conductivity.fit_types import *
 from thermal_conductivity.tc_utils import *
 
 def main():
 
-    path_to_lib = f"{os.getcwd()}\\lib"
+    path_to_lib = f"{file_path}{os.sep}thermal_conductivity{os.sep}lib"
     mat_directories = [folder for folder in os.listdir(path_to_lib) if not folder.endswith(".md")]
 
     everything_bagel = dict()
@@ -29,11 +32,11 @@ def main():
                     subset_array = np.append(subset_array, mat)
             mat_direct = subset_array
         for mat in mat_direct:
-            mat_str = f"{path_to_lib}\\{mat}"
-            fit_str = f"{mat_str}\\fits"
-            other_str = f"{mat_str}\\OTHERFITS"
-            nist_str = f"{mat_str}\\NIST"
-            raw_str = f"{mat_str}\\RAW"
+            mat_str = f"{path_to_lib}{os.sep}{mat}"
+            fit_str = f"{mat_str}{os.sep}fits"
+            other_str = f"{mat_str}{os.sep}OTHERFITS"
+            nist_str = f"{mat_str}{os.sep}NIST"
+            raw_str = f"{mat_str}{os.sep}RAW"
             
             if fits_to_parse=="ALL":
                 if os.path.exists(fit_str): # Prioritize RAW fits
@@ -58,8 +61,7 @@ def main():
 
     # # This code block deletes the old files
     try:
-        os.chdir(f"{os.getcwd()}{os.sep}..")
-        all_files = os.listdir(f"{os.getcwd()}")
+        all_files = os.listdir(f"{file_path}")
         exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
         old_date = exist_files[0][-12:-4]
         old_csvs = [file for file in all_files if file.endswith(f"{old_date}.csv")]
@@ -108,27 +110,27 @@ def main():
     output_array = np.append(output_array, bad_fit_output_array)
     
     #
-    create_data_table(output_array, f"..\\tc_generic_{current_date}.txt")
-    create_tc_csv(output_array, f"..\\tc_generic_{current_date}.csv")
+    create_data_table(output_array, f"{file_path}{os.sep}tc_generic_{current_date}.txt")
+    create_tc_csv(output_array, f"{file_path}{os.sep}tc_generic_{current_date}.csv")
 
 
     # 2. Everything Bagel : File that contains every single material and alloy
     everything_bagel = make_pathtofit(mat_directories, fits_to_parse="ALL")
     output_array = compile_csv(everything_bagel)
-    create_data_table(output_array, f"..\\tc_fullrepo_{current_date}.txt")
-    create_tc_csv(output_array, f"..\\tc_fullrepo_{current_date}.csv")
+    create_data_table(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.txt")
+    create_tc_csv(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.csv")
 
     # 3. Other fits + NIST
     other_fits = make_pathtofit(mat_directories, fits_to_parse="OTHER")
     output_array = compile_csv(other_fits)
-    create_data_table(output_array, f"..\\tc_other_fits_{current_date}.txt")
-    create_tc_csv(output_array, f"..\\tc_other_fits_{current_date}.csv")
+    create_data_table(output_array, f"{file_path}{os.sep}tc_other_fits_{current_date}.txt")
+    create_tc_csv(output_array, f"{file_path}{os.sep}tc_other_fits_{current_date}.csv")
 
     # 4. RAW / from data fits
     raw_fits = make_pathtofit(mat_directories, fits_to_parse="RAW")
     output_array = compile_csv(raw_fits)
-    create_data_table(output_array, f"..\\tc_rawdata_fits_{current_date}.txt")
-    create_tc_csv(output_array, f"..\\tc_rawdata_fits_{current_date}.csv")
+    create_data_table(output_array, f"{file_path}{os.sep}tc_rawdata_fits_{current_date}.txt")
+    create_tc_csv(output_array, f"{file_path}{os.sep}tc_rawdata_fits_{current_date}.csv")
 
 
 if __name__ == "__main__":

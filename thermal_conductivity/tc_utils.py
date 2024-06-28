@@ -10,7 +10,9 @@ import matplotlib.cm as cm
 import string, yaml, csv, h5py
 import sys,os
 from datetime import datetime
-sys.path.append(os.getcwd())
+
+abspath = os.path.abspath(__file__)
+sys.path.insert(0, f"{os.path.split(abspath)[0]}")
 
 from fit_types import * # Imports the different fit types from the associated file
 
