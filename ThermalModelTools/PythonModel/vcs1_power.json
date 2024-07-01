@@ -1,10 +1,10 @@
 [
     {
         "Housekeeping Cables": {
-            "conductivity integral": 28191791901.241898,
-            "area": 1.2566370614359172e-05,
-            "power per unit": 354268.50531389506,
-            "power total": 53848812.80771205
+            "conductivity integral": 1290.408701067384,
+            "area": 7.96432222195019e-09,
+            "power per unit": 1.0277230693308847e-05,
+            "power total": 0.0005138615346654424
         }
     },
     {
@@ -21,14 +21,6 @@
             "area": 3.141592653589788e-06,
             "power per unit": 0.002731962373913029,
             "power total": 0.010927849495652116
-        }
-    },
-    {
-        "Thermometer Cables": {
-            "conductivity integral": 10796175475.750917,
-            "area": 1.2566370614359172e-05,
-            "power per unit": 135668.74224594148,
-            "power total": 1356687.4224594147
         }
     }
 ]

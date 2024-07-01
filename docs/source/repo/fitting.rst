@@ -30,5 +30,5 @@ Other Fits
 
 Occasionally, when access to the raw thermal conductivity measurements is not possible, the thermal conductivity fits themselves will be taken directly from reference literature. There may also be times when the data from a particular material is poorly fit by the above method. In these cases, the fit may be of a different form than the fit described above. To handle this, the files describing the fit parameters will contain a *Fit Type* identification. This ID can serve as a pointer to the included *fit_types.py* file, which describes the different fit types.
 
-Currently, many of the available fits in the repository are taken from work done by Ray Radebaugh and associates at NIST (see. https://trc.nist.gov/cryogenics/materials/materialproperties.htm). These fits are identified with a NIST fit ID.
+Currently, many of the available fits in the repository are taken from work done by Ray Radebaugh and associates at NIST (see. https://trc.nist.gov/cryogenics/materials/materialproperties.htm). Fits from NIST and other external are reported in the *tc_other_fits_* file.
 

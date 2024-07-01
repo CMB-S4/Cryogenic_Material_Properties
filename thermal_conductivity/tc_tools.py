@@ -61,7 +61,7 @@ def get_parameters(TCdata, mat):
 def get_thermal_conductivity(T, material):
     param_dictionary = get_parameters(TCdata, material)
     if T<param_dictionary["fit_range"][0] or T>param_dictionary["fit_range"][1]:
-        print("**Requested value out of range of material fit - estimation success not guaranteed")
+        print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     func = get_func_type(param_dictionary["fit_type"])
     k_val = func(T, param_dictionary)
     return k_val
@@ -71,7 +71,7 @@ def get_conductivity_integral(T_low, T_high, material):
     param_dictionary = get_parameters(TCdata, material)
     func = get_func_type(param_dictionary["fit_type"])
     if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
-        print("**Requested value out of range of material fit - estimation success not guaranteed")
+        print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     k_values = func(T_values, param_dictionary)
 
     ConInt = np.trapz(k_values, T_values)

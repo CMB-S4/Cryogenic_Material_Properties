@@ -9,7 +9,7 @@ To do so, follow the outline steps:
 #. Navigate to: ``~/thermal_conductivity/lib/``
 #. Create a new folder with the same name of the material you wish to add (the name of the folder is crucial as it is also how that material will be referenced).
 #. Within that folder create a new folder within which to store the raw data. (I recommend naming it 'RAW', though theoretically, this is not a requirement)
-#. Within this 'RAW' folder, paste the relevant measurement .csv files (the data MUST be in csv format otherwise the code will not be able to find it). Each .csv data file must be of the format shown below, see one of the existing materials for more examples. 
+#. Within this 'RAW' folder, paste the relevant measurement .csv files (the data MUST be in csv format otherwise the code will not be able to find it). Each .csv data file must be of the format shown below, see one of the existing materials for more examples. Note, make sure there are no commas present in the reference information otherwise python will be unable to parse the comma delimited file.
 
 .. list-table:: Raw Data Table format
    :widths: 25 25 50

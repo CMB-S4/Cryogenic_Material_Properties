@@ -17,7 +17,6 @@ The repository is being actively developed by Henry Nachman, Oorie Desai, and Dr
    :caption: User Guide:
 
    user/intro
-   user/starting
 
 .. toctree::
    :maxdepth: 3
