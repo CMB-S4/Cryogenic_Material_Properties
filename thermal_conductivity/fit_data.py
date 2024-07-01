@@ -120,7 +120,7 @@ def main():
         big_data, data_dict = parse_raw(mat, path_to_RAW[mat], plots=True, weight_const=0.00)
         T, k, koT, weights = [big_data[:,0], big_data[:,1], big_data[:,2], big_data[:,3]]
         
-        gaps = len(find_gaps(T, 0.2)) > 0
+        gaps = len(find_gaps(T, 0.8)) > 0
         # print(find_gaps(T, 100))
         maxT, minT = [max(T), min(T)]
         fit_orders = [3,3]
@@ -215,6 +215,7 @@ def main():
             fit_args["combined_perc_err"] =  perc_diff_combo
 
         if gaps:
+            print(f"Gap found in data - splitting fit into low and high")
             low_array = format_splitfit(fit_args, "low")
             high_array = format_splitfit(fit_args, "hi")
             if (fit_args["low_fit_range"][0] == fit_args["low_fit_range"][1]):
