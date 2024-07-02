@@ -25,5 +25,14 @@
             "length": "0.075"
         },
         "number": "4"
+    },
+    "Stainless Steel Supports": {
+        "material": "Stainless_Steel",
+        "Dimensions": {
+            "OD": "0.02",
+            "ID": "0.015",
+            "length": "0.2"
+        },
+        "number": "4"
     }
 }
