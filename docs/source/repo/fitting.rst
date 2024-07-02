@@ -24,6 +24,10 @@ In python form this fit is as follows:
 
     logk = low_range*erf_low+hi_range*erf_hi
 
+Fit Development and Improvement
+```````````````````````````````
+Project developers are aware of a particular shortcoming of the above described fit method, notably that it struggles to fit datasets in which there exists a large gap (in temperature) within the data.
+We are actively working on a solution to this which involves using an interpolating spline across the data gap. This feature will be pushed to the repository in a future release.
 
 Other Fits
 ``````````
