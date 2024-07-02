@@ -16,8 +16,9 @@ from tc_tools import *
 from tc_utils import *
 from fit_types import *
 
+file_name = "ExampleCryogenicStage1"
 
-with open(f'{file_path}{os.sep}vcs1.json', 'r') as stage_file:
+with open(f'{file_path}{os.sep}{file_name}.json', 'r') as stage_file:
     stage_data = json.load(stage_file)
 
 highT = 240
@@ -48,7 +49,7 @@ for component in stage_data.keys():  # Print the parsed data from the file
     stage_array.append(component_dict)
 
     # print(f"{component} \nconductivity integral = {ConIntQuad} W/m\ncross sectional area = {area} m^2\npower per unit = {ppu} W\npower total = {power_total} W")
-filename = f"{file_path}{os.sep}vcs1_power.json"
+filename = f"{file_path}{os.sep}{file_name}_power.json"
 with open(filename, "w") as json_file:
     json.dump(stage_array, json_file, indent=4)
     print(f"Saved {len(stage_array)} components to {filename}")
