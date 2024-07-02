@@ -14,7 +14,7 @@ To import the compilation files in Python
     material_names = TC_data[:,0]
 
 The file name of the compilation file includes the date of last edit. Therefore, one must either manually add the appropriate date or use code to pull the most recent compilation file. This code has already been written and can be found in the *tc_tools.py* file.
-
+Additionally, a variety of useful functions and example code can be found in the *tc_tools.py* file.
 
 Excel
 `````
