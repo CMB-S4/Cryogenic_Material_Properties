@@ -1,7 +1,7 @@
 Repository Structure
 ====================
 
-Upon navigating to the repository you will be met with the following view:
+Upon navigating to the repository website on GitHub you will be met with eight compilation files as well as subdirectories leading to the behind the scenes code for the repository and more.
 
 .. image:: images/RepoHome.png
 
