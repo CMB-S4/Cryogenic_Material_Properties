@@ -9,7 +9,7 @@ The repository is being actively developed by Henry Nachman, Oorie Desai, and Dr
 ## Compilation Files
 `tc_fullrepo_`: An extensive compilation of every material included in the repository. 
 
-`tc_generic_`: A simplified compilation file with a curated list of materials and fits.
+`tc_generic_`: A simplified compilation file with a curated list of materials and fits. Includes *flagged* materials, whose fits are known to be problematic.
 
 `tc_other_fits`: Fits extracted directly from other sources (not produced 'in-house'). These fits may follow a different fit type. This file currently has many more fits than the raw data file because many sources report/publish only their fit.
 
