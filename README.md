@@ -25,4 +25,4 @@ https://cryogenic-material-properties.readthedocs.io/en/latest/
 
 ## Tools
 
-Some useful Python and Excel tools can also be found in this repository for the everyday user.
+Some useful Python and Excel tools can also be found in this repository for the everyday user. These are found in the `ThermalModelTools` folder.
