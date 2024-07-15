@@ -1,0 +1,35 @@
+1963 A.C. Anderson Sample 1.csv
+['﻿Thermal Conductivity of Some Amorphous Dielectric Solids Below 1°K'
+ 'A. C. Anderson-- W. Reese-- J. C. Wheatley'
+ '"AIP Publishing: Rev. Sci. Instrum.�\xa034 1386–1390 (1963)"']
+ 
+1963 A.C. Anderson Sample 2.csv
+['﻿Thermal Conductivity of Some Amorphous Dielectric Solids Below 1°K'
+ 'A. C. Anderson-- W. Reese-- J. C. Wheatley'
+ '"AIP Publishing: Rev. Sci. Instrum.�\xa034 1386–1390 (1963)"']
+ 
+1965 W. Reese Sample 1.csv
+['﻿Thermal Conductivity and Specific Heat of Some Polymers between 4.5° and 1°K'
+ 'W. Reese--J. E. Tucker'
+ '"AIP Publishing: J. Chem. Phys. 43 105–114 (1965)"']
+ 
+1965 W. Reese Sample 2.csv
+['﻿Thermal Conductivity and Specific Heat of Some Polymers between 4.5° and 1°K'
+ 'W. Reese--J. E. Tucker'
+ '"AIP Publishing: J. Chem. Phys. 43 105–114 (1965)"']
+ 
+1997 S.P. Andersson g=-0.00444T+4.12.csv
+['﻿Thermal Conductivity of Amorphous Teflon (AF 1600) at High Pressure'
+ 'S. P. Andersson-- O. Andersson-- G. Bäckström '
+ 'International Journal of Thermophysics 1997']
+ 
+1997 S.p. Andersson g=3.csv
+['﻿Thermal Conductivity of Amorphous Teflon (AF 1600) at High Pressure'
+ 'S. P. Andersson-- O. Andersson-- G. Bäckström '
+ 'International Journal of Thermophysics 1997']
+ 
+1997 S.P. Andersson p=0.csv
+['﻿Thermal Conductivity of Amorphous Teflon (AF 1600) at High Pressure'
+ 'S. P. Andersson-- O. Andersson-- G. Bäckström '
+ 'International Journal of Thermophysics 1997']
+ 
