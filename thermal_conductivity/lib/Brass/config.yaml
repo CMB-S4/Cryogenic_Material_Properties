@@ -2,6 +2,11 @@
     {
         "name": "Brass",
         "parent": "NA",
+        "source": "RAW"
+    },
+    {
+        "name": "Brass",
+        "parent": "NA",
         "source": "NIST"
     }
 ]

@@ -1,0 +1,10 @@
+2007 I.O. Owate.csv
+['ï»¿A device for thermal conductivity measurement in a developing economy'
+ 'I. O. Owate-- O. E. Abumere-- G.O. Avwiri'
+ 'Scientific Research and Essay Vol. 2 2007']
+ 
+2018 I. Rojas-Rodríguez.csv
+['ï»¿The Influence of the Precipitation Heat Treatment Temperature on the Metallurgical Microstructure Thermal Properties and Microhardness of an Alpha Brass'
+ 'I. Rojas-RodrÃ\xadguez et.al.'
+ 'Scietific Research Publishing Materials Sciences and Applications 2018']
+ 
