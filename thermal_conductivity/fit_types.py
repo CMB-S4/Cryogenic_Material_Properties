@@ -213,18 +213,33 @@ Case 3  'Tcheby polynomial in ln(T) giving ln(g), a=# parameters, b=low temp, c=
 def lowTextrapolate(T, param_dictionary):
     params = param_dictionary["low_param"]
     k = []
-    for i in range(len(T)):
+    
+    if np.size(T) == 1:
         k_plus = 0
-        if T[i] > params[0]:
-            logtemp = np.log10(T[i])
+        if T > params[0]:
+            logtemp = np.log10(T)
             for n in range(1, len(params)):
                 k_plus += params[n - 1] * logtemp ** (n - 1)
             k = np.append(k, 10 ** (k_plus))
-        elif T[i] > params[1]:
-            k = np.append(k, params[3] * T[i] ** params[2])
+        elif T > params[1]:
+            k = np.append(k, params[3] * T ** params[2])
         else:
             # k = params[16] * T ** params[15]
-            k = np.append(k, -1*T[i])
+            k = np.append(k, -1*T)
+        k = float(k)
+    else:
+        for i in range(len(T)):
+            k_plus = 0
+            if T[i] > params[0]:
+                logtemp = np.log10(T[i])
+                for n in range(1, len(params)):
+                    k_plus += params[n - 1] * logtemp ** (n - 1)
+                k = np.append(k, 10 ** (k_plus))
+            elif T[i] > params[1]:
+                k = np.append(k, params[3] * T[i] ** params[2])
+            else:
+                # k = params[16] * T ** params[15]
+                k = np.append(k, -1*T[i])
     return k
 
 """

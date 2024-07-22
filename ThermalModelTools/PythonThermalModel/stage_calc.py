@@ -7,14 +7,14 @@ import sys, os, csv, json
 
 abspath = os.path.abspath(__file__)
 file_path = os.path.split(abspath)[0]
-sys.path.insert(0, f"{file_path}{os.sep}..{os.sep}..{os.sep}thermal_conductivity")
+sys.path.insert(0, f"{file_path}{os.sep}..{os.sep}..{os.sep}")
 
 # sys.path.append(f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}..")
 # sys.path.append(f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}..{os.sep}thermal_conductivity")
 
-from tc_tools import *
-from tc_utils import *
-from fit_types import *
+from thermal_conductivity.tc_tools import *
+from thermal_conductivity.tc_utils import *
+from thermal_conductivity.fit_types import *
 
 file_name = "ExampleCryogenicStage1"
 

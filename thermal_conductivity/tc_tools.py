@@ -18,6 +18,15 @@ TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", 
 
 
 def get_parameters(TCdata, mat):
+    """
+    Function: extracts the fit parameters for the specified material
+
+    Arguments: 
+    - TCdata: (array) the array of the imported compilation file
+    - mat: (string) the material of interest
+
+    Returns: Dictionary of specified material fit parameters.
+    """
     headers = TCdata[0] # pulls the headers from the file
     mat_names = TCdata[:,0] # makes an array of material names
     mat_row = TCdata[int(np.argwhere(mat_names == mat)[0][0])] # searches material name array for mat specified above and return relevant row
@@ -95,3 +104,43 @@ def get_conductivity_integral(T_low, T_high, material):
 
     ConInt = np.trapz(k_values, T_values) # integrates over the function
     return ConInt
+
+
+def make_a_table(TCdata, materials):
+    T_one = np.round(np.arange(0.01, .1, 0.005), 3)
+    T_full = []
+    for i in range(4):
+        T_full.extend(T_one*10**(i+1))
+    T_full = np.round(T_full, 2)
+
+    tc_datatable = T_full
+    for mat in materials:
+        params = get_parameters(TCdata, mat)
+        func_type = get_func_type(params["fit_type"])
+        # print(mat, func_type)
+        y_data = []
+        for n in range(len(T_full)):
+            if (T_full[n] < params["fit_range"][0]) or (T_full[n] > params["fit_range"][1]):
+                y_data.append(0)
+            else:
+                y_append = func_type(T_full[n], params)
+                if (y_append > 1e6) or (y_append < 0):
+                    y_data.append(0)
+                else:
+                    y_data.append(y_append)
+        tc_datatable = np.vstack((tc_datatable, np.round(y_data,3)))
+    headers = np.insert(materials, 0, ["Temperature [K]"], axis=0)
+    tc_datatable = np.insert(np.array(tc_datatable, dtype=object), 0, headers, axis = 1)
+
+    with open("data_table.csv", 'w', newline='') as savefile:
+        # convert array into dataframe         
+        # save the dataframe as a csv file 
+        np.savetxt(savefile, np.transpose(tc_datatable), delimiter=",", fmt="%s")
+
+    return
+"""
+curated_TC = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
+curated_matnames = curated_TC[1:,0]
+
+make_a_table(curated_TC, curated_matnames)
+"""
