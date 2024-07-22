@@ -5,10 +5,10 @@
 
 import os, sys
 from datetime import datetime
-file_path = os.path.dirname(os.path.abspath(__file__))
 
 abspath = os.path.abspath(__file__)
-sys.path.insert(0, f"{os.path.split(abspath)[0]}")
+file_path = os.path.dirname(abspath)
+sys.path.insert(0, f"{file_path}")
 
 from thermal_conductivity.fit_types import *
 from thermal_conductivity.tc_utils import *
@@ -70,7 +70,7 @@ def main():
         old_files = np.hstack((old_csvs, old_txts))
         # print(old_files)
         for file in old_files:
-            os.remove(file)
+            os.remove(f"{file_path}{os.sep}{file}")
         print(f"Removing files from date: {old_date}")
         os.chdir(f"{os.getcwd()}{os.sep}thermal_conductivity")
     except IndexError:
@@ -84,7 +84,7 @@ def main():
 
     # Want to create 4 output files
     # 1. Plain Bagel : Simple file that has only 1 fit per material and ignores weird materials
-    simple_mat_direct = ["Aluminum_1100", "Beryllium_Copper","Brass","CFRP","Cu_OFHC_RRR50",
+    simple_mat_direct = ["Aluminum_1100", "Beryllium_Copper","CFRP","Cu_OFHC_RRR50",
                         "G10_FR4","Glass_FabricPolyester_He_warp","Graphite","Inconel_718","Invar_Fe36Ni",
                         "Iron","Kapton","Ketron","Kevlar49_Composite_Aramid","Lead","Macor","Manganin",
                         "Molybdenum","MylarPET","NbTi","Nichrome","Nickel_Steel_Fe_2.25_Ni","Nylon",
@@ -93,7 +93,7 @@ def main():
                         "Torlon","Tungsten","VESPEL"]
     simple_bagel = make_pathtofit(mat_directories, subset=simple_mat_direct)
     output_array = compile_csv(simple_bagel)
-    bad_fit_mats = ["Constantan","Cu_OFHC","Stainless_Steel_310","Stainless_Steel_316"]
+    bad_fit_mats = ["Brass", "Constantan","Cu_OFHC","Stainless_Steel_310","Stainless_Steel_316"]
     bad_simple_bagel = make_pathtofit(mat_directories, subset=bad_fit_mats)
     bad_fit_output_array = compile_csv(bad_simple_bagel)
 
