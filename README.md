@@ -2,7 +2,7 @@
 ## Description
 **A compilation of material properties, fits, and plots at cryogenic temperatures for use in design and testing of cryogenic systems.**
 
-## Last Updated: 8 July 2024
+## Last Updated: 22 July 2024
 
 This Git Repository will serve to store raw thermal conductivity (TC) data and other material properties, plots, and analysis tools. The data is compiled from decades of published resources. The repository also includes the reference information for each set of measurements. 
 
