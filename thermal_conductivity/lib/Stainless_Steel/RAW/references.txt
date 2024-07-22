@@ -1,4 +1,4 @@
-ATAWE_2020.csv
+AntoniadisEtAl_2020.csv
 ['Reference correlations for the thermal conductivity of solid BK7 - PMMA - Pyrex 7740 - Pyroceram 9606 and SS304'
  'K.D. Antoniadis - A. Tyrou - M.J. Assael - X. Li - J. Wu - and H.P. Ebert'
  'International Journal of Thermophysics 41:98 (2020) 35 pages ']
@@ -18,11 +18,11 @@ Bogaard_1993.csv
 ['Thermophysical properties of stainless steels'
  'R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho' '1993']
  
-CDN_1959.csv
+ChariDeNobel_1959.csv
 ['Thermal conductivity of some steels at low temperature'
  'M.S.R. Chari and J. De Nobel' 'Physica 25 (1959) pp. 73-83']
  
-CH_1977.csv
+ChuHo_1977.csv
 ['Thermal conductivity and electrical resistivity of eight selected AISI stainless steels'
  'T.K. Chu and C.Y. Ho'
  '"Proc. 15th Thermal Conductivity Conf. Plenum Press New York (1977) pp. 79-104"']
@@ -31,7 +31,7 @@ CorsanEtAl_1991.csv
 ['An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy '
  'J.M. Corsan-N.J. Budd-W.F. Heminger' '1991']
  
-DBMWS_2002.csv
+DilleyEtAl_2002.csv
 ['Commercial apparatus for measuring transport properties from 1.9 to 390 K'
  '"N.R. Dilley - R.C. Black - L. Montes - A. Wilson - and M.B. Simmonds"'
  'Mat. Res. Soc. Symp. Proc. 691 (2002) pp. G3.5.1 to G3.5.6']
@@ -52,32 +52,28 @@ Mikhailova_1971.csv
 ['Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K'
  'G.N. Mikhailova' '1971']
  
-M_1969.csv
+Moeller_1969.csv
 ['Guarded double-cylinder apparatus for determining thermal conductivities from 80 to 860 K'
  'E. Moeller'
  '"Proc. 8th Thermal Conductivity Conf. Plenum Press New York (1969) pp. 701-711"']
  
-PZJ_1951.csv
+PowersEtAl_1951.csv
 ['The thermal conductivity of metals and alloys at low temperatures II. Data on iron and steels between 25 and 300 K'
  '"R.W. Powers - J.B. Ziegler - and H. L. Johnston"'
  'U.S. Air Force Rept. USAF TR-264-6 (1951)']
  
-RHS_1975.csv
-['Thermal conductivity of selected alloys at low temperatues'
- '"R.P. Tye - R.W. Hayden - and S.C. Spinney"'
- 'Adv. Cryog. Eng. Vol. 22 (1975) pp. 136-144']
- 
-SD_1973.csv
-['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
- 'W. Stutius and J.R. Dillinger' 'J. Appl. Phys. 44 (1973) pp. 2887-2888']
- 
-StitiusEtAl_1973.csv
+StutiusDillinger_1973.csv
 ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
  'W. Stutius and J.R. Dillinger' '1973']
  
 StutiusEtAl_1973.csv
 ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
  'Stutius-Dillinger' '1973']
+ 
+TyeEtAl_1975.csv
+['Thermal conductivity of selected alloys at low temperatues'
+ '"R.P. Tye - R.W. Hayden - and S.C. Spinney"'
+ 'Adv. Cryog. Eng. Vol. 22 (1975) pp. 136-144']
  
 UmezawaEtAl_1992.csv
 ['Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures'
