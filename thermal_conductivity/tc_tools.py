@@ -4,11 +4,15 @@
 ## Last Updated: 28 June 2024
 
 import numpy as np
-from itertools import dropwhile
-from fit_types import get_func_type
-import os
+import os, sys
 
 abspath = os.path.abspath(__file__)
+sys.path.insert(0, os.path.dirname(abspath))
+
+
+from itertools import dropwhile
+from fit_types import get_func_type
+
 path_to_tcFiles = f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}"
 all_files = os.listdir(path_to_tcFiles)
 exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
