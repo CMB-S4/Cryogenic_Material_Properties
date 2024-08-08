@@ -10,7 +10,7 @@ import base64
 import sys, os, csv, json
 
 
-from stage_calc import calculate_power_function
+from stage_calc import calculate_power_function, get_all_powers, optimize_tm
 
 abspath = os.path.abspath(__file__)
 file_path = os.path.dirname(abspath)
@@ -23,7 +23,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 path_to_tcFiles = f"{file_path}{os.sep}..{os.sep}.."
 all_files = os.listdir(path_to_tcFiles)
 exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
-print(exist_files)
+# print(exist_files)
 tc_file_date = exist_files[0][-12:-4]
 
 TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
@@ -40,14 +40,14 @@ TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", 
 mat_list = list(TCdata[1:, 0])
 
 # Cryogenic stages
-stages = ["VCS 1", "VCS 2", "4K - LHe", "300mK", "100mK"]
-stage_temps = [240, 169, 70, 4.2, 0.3, 0.1]
+stages = ["VCS 1", "VCS 2", "4K - LHe", "1K", "300mK", "100mK"]
+stage_temps = [260, 240, 169, 4.2, 2, 0.3, 0.1]
 
 stage_details = {}
 for i in range(len(stages)):
     stage_details[stages[i]] = {"lowT": stage_temps[i+1], "highT": stage_temps[i]}
 
-print(stage_details)
+# print(stage_details)
 # Layout of the app
 app.layout = dbc.Container([
     dbc.Row([
@@ -89,20 +89,37 @@ app.layout = dbc.Container([
                 dbc.Col(dbc.Label("Number:"), width=3),
                 dbc.Col(dbc.Input(id="number", type="number"), width=9)
             ], className="mb-3"),
-            dbc.Button("Add", id="add", color="primary", className="mr-2"),
-            dbc.Button("Save to JSON", id="save-json", color="success", className="mr-2"),
+        ]),
+        dbc.Col([
             dcc.Upload(id="upload-json", children=html.Div(['Load from JSON']), 
                        style={'width': '140px', 'height': '40px', 'lineHeight': '35px', 
                               'borderWidth': '1px', 'borderStyle': 'dashed', 'borderRadius': '5px', 
                               'textAlign': 'center', 'margin': '10px'}),
-            dbc.Button("Calculate Power per Part", id="calculate-power", color="info")
+            dbc.Button("Add",             id="add",                 className="addbutton mr-2"),
+            dbc.Button("Save to JSON",    id="save-json",           className="savebutton mr-2"),
+            dbc.Button("Calculate Power", id="calculate-power",     className="calcbutton mr-2"),
+            dbc.Button("Optimize",        id="new-process-button",  className="optimizebutton mr-2")
         ], width=4),
-        dbc.Col([
-            html.H2("Components by Cryogenic Stage"),
-            html.Div(id="table-container")
-        ])
+        dcc.Download(id="download-json"),
+        ]),
+    dbc.Row([
+        html.H2("Components by Cryogenic Stage"),
+        html.Div(id="table-container")
     ]),
-    dcc.Download(id="download-json"),
+    dbc.Row(
+        dbc.Col(
+            html.Div(
+                "Henry Nachman - for BLAST.",
+                className="footer-text",
+                style={
+                    "textAlign": "center",
+                    "padding": "20px",
+                    "backgroundColor": "#f8f9fa",
+                    "marginTop": "20px"
+                }
+            )
+        )
+    )
 ])
 
 # Initial empty components dictionary
@@ -171,11 +188,11 @@ components = {stage: {} for stage in stages}
 #     return generate_table()
 @app.callback(
     Output("table-container", "children"),
-    [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
+    [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input("new-process-button", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
     [State("cryogenic-stage", "value"), State("type", "value"), State("component", "value"), State("material", "value"), State("od", "value"), State("id", "value"), State("length", "value"), State("power", "value"), State("number", "value"), State("table-container", "children")],
     prevent_initial_call=True
 )
-def add_component(n_clicks, json_contents, calc_clicks, updated_data, stage, entry_type, component, material, od, id_val, length, power, number, current_table):
+def add_component(n_clicks, json_contents, calc_clicks, updated_data, new_process_clicks, stage, entry_type, component, material, od, id_val, length, power, number, current_table):
     global components, stage_details
     ctx = dash.callback_context
 
@@ -188,7 +205,7 @@ def add_component(n_clicks, json_contents, calc_clicks, updated_data, stage, ent
         if stage and number:
             if stage not in components:
                 components[stage] = {}
-            if entry_type == "Component" and component and material and od and id_val and length:
+            if entry_type == "Component": #  and component and material and od and id_val and length
                 components[stage][component] = {
                     "material": material,
                     "OD": od, "ID": id_val, "length": length,
@@ -209,18 +226,21 @@ def add_component(n_clicks, json_contents, calc_clicks, updated_data, stage, ent
         components = json_data.get("components", components)
         stage_details = json_data.get("stage_details", stage_details)
     elif trigger == 'calculate-power':
-        for stage, comps in components.items():
-            for comp, details in comps.items():
-                num = float(details["number"])
-                if "OD" in details:
-                    try:
-                        power_per_part = calculate_power_function(details, stage_details[stage])
-                        details["Power per Part (W)"] = power_per_part
-                    except ValueError:
-                        continue
-                else:
-                    power_per_part = float(details["Power per Part (W)"])
-                details["Power Total (W)"] = power_per_part*num
+        details = get_all_powers(components, stage_details)
+        output_data = {
+        "components": components,
+        "stage_details": stage_details,
+        "total_power": {stage: sum(details["Power Total (W)"] for details in comps.values()) for stage, comps in components.items()}
+        }   
+        print(output_data["total_power"])
+    elif trigger == "new-process-button":
+        details, stage_details = optimize_tm(components, stage_details)
+        output_data = {
+        "components": components,
+        "stage_details": stage_details,
+        "total_power": {stage: sum(details["Power Total (W)"] for details in comps.values()) for stage, comps in components.items()}
+        }   
+        print(output_data["total_power"])
     elif trigger == '{"type":"editable-table","index":ALL}':
         for stage, comps in components.items():
             updated_stage_data = next(item for item in updated_data if item['index'] == stage)
@@ -255,7 +275,7 @@ def toggle_fields(entry_type):
     if entry_type == "Component":
         return {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "none"}
     elif entry_type == "Other":
-        return {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "block"}
+        return {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "block"}
     return {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}
 
 
@@ -293,7 +313,17 @@ def generate_table():
         if comps:
             df = pd.DataFrame.from_dict(comps, orient="index").reset_index().rename(columns={'index': 'Component'})
             total_power = df["Power Total (W)"].sum()
-            tables.append(html.H3(f"{stage} - High Temp: {stage_details[stage]['highT']} K, Low Temp: {stage_details[stage]['lowT']} K - (Total Power: {total_power:.2f} W)"))
+            tables.append(html.H3(f"{stage} - High Temp: {stage_details[stage]['highT']:.2e} K, Low Temp: {stage_details[stage]['lowT']:.2e} K - (Total Power: {total_power:.2e} W)",
+                        style={
+                        "color": "#1e3799",  # Example color
+                        "fontSize": "24px",  # Example font size
+                        "marginTop": "20px",  # Example margin top
+                        "fontWeight": "bold",  # Example font weight
+                        "textAlign": "center",  # Example text alignment
+                        "backgroundColor": "#AEC6CF",  # Example background color
+                        "padding": "8px",  # Example padding
+                        "borderRadius": "5px"  # Example border radius
+                    }))
             tables.append(dash_table.DataTable(
                 id={"type": "editable-table", "index": stage},
                 columns=[{"name": col, "id": col, "editable": True} for col in df.columns],
