@@ -24,33 +24,77 @@ from thermal_conductivity.fit_types import *
 # highT = 240
 # lowT = 169
 
-def calculate_power_function(details, stage_temps):
+def calculate_power_function(details, stage_temps, A_L = False):
     lowT, highT = stage_temps["lowT"], stage_temps["highT"]
-    mat, OD, ID = details["material"], float(details["OD"]), float(details["ID"])
+    mat = details["material"]
+    if not A_L:
+        OD, ID = float(details["OD"]), float(details["ID"])
+        area = np.pi*(0.5*(OD))**2 - np.pi*(0.5*(ID))**2
+        length = details["length"]
+        A_L_val = area/length
+    else:
+        A_L_val = details["A/L"]
     tc = get_thermal_conductivity(highT, mat)
     # print(f"{component} conductivity at {highT} = {tc} W/m/K")
     ConIntQuad = get_conductivity_integral(lowT, highT, mat)
-    area = np.pi*(0.5*(OD))**2 - np.pi*(0.5*(ID))**2
-    length = details["length"]
-    ppu = area*ConIntQuad/length
+
+    ppu = A_L_val*ConIntQuad
 
     return ppu
 
+# def get_all_powers(components, stage_details):
+#     for stage, comps in components.items(): # For every stage
+#         for comp, details in comps.items(): # For every component in that stage
+#             # print(comp, details)
+#             num = float(details["number"])
+#             if "OD" in details: # If there is an "OD" tag
+#                 if np.isnan(details["OD"]): # If the OD tag is NAN (i.e. it is not a standard component)
+#                     power_per_part = float(details["Power per Part (W)"]) # Just take the power per part
+#                 else: # If there is an OD
+#                     power_per_part = calculate_power_function(details, stage_details[stage]) # calculate using the function
+#                     details["Power per Part (W)"] = power_per_part
+#             else: # If there are no standard components in that stage then use this
+#                 power_per_part = float(details["Power per Part (W)"])
+#             details["Power Total (W)"] = power_per_part*num
+#     return details
+
+
 def get_all_powers(components, stage_details):
-    for stage, comps in components.items(): # For every stage
-        for comp, details in comps.items(): # For every component in that stage
-            # print(comp, details)
+    for stage, comps in components.items(): 
+        for comp, details in comps.items():
             num = float(details["number"])
-            if "OD" in details: # If there is an "OD" tag
-                if np.isnan(details["OD"]): # If the OD tag is NAN (i.e. it is not a standard component)
-                    power_per_part = float(details["Power per Part (W)"]) # Just take the power per part
-                else: # If there is an OD
-                    power_per_part = calculate_power_function(details, stage_details[stage]) # calculate using the function
-                    details["Power per Part (W)"] = power_per_part
-            else: # If there are no standard components in that stage then use this
+            if details.get("Type") == "Coax":
+                power_per_part = calculate_coax_power(details, stage_details[stage])
+                details["Power per Part (W)"] = power_per_part
+            elif details.get("Type") == "A/L":
+                power_per_part = calculate_power_function(details, stage_details[stage], A_L=True)
+                details["Power per Part (W)"] = power_per_part
+            elif "OD" in details:
+                power_per_part = calculate_power_function(details, stage_details[stage])
+                details["Power per Part (W)"] = power_per_part
+            else:
                 power_per_part = float(details["Power per Part (W)"])
-            details["Power Total (W)"] = power_per_part*num
-    return details
+            details["Power Total (W)"] = power_per_part * num
+    
+    return components
+
+
+def calculate_coax_power(details, stage_temp):
+    # Implement the power calculation logic for Coax components here
+    # Example placeholder logic:
+    case_details = {"material" : details["mat_C"], "OD" : details["OD"], "ID" : details["OD_I"], "length" : details["length"]}
+    case_ppp = calculate_power_function(case_details, stage_temp)
+    
+    insulator_details = {"material" : details["mat_I"], "OD" : details["OD_I"], "ID" : details["OD_c"], "length" : details["length"]}
+    insulator_ppp = calculate_power_function(insulator_details, stage_temp)
+    
+    core_details = {"material" : details["material"], "OD" : details["OD_c"], "ID" : 0, "length" : details["length"]}
+    core_ppp = calculate_power_function(core_details, stage_temp)
+
+    power_per_part = case_ppp + insulator_ppp + core_ppp
+
+
+    return power_per_part
 
 
 def get_sum_variance(output_data):

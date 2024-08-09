@@ -10,7 +10,8 @@ import base64
 import sys, os, csv, json
 
 
-from stage_calc import calculate_power_function, get_all_powers, optimize_tm
+from stage_calc import calculate_power_function, optimize_tm, get_all_powers
+
 
 abspath = os.path.abspath(__file__)
 file_path = os.path.dirname(abspath)
@@ -23,19 +24,10 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 path_to_tcFiles = f"{file_path}{os.sep}..{os.sep}.."
 all_files = os.listdir(path_to_tcFiles)
 exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
-# print(exist_files)
 tc_file_date = exist_files[0][-12:-4]
 
 TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
-# TCdata = list(TCdata[1:,0])
 
-# Sample data for materials (replace this with actual data loading as needed)
-# TCdata = np.array([
-#     ["Material"],
-#     ["Aluminum"],
-#     ["Copper"],
-#     ["Steel"],
-# ])
 
 mat_list = list(TCdata[1:, 0])
 
@@ -47,7 +39,6 @@ stage_details = {}
 for i in range(len(stages)):
     stage_details[stages[i]] = {"lowT": stage_temps[i+1], "highT": stage_temps[i]}
 
-# print(stage_details)
 # Layout of the app
 app.layout = dbc.Container([
     dbc.Row([
@@ -59,7 +50,9 @@ app.layout = dbc.Container([
             ], className="mb-3"),
             dbc.Row([
                 dbc.Col(dbc.Label("Type:"), width=3),
-                dbc.Col(dcc.Dropdown(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Other", "value": "Other"}]), width=9)
+                # dbc.Col(dcc.RadioItems(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Other", "value": "Other"}], value="Component"), width=9)
+                dbc.Col(dcc.RadioItems(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Coax", "value": "Coax"}, {"label": "A/L", "value": "A/L"}, {"label": "Other", "value": "Other"}], value="Component"), width=9)
+                # dbc.Col(dcc.Dropdown(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Other", "value": "Other"}]), width=9)
             ], className="mb-3"),
             dbc.Row([
                 dbc.Col(dbc.Label("Component:"), width=3),
@@ -77,6 +70,44 @@ app.layout = dbc.Container([
                 dbc.Col(dbc.Label("ID (m):"), width=3),
                 dbc.Col(dbc.Input(id="id", type="number"), width=9)
             ], className="mb-3", id="id-row"),
+            
+
+
+            dbc.Row([
+                dbc.Col([
+                    dbc.Row([dbc.Col(dbc.Label("Casing:"), width=4)]),
+                    dbc.Row([dbc.Col(dcc.Dropdown(id="case-mat", options=[{"label": m, "value": m} for m in mat_list]))])
+                ], className="mb-3", id="material1-col", width=4),
+                dbc.Col([
+                    dbc.Row([dbc.Col(dbc.Label("Insulator:"), width=4)]),
+                    dbc.Row([dbc.Col(dcc.Dropdown(id="insulator-mat", options=[{"label": m, "value": m} for m in mat_list]))])
+                ], className="mb-3", id="material2-col", width=4),
+                dbc.Col([
+                    dbc.Row([dbc.Col(dbc.Label("Core:"), width=4)]),
+                    dbc.Row([dbc.Col(dcc.Dropdown(id="core-mat", options=[{"label": m, "value": m} for m in mat_list]))])
+                ], className="mb-3", id="material3-col", width=4)
+            ], className="mb-3", id="coax-mat-row"),
+            dbc.Row([
+                dbc.Col([
+                    dbc.Row(dbc.Col(dbc.Label("Casing OD (m):"), width=4)),
+                    dbc.Row(dbc.Input(id="case-od", type="number"))
+                ], className="mb-3", id="od1-col", width=4),
+                dbc.Col([
+                    dbc.Row(dbc.Col(dbc.Label("Insulator OD (m):"), width=4)),
+                    dbc.Row(dbc.Input(id="insulator-od", type="number"))
+                ], className="mb-3", id="od2-col", width=4),
+                dbc.Col([
+                    dbc.Row(dbc.Col(dbc.Label("Core OD (m):"), width=4)),
+                    dbc.Row(dbc.Input(id="core-od", type="number"))
+                ], className="mb-3", id="od3-col", width=4),
+            ], className="mb-3", id="coax-OD-row"),
+
+
+            dbc.Row([
+                dbc.Col(dbc.Label("A/L (m):"), width=3),
+                dbc.Col(dbc.Input(id="A_L", type="number"), width=9)
+            ], className="mb-3", id="A_L-row"),
+
             dbc.Row([
                 dbc.Col(dbc.Label("Length (m):"), width=3),
                 dbc.Col(dbc.Input(id="length", type="number"), width=9)
@@ -125,74 +156,17 @@ app.layout = dbc.Container([
 # Initial empty components dictionary
 components = {stage: {} for stage in stages}
 
-# @app.callback(
-#     Output("table-container", "children"),
-#     [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
-#     [State("cryogenic-stage", "value"), State("type", "value"), State("component", "value"), State("material", "value"), State("od", "value"), State("id", "value"), State("length", "value"), State("power", "value"), State("number", "value"), State("table-container", "children")],
-#     prevent_initial_call=True
-# )
-# def add_component(n_clicks, json_contents, calc_clicks, updated_data, stage, entry_type, component, material, od, id_val, length, power, number, current_table):
-#     global components
-#     ctx = dash.callback_context
-
-#     if not ctx.triggered:
-#         raise dash.exceptions.PreventUpdate
-
-#     trigger = ctx.triggered[0]['prop_id'].split('.')[0]
-
-#     if trigger == 'add':
-#         if stage and number:
-#             if stage not in components:
-#                 components[stage] = {}
-#             if entry_type == "Component" and component and material and od and id_val and length:
-#                 components[stage][component] = {
-#                     "material": material,
-#                     "OD": od, "ID": id_val, "length": length,
-#                     "number": number,
-#                     "Power per Part (W)": 0,
-#                     "Power Total (W)": 0,
-#                 }
-#             elif entry_type == "Other" and power:
-#                 components[stage][component] = {
-#                     "number": number,
-#                     "Power per Part (W)": power,
-#                     "Power Total (W)": 0,
-#                 }
-#     elif trigger == 'upload-json' and json_contents:
-#         content_type, content_string = json_contents.split(',')
-#         decoded = base64.b64decode(content_string).decode('utf-8')
-#         components = json.loads(decoded)
-#     elif trigger == 'calculate-power':
-#         for stage, comps in components.items():
-#             for comp, details in comps.items():
-#                 num = float(details["number"])
-#                 if "OD" in details:
-#                     # od = float(details["OD"])
-#                     # id_val = float(details["ID"])
-#                     # length = float(details["length"])
-#                     try:
-#                         # power_per_part = od * id_val * length
-#                         power_per_part = calculate_power_function(details, stage_details[stage])
-#                         details["Power per Part (W)"] = power_per_part
-#                     except ValueError:
-#                         continue
-#                 else:
-#                     power_per_part = float(details["Power per Part (W)"])
-#                 details["Power Total (W)"] = power_per_part*num
-#     elif trigger == '{"type":"editable-table","index":ALL}':
-#         for stage, comps in components.items():
-#             updated_stage_data = next(item for item in updated_data if item['index'] == stage)
-#             df = pd.DataFrame(updated_stage_data['data'])
-#             df.set_index("Component", inplace=True)
-#             components[stage] = df.to_dict(orient="index")
-#     return generate_table()
 @app.callback(
     Output("table-container", "children"),
     [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input("new-process-button", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
-    [State("cryogenic-stage", "value"), State("type", "value"), State("component", "value"), State("material", "value"), State("od", "value"), State("id", "value"), State("length", "value"), State("power", "value"), State("number", "value"), State("table-container", "children")],
+    [State("cryogenic-stage", "value"), State("type", "value"), State("component", "value"), State("material", "value"), State("od", "value"), 
+     State("id", "value"), State("length", "value"), State("power", "value"), State("number", "value"), State("case-mat", "value"), 
+     State("insulator-mat", "value"), State("core-mat", "value"), State("case-od", "value"), 
+     State("insulator-od", "value"), State("core-od", "value"), State("A_L", "value"), State("table-container", "children")],
     prevent_initial_call=True
 )
-def add_component(n_clicks, json_contents, calc_clicks, updated_data, new_process_clicks, stage, entry_type, component, material, od, id_val, length, power, number, current_table):
+def add_component(n_clicks, json_contents, calc_clicks, updated_data, new_process_clicks, stage, entry_type, component, 
+                  material, od, id_val, length, power, number, case_mat, insulator_mat, core_mat, case_od, insulator_od, core_od, A_L, current_table):
     global components, stage_details
     ctx = dash.callback_context
 
@@ -202,53 +176,96 @@ def add_component(n_clicks, json_contents, calc_clicks, updated_data, new_proces
     trigger = ctx.triggered[0]['prop_id'].split('.')[0]
 
     if trigger == 'add':
-        if stage and number:
+        if stage and number and component:
             if stage not in components:
                 components[stage] = {}
-            if entry_type == "Component": #  and component and material and od and id_val and length
+            
+            # Ensure the component name is a unique key within the stage
+            if component not in components[stage]:
+                components[stage][component] = {}
+
+            if entry_type == "Component": 
                 components[stage][component] = {
+                    "Name": component,
+                    "Type": "Component",
                     "material": material,
-                    "OD": od, "ID": id_val, "length": length,
+                    "OD": od, 
+                    "ID": id_val, 
+                    "length": length,
+                    "number": number,
+                    "Power per Part (W)": 0,
+                    "Power Total (W)": 0,
+                }
+            elif entry_type == "Coax":
+                components[stage][component] = {
+                    "Name": component,
+                    "Type": "Coax",
+                    "mat_C": case_mat,
+                    "mat_I": insulator_mat,
+                    "material": core_mat,
+                    "OD" : case_od,
+                    "OD_I": insulator_od,
+                    "OD_c": core_od,
+                    "length": length,
+                    "number": number,
+                    "Power per Part (W)": 0,
+                    "Power Total (W)": 0,
+                }
+            elif entry_type == "A/L":
+                components[stage][component] = {
+                    "Name": component,
+                    "Type": "A/L",
+                    "material": material,
+                    "A/L" : A_L,
                     "number": number,
                     "Power per Part (W)": 0,
                     "Power Total (W)": 0,
                 }
             elif entry_type == "Other" and power:
                 components[stage][component] = {
+                    "Name": component,
+                    "Type": "Other",
                     "number": number,
                     "Power per Part (W)": power,
-                    "Power Total (W)": 0,
+                    "Power Total (W)": power * number,  # Direct calculation for Other type
                 }
+            print("\n")
+            for stage in components:
+                print(f"\n{stage}")
+                print(f"Components after addition: {components[stage].keys()}")
     elif trigger == 'upload-json' and json_contents:
         content_type, content_string = json_contents.split(',')
         decoded = base64.b64decode(content_string).decode('utf-8')
         json_data = json.loads(decoded)
-        components = json_data.get("components", components)
+
+        # Update the global components dictionary with the nested structure
+        new_components = json_data.get("components", {})
+        for stage, components_dict in new_components.items():
+            if stage not in components:
+                components[stage] = {}
+            for component_name, details in components_dict.items():
+                components[stage][component_name] = details
+
+        # Update the global stage_details dictionary
         stage_details = json_data.get("stage_details", stage_details)
+
     elif trigger == 'calculate-power':
-        details = get_all_powers(components, stage_details)
-        output_data = {
-        "components": components,
-        "stage_details": stage_details,
-        "total_power": {stage: sum(details["Power Total (W)"] for details in comps.values()) for stage, comps in components.items()}
-        }   
-        print(output_data["total_power"])
+        components = get_all_powers(components, stage_details)
     elif trigger == "new-process-button":
-        details, stage_details = optimize_tm(components, stage_details)
-        output_data = {
-        "components": components,
-        "stage_details": stage_details,
-        "total_power": {stage: sum(details["Power Total (W)"] for details in comps.values()) for stage, comps in components.items()}
-        }   
-        print(output_data["total_power"])
+        components, stage_details = optimize_tm(components, stage_details)
     elif trigger == '{"type":"editable-table","index":ALL}':
         for stage, comps in components.items():
             updated_stage_data = next(item for item in updated_data if item['index'] == stage)
             df = pd.DataFrame(updated_stage_data['data'])
-            df.set_index("Component", inplace=True)
+            df.set_index("Name", inplace=True)
             components[stage] = df.to_dict(orient="index")
-    return generate_table()
 
+    # print("\n")
+    # for stage in components:
+    #     print(f"\n{stage}")
+    #     print(f"Components after addition: {components[stage]}")
+
+    return generate_table()
 
 @app.callback(
     Output("download-json", "data"),
@@ -268,33 +285,46 @@ def save_to_json(n_clicks):
 
 
 @app.callback(
-    [Output("component-row", "style"), Output("material-row", "style"), Output("od-row", "style"), Output("id-row", "style"), Output("length-row", "style"), Output("power-row", "style")],
+    [Output("component-row", "style"), Output("material-row", "style"), Output("od-row", "style"), Output("id-row", "style"), Output("length-row", "style"), 
+     Output("power-row", "style"), Output("coax-mat-row", "style"), Output("coax-OD-row", "style"), Output("A_L-row", "style")],
     Input("type", "value")
 )
 def toggle_fields(entry_type):
     if entry_type == "Component":
-        return {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "none"}
+        return {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}
+    elif entry_type == "A/L":
+        return {"display": "block"}, {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "block"}
+    elif entry_type == "Coax":
+        return {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "block"}, {"display": "none"}, {"display": "block"}, {"display": "block"}, {"display": "none"}
     elif entry_type == "Other":
-        return {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "block"}
-    return {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}
-
+        return {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "block"}, {"display": "none"}, {"display": "none"}, {"display": "none"}
+    return {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}, {"display": "none"}
 
 @app.callback(
     Output("table-container", "children", allow_duplicate=True),
-    Input({"type": "editable-table", "index": ALL}, "data"),
+    Input({"type": "editable-table", "index": dash.ALL}, "data"),
     prevent_initial_call=True
 )
-
 def update_table_data(data):
     global components
-    ctx = dash.callback_context
 
+    ctx = dash.callback_context
     if not ctx.triggered:
         raise dash.exceptions.PreventUpdate
 
+    print("\n UPDATE TABLE DATA")
+    for stage in components:
+        print(f"\n{stage}")
+        print(f"Components after addition: {components[stage].keys()}")
+
     for item in ctx.inputs_list[0]:
         stage = item["id"]["index"]
-        updated_data = pd.DataFrame(item["value"]).set_index("Component").to_dict(orient="index")
+        updated_data = pd.DataFrame(item["value"]).set_index("Name").to_dict(orient="index")
+        
+        # Debug print
+        # print(f"\nUpdated data for stage {stage}: {updated_data}")
+
+        # Convert columns to appropriate data types
         for comp, details in updated_data.items():
             for key, value in details.items():
                 if key in ["OD", "ID", "length", "number", "Power per Part (W)", "Power Total (W)"]:
@@ -302,36 +332,83 @@ def update_table_data(data):
                         updated_data[comp][key] = float(value)
                     except ValueError:
                         updated_data[comp][key] = 0.0
-        components[stage] = updated_data
-    
+
+        # Debug print
+        # print(f"\nUpdated data after type conversion for stage {stage}: {updated_data}")
+
+        # Merge with existing data to prevent overwriting other categories
+        if stage in components:
+            components[stage].update(updated_data)
+        else:
+            components[stage] = updated_data
+
+    print("\n UPDATE TABLE DATA -- 2")
+    for stage in components:
+        print(f"\n{stage}")
+        print(f"Components after addition: {components[stage]}")
+
     return generate_table()
 
 
+
+
 def generate_table():
+    global components
     tables = []
+    print("\n GENERATE TABLE")
+    for stage in components:
+        print(f"\n{stage}")
+        print(f"Components after addition: {components[stage]}")
+
     for stage, comps in components.items():
         if comps:
-            df = pd.DataFrame.from_dict(comps, orient="index").reset_index().rename(columns={'index': 'Component'})
-            total_power = df["Power Total (W)"].sum()
-            tables.append(html.H3(f"{stage} - High Temp: {stage_details[stage]['highT']:.2e} K, Low Temp: {stage_details[stage]['lowT']:.2e} K - (Total Power: {total_power:.2e} W)",
-                        style={
-                        "color": "#1e3799",  # Example color
-                        "fontSize": "24px",  # Example font size
-                        "marginTop": "20px",  # Example margin top
-                        "fontWeight": "bold",  # Example font weight
-                        "textAlign": "center",  # Example text alignment
-                        "backgroundColor": "#AEC6CF",  # Example background color
-                        "padding": "8px",  # Example padding
-                        "borderRadius": "5px"  # Example border radius
-                    }))
-            tables.append(dash_table.DataTable(
-                id={"type": "editable-table", "index": stage},
-                columns=[{"name": col, "id": col, "editable": True} for col in df.columns],
-                data=df.to_dict('records'),
-                editable=True
-            ))
-    return tables
+            stage_total_power = sum(details["Power Total (W)"] for details in comps.values())
+            tables.append(html.H3(f"{stage} - High Temp: {stage_details[stage]['highT']:.2e} K, Low Temp: {stage_details[stage]['lowT']:.2e} K",
+                                  style={
+                                      "color": "#1e3799",
+                                      "fontSize": "24px",
+                                      "marginTop": "20px",
+                                      "fontWeight": "bold",
+                                      "textAlign": "center",
+                                      "backgroundColor": "#AEC6CF",
+                                      "padding": "8px",
+                                      "borderRadius": "5px"
+                                  }))
+            tables.append(html.H4(f"Total Power: {stage_total_power:.2e} W",
+                                  style={"color": "#1e3799", "fontSize": "20px", "textAlign": "left"}))
 
+            entry_types = {'Component': [], 'Coax': [], 'A/L': [], 'Other': []}
+
+            for comp, details in comps.items():
+                entry_type = details.get("Type", "Component")
+                entry_types[entry_type].append({"Name": comp, **details})
+
+            # print(entry_types)
+            for entry_type, items in entry_types.items():
+                if items:
+                    # Convert items to a DataFrame ensuring that index is reset and component names are included
+                    df = pd.DataFrame(items)
+
+                    # Ensure "Name" is the first column
+                    columns = ["Name"] + [col for col in df.columns if col != "Name"]
+
+                    total_power = df["Power Total (W)"].sum()
+                    tables.append(html.H4(f"{entry_type} Components (Total Power: {total_power:.2e} W)",
+                                          style={"color": "#1e3799", "fontSize": "20px", "textAlign": "left"}))
+                    tables.append(dash_table.DataTable(
+                        id={"type": "editable-table", "index": stage},
+                        columns=[{"name": col, "id": col, "editable": True} for col in columns],
+                        data=df.to_dict('records'),
+                        editable=True
+                    ))
+        
+    print("\n GENERATE TABLE -- 2")
+    for stage in components:
+        print(f"\n{stage}")
+        print(f"Components after addition: {components[stage]}")
+
+    return tables
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+
