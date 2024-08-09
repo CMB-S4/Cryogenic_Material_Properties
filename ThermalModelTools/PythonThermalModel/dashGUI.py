@@ -37,7 +37,7 @@ stage_temps = [260, 240, 169, 4.2, 2, 0.3, 0.1]
 
 stage_details = {}
 for i in range(len(stages)):
-    stage_details[stages[i]] = {"lowT": stage_temps[i+1], "highT": stage_temps[i]}
+    stage_details[stages[i]] = {"lowT": float(stage_temps[i+1]), "highT": float(stage_temps[i])}
 
 # Layout of the app
 app.layout = dbc.Container([
