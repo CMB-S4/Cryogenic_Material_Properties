@@ -56,19 +56,19 @@ app.layout = dbc.Container([
             ], className="mb-3"),
             dbc.Row([
                 dbc.Col(dbc.Label("Component:"), width=3),
-                dbc.Col(dbc.Input(id="component", type="text"), width=9)
+                dbc.Col(dbc.Input(id="component", type="text"), width=5)
             ], className="mb-3", id="component-row"),
             dbc.Row([
                 dbc.Col(dbc.Label("Material:"), width=3),
-                dbc.Col(dcc.Dropdown(id="material", options=[{"label": m, "value": m} for m in mat_list]), width=9)
+                dbc.Col(dcc.Dropdown(id="material", options=[{"label": m, "value": m} for m in mat_list]), width=5)
             ], className="mb-3", id="material-row"),
             dbc.Row([
                 dbc.Col(dbc.Label("OD (m):"), width=3),
-                dbc.Col(dbc.Input(id="od", type="number"), width=9)
+                dbc.Col(dbc.Input(id="od", type="number"), width=5)
             ], className="mb-3", id="od-row"),
             dbc.Row([
                 dbc.Col(dbc.Label("ID (m):"), width=3),
-                dbc.Col(dbc.Input(id="id", type="number"), width=9)
+                dbc.Col(dbc.Input(id="id", type="number"), width=5)
             ], className="mb-3", id="id-row"),
             
 
@@ -105,20 +105,20 @@ app.layout = dbc.Container([
 
             dbc.Row([
                 dbc.Col(dbc.Label("A/L (m):"), width=3),
-                dbc.Col(dbc.Input(id="A_L", type="number"), width=9)
+                dbc.Col(dbc.Input(id="A_L", type="number"), width=5)
             ], className="mb-3", id="A_L-row"),
 
             dbc.Row([
                 dbc.Col(dbc.Label("Length (m):"), width=3),
-                dbc.Col(dbc.Input(id="length", type="number"), width=9)
+                dbc.Col(dbc.Input(id="length", type="number"), width=5)
             ], className="mb-3", id="length-row"),
             dbc.Row([
                 dbc.Col(dbc.Label("Power per Part (W):"), width=3),
-                dbc.Col(dbc.Input(id="power", type="number"), width=9)
+                dbc.Col(dbc.Input(id="power", type="number"), width=5)
             ], className="mb-3", id="power-row"),
             dbc.Row([
                 dbc.Col(dbc.Label("Number:"), width=3),
-                dbc.Col(dbc.Input(id="number", type="number"), width=9)
+                dbc.Col(dbc.Input(id="number", type="number"), width=5)
             ], className="mb-3"),
         ]),
         dbc.Col([
@@ -137,6 +137,7 @@ app.layout = dbc.Container([
         html.H2("Components by Cryogenic Stage"),
         html.Div(id="table-container")
     ]),
+    dbc.Row(dbc.Col(dbc.Button("Clear Cache", id="clear-cache", className="clearcachebutton mr-2"))),
     dbc.Row(
         dbc.Col(
             html.Div(
@@ -312,10 +313,10 @@ def update_table_data(data):
     if not ctx.triggered:
         raise dash.exceptions.PreventUpdate
 
-    print("\n UPDATE TABLE DATA")
-    for stage in components:
-        print(f"\n{stage}")
-        print(f"Components after addition: {components[stage].keys()}")
+    # print("\n UPDATE TABLE DATA")
+    # for stage in components:
+    #     print(f"\n{stage}")
+    #     print(f"Components after addition: {components[stage].keys()}")
 
     for item in ctx.inputs_list[0]:
         stage = item["id"]["index"]
@@ -342,10 +343,10 @@ def update_table_data(data):
         else:
             components[stage] = updated_data
 
-    print("\n UPDATE TABLE DATA -- 2")
-    for stage in components:
-        print(f"\n{stage}")
-        print(f"Components after addition: {components[stage]}")
+    # print("\n UPDATE TABLE DATA -- 2")
+    # for stage in components:
+    #     print(f"\n{stage}")
+    #     print(f"Components after addition: {components[stage]}")
 
     return generate_table()
 
@@ -355,10 +356,10 @@ def update_table_data(data):
 def generate_table():
     global components
     tables = []
-    print("\n GENERATE TABLE")
-    for stage in components:
-        print(f"\n{stage}")
-        print(f"Components after addition: {components[stage]}")
+    # print("\n GENERATE TABLE")
+    # for stage in components:
+    #     print(f"\n{stage}")
+    #     print(f"Components after addition: {components[stage]}")
 
     for stage, comps in components.items():
         if comps:
@@ -402,12 +403,33 @@ def generate_table():
                         editable=True
                     ))
         
-    print("\n GENERATE TABLE -- 2")
-    for stage in components:
-        print(f"\n{stage}")
-        print(f"Components after addition: {components[stage]}")
+    # print("\n GENERATE TABLE -- 2")
+    # for stage in components:
+    #     print(f"\n{stage}")
+    #     print(f"Components after addition: {components[stage]}")
 
     return tables
+
+
+@app.callback(
+    Output("table-container", "children", allow_duplicate=True),
+    [Input("clear-cache", "n_clicks")],
+    prevent_initial_call=True
+)
+def clear_cache(n_clicks):
+    global components, stage_details
+
+    if n_clicks:
+        # Reset global state variables
+        components = {stage: {} for stage in stages}
+        stage_details = {stage: {"lowT": lowT, "highT": highT} for stage, (lowT, highT) in stage_details.items()}
+
+        # Return an empty table or a placeholder
+        return generate_table()  # This will re-render the table with empty data
+
+    raise dash.exceptions.PreventUpdate
+
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
