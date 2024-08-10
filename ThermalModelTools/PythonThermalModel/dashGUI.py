@@ -10,7 +10,7 @@ import base64
 import sys, os, csv, json
 
 
-from stage_calc import calculate_power_function, optimize_tm, get_all_powers
+from stage_calc import calculate_power_function, optimize_tm, get_all_powers, get_sum_variance
 
 
 abspath = os.path.abspath(__file__)
@@ -20,8 +20,7 @@ sys.path.insert(0, f"{file_path}{os.sep}..{os.sep}..{os.sep}")
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-
-path_to_tcFiles = f"{file_path}{os.sep}..{os.sep}.."
+path_to_tcFiles = f"{file_path}{os.sep}..{os.sep}..{os.sep}"
 all_files = os.listdir(path_to_tcFiles)
 exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
 tc_file_date = exist_files[0][-12:-4]
@@ -39,126 +38,557 @@ stage_details = {}
 for i in range(len(stages)):
     stage_details[stages[i]] = {"lowT": float(stage_temps[i+1]), "highT": float(stage_temps[i])}
 
+temperature_data = [
+    {"Stage": stage, 
+     "Temperature (K)": stage_details[stage]["lowT"],
+     "Total Power (W)": 0
+    } for stage in stage_details
+]
+
+temperature_table = dash_table.DataTable(
+    id='temperature-table',
+    columns=[
+        {"name": "Stage", "id": "Stage"},
+        {"name": "Temperature (K)", "id": "Temperature (K)"},
+        {"name": "Total Power (W)", "id": "Total Power (W)"}
+    ],
+    data=temperature_data,
+    editable=False,  # Set to False if you don't want this table to be editable
+    style_table={'width': '100%', 'overflowX': 'auto'},
+    style_cell={'textAlign': 'center'},
+)
+
+cooling_data = [
+    {
+        "Headers" : "Header",
+        "Values" : "Value"
+    }
+]
+
+cooling_table = dash_table.DataTable(
+    id='cooling-table',
+    columns=[
+        {"name": "Headers", "id": "Headers"},
+        {"name": "Values", "id": "Values"}
+    ],
+    data=cooling_data,
+    editable=False,  # Set to False if you don't want this table to be editable
+    style_table={'width': '100%', 'overflowX': 'auto'},
+    style_cell={'textAlign': 'center'},
+)
+
 # Layout of the app
-app.layout = dbc.Container([
-    dbc.Row([
-        dbc.Col([
-            html.H2("Cryogenic Thermal Stage"),
-            dbc.Row([
-                dbc.Col(dbc.Label("Cryogenic Stage:"), width=3),
-                dbc.Col(dcc.Dropdown(id="cryogenic-stage", options=[{"label": stage, "value": stage} for stage in stages]), width=9)
-            ], className="mb-3"),
-            dbc.Row([
-                dbc.Col(dbc.Label("Type:"), width=3),
-                # dbc.Col(dcc.RadioItems(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Other", "value": "Other"}], value="Component"), width=9)
-                dbc.Col(dcc.RadioItems(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Coax", "value": "Coax"}, {"label": "A/L", "value": "A/L"}, {"label": "Other", "value": "Other"}], value="Component"), width=9)
-                # dbc.Col(dcc.Dropdown(id="type", options=[{"label": "Component", "value": "Component"}, {"label": "Other", "value": "Other"}]), width=9)
-            ], className="mb-3"),
-            dbc.Row([
-                dbc.Col(dbc.Label("Component:"), width=3),
-                dbc.Col(dbc.Input(id="component", type="text"), width=5)
-            ], className="mb-3", id="component-row"),
-            dbc.Row([
-                dbc.Col(dbc.Label("Material:"), width=3),
-                dbc.Col(dcc.Dropdown(id="material", options=[{"label": m, "value": m} for m in mat_list]), width=5)
-            ], className="mb-3", id="material-row"),
-            dbc.Row([
-                dbc.Col(dbc.Label("OD (m):"), width=3),
-                dbc.Col(dbc.Input(id="od", type="number"), width=5)
-            ], className="mb-3", id="od-row"),
-            dbc.Row([
-                dbc.Col(dbc.Label("ID (m):"), width=3),
-                dbc.Col(dbc.Input(id="id", type="number"), width=5)
-            ], className="mb-3", id="id-row"),
-            
+app.layout = html.Div([
+    html.Div(
+            [
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.H3(
+                                    "Cryogenic Development",
+                                    style={"margin-bottom": "0px"},
+                                ),
+                                html.H5(
+                                    "Thermal Model Overview",
+                                    style={"margin-top": "0px"},
+                                ),
+                            ]
+                        )
+                    ],
+                    className="one-half column",
+                    id="title",
+                ),
+            ],
+            id="header",
+            className="row flex-display",
+            style={"margin-bottom": "25px"},
+        ),
+    dcc.Tabs([
+        dcc.Tab(
+            label = 'Configuration',
+            children=[
+                html.Div([ # Division of input sector
+                    html.Div(
+                        [
+                            html.H3(
+                                "Cryogenic Thermal Stage",
+                                style={"text-align": "center"},
+                            ),
+                        ]
+                    ),
+                    html.Div([
+                        html.H5(
+                            "Input Parameters",
+                            style={"text-align": "center"},
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Cryogenic Stage"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dcc.Dropdown(id="cryogenic-stage",
+                                                     options=[{"label": stage, "value": stage} for stage in stages])
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ],
+                            className="input-division"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Type"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dcc.RadioItems(id="type", 
+                                                       options=[{"label": "Component", "value": "Component"}, 
+                                                                {"label": "Coax", "value": "Coax"}, 
+                                                                {"label": "A/L", "value": "A/L"}, 
+                                                                {"label": "Other", "value": "Other"}], 
+                                                        value="Component",
+                                                        # inline=True,
+                                                        labelStyle= {"margin":"1rem"}, style = {'display': 'flex'})
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ],
+                            className="input-division"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Component Name"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="component", type="text")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="component-row",
+                            className="input-division"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Material"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dcc.Dropdown(id="material", 
+                                                    options=[{"label": m, "value": m} for m in mat_list])
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="material-row",
+                            className="input-division"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "OD (m):"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="od", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="od-row"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "ID (m):"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="id", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="id-row"
+                        ),
+                        html.Div([
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Casing Material:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dcc.Dropdown(id="case-mat", options=[{"label": m, "value": m} for m in mat_list])
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ]
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Insulator Material:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dcc.Dropdown(id="insulator-mat", options=[{"label": m, "value": m} for m in mat_list])
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ]
+                        )],id="coax-mat-row"),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Core Material:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dcc.Dropdown(id="core-mat", options=[{"label": m, "value": m} for m in mat_list])
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ]
+                        ),
+                        html.Div([
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Case OD:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="case-od", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ]
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Insulator OD:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="insulator-od", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ]
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Core OD:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="core-od", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ]
+                        )], id="coax-OD-row"),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "A/L (m):"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="A_L", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="A_L-row"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Length (m):"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="length", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="length-row"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Power per Part (W):"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="power", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="power-row"
+                        ),
+                        html.Div( # Single Input
+                            [
+                                html.Div(
+                                    [
+                                        html.H6(
+                                            "Number:"
+                                        ),
+                                    ],
+                                    style={
+                                        "width": "30%",
+                                        "display": "inline-block",
+                                    },
+                                ),
+                                html.Div(
+                                    [
+                                        dbc.Input(id="number", type="number")
+                                    ],
+                                    style={
+                                        "width": "25%",
+                                        "display": "inline-block",
+                                        "margin-left": "10px",
+                                    },
+                                ),
+                            ], id="number-row"
+                        ),
+                    ]),
+                ]),
+                html.Hr(),
+                dbc.Row([
+                        dcc.Upload(id="upload-json", children=html.Div(['Load from JSON']), 
+                                style={'width': '140px', 'height': '40px', 'lineHeight': '35px', 
+                                        'borderWidth': '1px', 'borderStyle': 'dashed', 'borderRadius': '5px', 
+                                        'textAlign': 'center', 'margin': '10px'}),
+                        dbc.Button("Add",             id="add",                 className="addbutton mr-2"),
+                        dbc.Button("Save to JSON",    id="save-json",           className="savebutton mr-2"),
+                        dbc.Button("Calculate Power", id="calculate-power",     className="calcbutton mr-2"),
+                        dbc.Button("Optimize",        id="new-process-button",  className="optimizebutton mr-2"),
+                        dcc.Download(id="download-json"),
+                    ]),
+                html.Hr(),
+                dbc.Row([
+                    html.H2("Components by Cryogenic Stage"),
+                    html.Div(id="table-container")
+                ]),
+                dbc.Row(dbc.Col(dbc.Button("Clear Cache", id="clear-cache", className="clearcachebutton mr-2"))),
+                dbc.Row(
+                    dbc.Col(
+                        html.Div(
+                            "Henry Nachman - for the BLAST Collaboration.",
+                            className="footer-text",
+                            style={
+                                "textAlign": "center",
+                                "padding": "20px",
+                                "backgroundColor": "#f8f9fa",
+                                "marginTop": "20px"
+                            }
+                        )
+                    )
+                )
 
-
-            dbc.Row([
-                dbc.Col([
-                    dbc.Row([dbc.Col(dbc.Label("Casing:"), width=4)]),
-                    dbc.Row([dbc.Col(dcc.Dropdown(id="case-mat", options=[{"label": m, "value": m} for m in mat_list]))])
-                ], className="mb-3", id="material1-col", width=4),
-                dbc.Col([
-                    dbc.Row([dbc.Col(dbc.Label("Insulator:"), width=4)]),
-                    dbc.Row([dbc.Col(dcc.Dropdown(id="insulator-mat", options=[{"label": m, "value": m} for m in mat_list]))])
-                ], className="mb-3", id="material2-col", width=4),
-                dbc.Col([
-                    dbc.Row([dbc.Col(dbc.Label("Core:"), width=4)]),
-                    dbc.Row([dbc.Col(dcc.Dropdown(id="core-mat", options=[{"label": m, "value": m} for m in mat_list]))])
-                ], className="mb-3", id="material3-col", width=4)
-            ], className="mb-3", id="coax-mat-row"),
-            dbc.Row([
-                dbc.Col([
-                    dbc.Row(dbc.Col(dbc.Label("Casing OD (m):"), width=4)),
-                    dbc.Row(dbc.Input(id="case-od", type="number"))
-                ], className="mb-3", id="od1-col", width=4),
-                dbc.Col([
-                    dbc.Row(dbc.Col(dbc.Label("Insulator OD (m):"), width=4)),
-                    dbc.Row(dbc.Input(id="insulator-od", type="number"))
-                ], className="mb-3", id="od2-col", width=4),
-                dbc.Col([
-                    dbc.Row(dbc.Col(dbc.Label("Core OD (m):"), width=4)),
-                    dbc.Row(dbc.Input(id="core-od", type="number"))
-                ], className="mb-3", id="od3-col", width=4),
-            ], className="mb-3", id="coax-OD-row"),
-
-
-            dbc.Row([
-                dbc.Col(dbc.Label("A/L (m):"), width=3),
-                dbc.Col(dbc.Input(id="A_L", type="number"), width=5)
-            ], className="mb-3", id="A_L-row"),
-
-            dbc.Row([
-                dbc.Col(dbc.Label("Length (m):"), width=3),
-                dbc.Col(dbc.Input(id="length", type="number"), width=5)
-            ], className="mb-3", id="length-row"),
-            dbc.Row([
-                dbc.Col(dbc.Label("Power per Part (W):"), width=3),
-                dbc.Col(dbc.Input(id="power", type="number"), width=5)
-            ], className="mb-3", id="power-row"),
-            dbc.Row([
-                dbc.Col(dbc.Label("Number:"), width=3),
-                dbc.Col(dbc.Input(id="number", type="number"), width=5)
-            ], className="mb-3"),
-        ]),
-        dbc.Col([
-            dcc.Upload(id="upload-json", children=html.Div(['Load from JSON']), 
-                       style={'width': '140px', 'height': '40px', 'lineHeight': '35px', 
-                              'borderWidth': '1px', 'borderStyle': 'dashed', 'borderRadius': '5px', 
-                              'textAlign': 'center', 'margin': '10px'}),
-            dbc.Button("Add",             id="add",                 className="addbutton mr-2"),
-            dbc.Button("Save to JSON",    id="save-json",           className="savebutton mr-2"),
-            dbc.Button("Calculate Power", id="calculate-power",     className="calcbutton mr-2"),
-            dbc.Button("Optimize",        id="new-process-button",  className="optimizebutton mr-2")
-        ], width=4),
-        dcc.Download(id="download-json"),
-        ]),
-    dbc.Row([
-        html.H2("Components by Cryogenic Stage"),
-        html.Div(id="table-container")
-    ]),
-    dbc.Row(dbc.Col(dbc.Button("Clear Cache", id="clear-cache", className="clearcachebutton mr-2"))),
-    dbc.Row(
-        dbc.Col(
-            html.Div(
-                "Henry Nachman - for BLAST.",
-                className="footer-text",
-                style={
-                    "textAlign": "center",
-                    "padding": "20px",
-                    "backgroundColor": "#f8f9fa",
-                    "marginTop": "20px"
-                }
-            )
-        )
-    )
+            ]
+        ),
+        dcc.Tab(
+            label = 'Results',
+            children=[
+                html.Div(id="temperature-table", children = [temperature_table], className="results-table"),
+                html.Div(id="cooling-table", children = [cooling_table], className="results-table")
+            ])
+    ])
+    
 ])
 
 # Initial empty components dictionary
 components = {stage: {} for stage in stages}
 
 @app.callback(
-    Output("table-container", "children"),
+    Output("table-container", "children"), #, Output("stage-details-table-container", "children")
     [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input("new-process-button", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
     [State("cryogenic-stage", "value"), State("type", "value"), State("component", "value"), State("material", "value"), State("od", "value"), 
      State("id", "value"), State("length", "value"), State("power", "value"), State("number", "value"), State("case-mat", "value"), 
@@ -265,7 +695,7 @@ def add_component(n_clicks, json_contents, calc_clicks, updated_data, new_proces
     # for stage in components:
     #     print(f"\n{stage}")
     #     print(f"Components after addition: {components[stage]}")
-
+    # make_results()
     return generate_table()
 
 @app.callback(
@@ -429,6 +859,41 @@ def clear_cache(n_clicks):
 
     raise dash.exceptions.PreventUpdate
 
+
+@app.callback(
+    [Output('temperature-table', 'data'), Output('cooling-table', 'data')],
+    [Input('add', 'n_clicks'),
+     Input("calculate-power", "n_clicks"),
+     Input('clear-cache', 'n_clicks')],
+    prevent_initial_call=True
+)
+def update_temperature_table(n_clicks_add, n_clicks_calc, n_clicks_clear):
+    # Re-generate the temperature data based on the current state of stage_details
+    updated_temperature_data = [
+        {"Stage": stage, 
+        "Temperature (K)": stage_details[stage]["lowT"],
+        "Total Power (W)": f"{sum(components[stage][comp]['Power Total (W)'] for comp in components[stage]):.2e}"
+        }
+        for stage in stage_details
+    ]
+
+    # output_data = {
+    #     "components": components,
+    #     "stage_details": stage_details,
+    #     "total_power": {stage: sum(details["Power Total (W)"] for details in comps.values()) for stage, comps in components.items()}
+    # }
+    # sum_var, updated_cooling_data = get_sum_variance(output_data)
+    
+    updated_cooling_data = [
+        {
+            "Headers" : 0,
+            "Values" : 0
+        }
+    ]
+
+    print(updated_cooling_data)
+
+    return updated_temperature_data, updated_cooling_data
 
 
 if __name__ == "__main__":
