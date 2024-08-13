@@ -71,7 +71,7 @@ def get_parameters(TCdata, mat):
                         "erf_param": erf_param}
     return param_dictionary
 
-def get_thermal_conductivity(T, material):
+def get_thermal_conductivity(T, material, verbose=True):
     """
     Function: Finds the thermal conductivity of a given material at a particular temperature.
 
@@ -82,13 +82,14 @@ def get_thermal_conductivity(T, material):
     Returns: k_val, thermal conductivity in W/m/K
     """
     param_dictionary = get_parameters(TCdata, material)
-    if T<param_dictionary["fit_range"][0] or T>param_dictionary["fit_range"][1]:
-        print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
+    if verbose:
+        if T<param_dictionary["fit_range"][0] or T>param_dictionary["fit_range"][1]:
+            print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     func = get_func_type(param_dictionary["fit_type"])
     k_val = func(T, param_dictionary)
     return k_val
 
-def get_conductivity_integral(T_low, T_high, material):
+def get_conductivity_integral(T_low, T_high, material, verbose=True):
     """
     Function: Finds the integrated thermal conductivity of a given material over a temperature range.
 
@@ -102,8 +103,9 @@ def get_conductivity_integral(T_low, T_high, material):
     T_values = np.linspace(T_low, T_high, 1000) # defines the temperature array over which to calculate integral
     param_dictionary = get_parameters(TCdata, material) # gets the material fit parameters
     func = get_func_type(param_dictionary["fit_type"]) # finds the material fit type
-    if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
-        print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
+    if verbose:
+        if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
+            print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     k_values = func(T_values, param_dictionary) # determines the thermal conductivity at each T point
 
     ConInt = np.trapz(k_values, T_values) # integrates over the function
