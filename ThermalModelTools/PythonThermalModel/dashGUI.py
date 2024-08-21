@@ -10,7 +10,7 @@ import base64
 import sys, os, csv, json
 
 
-from stage_calc import calculate_power_function, optimize_tm, get_all_powers, get_sum_variance
+from stage_calc import calculate_power_function, get_all_powers
 
 
 abspath = os.path.abspath(__file__)
@@ -31,7 +31,7 @@ TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", 
 mat_list = list(TCdata[1:, 0])
 
 # Cryogenic stages
-stages = ["VCS 1", "VCS 2", "4K - LHe", "1K", "300mK", "100mK"]
+stages = ["PTC 1", "PTC 2", "4K - LHe", "1K", "300mK", "100mK"]
 stage_temps = [260, 240, 169, 4.2, 2, 0.3, 0.1]
 
 stage_details = {}
@@ -335,7 +335,7 @@ app.layout = html.Div([
                                     },
                                 ),
                             ]
-                        )],id="coax-mat-row"),
+                        ),
                         html.Div( # Single Input
                             [
                                 html.Div(
@@ -360,7 +360,7 @@ app.layout = html.Div([
                                     },
                                 ),
                             ]
-                        ),
+                        )],id="coax-mat-row"),
                         html.Div([
                         html.Div( # Single Input
                             [
@@ -548,7 +548,6 @@ app.layout = html.Div([
                         dbc.Button("Add",             id="add",                 className="addbutton mr-2"),
                         dbc.Button("Save to JSON",    id="save-json",           className="savebutton mr-2"),
                         dbc.Button("Calculate Power", id="calculate-power",     className="calcbutton mr-2"),
-                        dbc.Button("Optimize",        id="new-process-button",  className="optimizebutton mr-2"),
                         dcc.Download(id="download-json"),
                     ]),
                 html.Hr(),
@@ -560,7 +559,7 @@ app.layout = html.Div([
                 dbc.Row(
                     dbc.Col(
                         html.Div(
-                            "Henry Nachman - for the BLAST Collaboration.",
+                            "Henry Nachman © 2024 - for the BLAST Collaboration.",
                             className="footer-text",
                             style={
                                 "textAlign": "center",
@@ -589,14 +588,14 @@ components = {stage: {} for stage in stages}
 
 @app.callback(
     Output("table-container", "children"), #, Output("stage-details-table-container", "children")
-    [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input("new-process-button", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
+    [Input("add", "n_clicks"), Input("upload-json", "contents"), Input("calculate-power", "n_clicks"), Input({"type": "editable-table", "index": dash.ALL}, "data")],
     [State("cryogenic-stage", "value"), State("type", "value"), State("component", "value"), State("material", "value"), State("od", "value"), 
      State("id", "value"), State("length", "value"), State("power", "value"), State("number", "value"), State("case-mat", "value"), 
      State("insulator-mat", "value"), State("core-mat", "value"), State("case-od", "value"), 
      State("insulator-od", "value"), State("core-od", "value"), State("A_L", "value"), State("table-container", "children")],
     prevent_initial_call=True
 )
-def add_component(n_clicks, json_contents, calc_clicks, updated_data, new_process_clicks, stage, entry_type, component, 
+def add_component(n_clicks, json_contents, calc_clicks, updated_data, stage, entry_type, component, 
                   material, od, id_val, length, power, number, case_mat, insulator_mat, core_mat, case_od, insulator_od, core_od, A_L, current_table):
     global components, stage_details
     ctx = dash.callback_context
@@ -898,4 +897,3 @@ def update_temperature_table(n_clicks_add, n_clicks_calc, n_clicks_clear):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
-
