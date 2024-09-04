@@ -1,0 +1,4 @@
+1993 J. R. Olson Copper-Nickel tubing.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 

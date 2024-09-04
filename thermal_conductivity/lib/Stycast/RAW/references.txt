@@ -1,0 +1,16 @@
+1993 J. R. Olson Stycast 1266 with 44% CaCO3 powder by weight added.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
+1993 J. R. Olson Stycast 1266.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
+1993 J. R. Olson Stycast 2651.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
+1993 J. R. Olson Stycast 2850.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
