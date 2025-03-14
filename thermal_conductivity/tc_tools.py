@@ -89,7 +89,7 @@ def get_thermal_conductivity(T, material, verbose=True):
     k_val = func(T, param_dictionary)
     return k_val
 
-def get_conductivity_integral(T_low, T_high, material, verbose=True):
+def get_conductivity_integral(T_low, T_high, material, extra_parameters = 0, verbose=True):
     """
     Function: Finds the integrated thermal conductivity of a given material over a temperature range.
 
@@ -106,7 +106,10 @@ def get_conductivity_integral(T_low, T_high, material, verbose=True):
     if verbose:
         if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
             print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
-    k_values = func(T_values, param_dictionary) # determines the thermal conductivity at each T point
+    if len(extra_parameters) != 0:
+        k_values = func(T_values, extra_parameters, param_dictionary)
+    else:
+        k_values = func(T_values, param_dictionary) # determines the thermal conductivity at each T point
 
     ConInt = np.trapz(k_values, T_values) # integrates over the function
     return ConInt
