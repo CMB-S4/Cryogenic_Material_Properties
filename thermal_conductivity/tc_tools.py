@@ -107,7 +107,7 @@ def get_conductivity_integral(T_low, T_high, material, extra_parameters = [], ve
         if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
             print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     if len(extra_parameters) != 0:
-        k_values = func(T_values, extra_parameters[0], param_dictionary)
+        k_values = func(T_values, extra_parameters, param_dictionary)
     else:
         k_values = func(T_values, param_dictionary) # determines the thermal conductivity at each T point
 
