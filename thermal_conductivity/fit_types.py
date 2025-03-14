@@ -451,9 +451,9 @@ Case 8 'Superconducting extension
 
 
 
-def OFHC_RRR_Wc(T,RRR,param):
+def OFHC_RRR_Wc(T,RRR_list,param):
     t = T
-    RRR = RRR[0]
+    RRR = RRR_list[0]
     params = param["low_param"]
     def w_0(t,RRR,params):
         return (params[0]/((RRR-1)*t))
