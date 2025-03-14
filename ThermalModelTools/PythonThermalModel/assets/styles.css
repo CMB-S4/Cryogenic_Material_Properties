@@ -1,0 +1,292 @@
+/* assets/style.css */
+
+.js-plotly-plot .plotly .modebar {
+    padding-top: 5%;
+    margin-right: 3.5%;
+}
+
+body {
+background-color: #f0f0f0;
+font-family: Courier New, sans-serif;
+margin: 5%;
+}
+
+.two.columns {
+width: 16.25%;
+}
+
+.column,
+.columns {
+margin-left: 0.5%;
+}
+
+.pretty_container {
+border-radius: 5px;
+background-color: #f9f9f9;
+margin: 10px;
+padding: 15px;
+position: relative;
+box-shadow: 2px 2px 2px lightgrey;
+}
+
+.bare_container {
+margin: 0 0 0 0;
+padding: 0 0 0 0;
+}
+
+.dcc_control {
+margin: 0;
+padding: 5px;
+width: calc(100%-40px);
+}
+
+.control_label {
+margin: 0;
+padding: 10px;
+padding-bottom: 0px;
+margin-bottom: 0px;
+width: calc(100%-40px);
+}
+
+.rc-slider {
+margin-left: 0px;
+padding-left: 0px;
+}
+
+.flex-display {
+display: flex;
+}
+
+.container-display {
+display: flex;
+}
+
+#individual_graph,
+#aggregate_graph {
+width: calc(100% - 30px);
+position: absolute;
+}
+
+#count_graph {
+position: absolute;
+height: calc(100% - 30px);
+width: calc(100% - 30px);
+}
+
+#countGraphContainer {
+flex: 5;
+position: relative;
+}
+
+#header {
+align-items: center;
+}
+
+#learn-more-button {
+text-align: center;
+height: 100%;
+padding: 0 20px;
+text-transform: none;
+font-size: 15px;
+float: right;
+margin-right: 10px;
+margin-top: 30px;
+}
+#title {
+text-align: center;
+}
+
+.mini_container {
+border-radius: 5px;
+background-color: #f9f9f9;
+margin: 10px;
+padding: 15px;
+position: relative;
+box-shadow: 2px 2px 2px lightgrey;
+}
+
+#right-column {
+display: flex;
+flex-direction: column;
+}
+
+#wells {
+flex: 1;
+}
+
+#gas {
+flex: 1;
+}
+
+#aggregate_data {
+align-items: center;
+}
+
+#oil {
+flex: 1;
+}
+
+#water {
+flex: 1;
+}
+
+#tripleContainer {
+display: flex;
+flex: 3;
+}
+
+#mainContainer {
+display: flex;
+flex-direction: column;
+}
+
+#pie_graph > div > div > svg:nth-child(3) > g.infolayer > g.legend {
+pointer-events: all;
+transform: translate(30px, 349px);
+}
+
+
+/* body {
+    background-color: #f0f0f0;
+    font-family: Courier New, sans-serif;
+    color: #1c1c1c;
+} */
+
+h1 {
+    text-align: center;
+    color: blue;
+    margin: 20px 0;
+}
+
+.addbutton {
+    background-color: #000080;
+    border: none;
+    color: white;
+    width: 190px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.addbutton:hover {
+    background-color: #62629a;
+}
+
+.savebutton {
+    background-color: #4B0082;
+    border: none;
+    color: white;
+    width: 190px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.savebutton:hover {
+    background-color: #7a5396;
+}
+
+.calcbutton {
+    background-color: #004b40;
+    border: none;
+    color: white;
+    width: 190px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.calcbutton:hover {
+    background-color: #44756d;
+}
+
+
+.optimizebutton {
+    background-color: #800020;
+    border: none;
+    color: white;
+    width: 190px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.optimizebutton:hover {
+    background-color: #99606d;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.grid-item {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.footer-text {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.input-division {
+    margin-top: 20px;
+
+}
+
+hr {
+    color: #3b10a8;
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+.results-table {
+    margin-top: 0.5em;
+}

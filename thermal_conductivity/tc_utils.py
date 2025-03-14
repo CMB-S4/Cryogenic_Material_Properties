@@ -12,7 +12,8 @@ import sys,os
 from datetime import datetime
 
 abspath = os.path.abspath(__file__)
-sys.path.insert(0, f"{os.path.split(abspath)[0]}")
+sys.path.insert(0, os.path.dirname(abspath))
+
 
 from fit_types import * # Imports the different fit types from the associated file
 

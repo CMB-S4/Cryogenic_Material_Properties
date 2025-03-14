@@ -4,11 +4,15 @@
 ## Last Updated: 28 June 2024
 
 import numpy as np
-from itertools import dropwhile
-from fit_types import get_func_type
-import os
+import os, sys
 
 abspath = os.path.abspath(__file__)
+sys.path.insert(0, os.path.dirname(abspath))
+
+
+from itertools import dropwhile
+from fit_types import get_func_type
+
 path_to_tcFiles = f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}"
 all_files = os.listdir(path_to_tcFiles)
 exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
@@ -18,6 +22,15 @@ TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", 
 
 
 def get_parameters(TCdata, mat):
+    """
+    Function: extracts the fit parameters for the specified material
+
+    Arguments: 
+    - TCdata: (array) the array of the imported compilation file
+    - mat: (string) the material of interest
+
+    Returns: Dictionary of specified material fit parameters.
+    """
     headers = TCdata[0] # pulls the headers from the file
     mat_names = TCdata[:,0] # makes an array of material names
     mat_row = TCdata[int(np.argwhere(mat_names == mat)[0][0])] # searches material name array for mat specified above and return relevant row
@@ -58,7 +71,7 @@ def get_parameters(TCdata, mat):
                         "erf_param": erf_param}
     return param_dictionary
 
-def get_thermal_conductivity(T, material):
+def get_thermal_conductivity(T, material, verbose=True):
     """
     Function: Finds the thermal conductivity of a given material at a particular temperature.
 
@@ -69,13 +82,14 @@ def get_thermal_conductivity(T, material):
     Returns: k_val, thermal conductivity in W/m/K
     """
     param_dictionary = get_parameters(TCdata, material)
-    if T<param_dictionary["fit_range"][0] or T>param_dictionary["fit_range"][1]:
-        print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
+    if verbose:
+        if T<param_dictionary["fit_range"][0] or T>param_dictionary["fit_range"][1]:
+            print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     func = get_func_type(param_dictionary["fit_type"])
     k_val = func(T, param_dictionary)
     return k_val
 
-def get_conductivity_integral(T_low, T_high, material):
+def get_conductivity_integral(T_low, T_high, material, verbose=True):
     """
     Function: Finds the integrated thermal conductivity of a given material over a temperature range.
 
@@ -89,9 +103,50 @@ def get_conductivity_integral(T_low, T_high, material):
     T_values = np.linspace(T_low, T_high, 1000) # defines the temperature array over which to calculate integral
     param_dictionary = get_parameters(TCdata, material) # gets the material fit parameters
     func = get_func_type(param_dictionary["fit_type"]) # finds the material fit type
-    if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
-        print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
+    if verbose:
+        if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
+            print(f"**Requested value out of range of {material} fit - estimation success not guaranteed")
     k_values = func(T_values, param_dictionary) # determines the thermal conductivity at each T point
 
     ConInt = np.trapz(k_values, T_values) # integrates over the function
     return ConInt
+
+
+def make_a_table(TCdata, materials):
+    T_one = np.round(np.arange(0.01, .1, 0.005), 3)
+    T_full = []
+    for i in range(4):
+        T_full.extend(T_one*10**(i+1))
+    T_full = np.round(T_full, 2)
+
+    tc_datatable = T_full
+    for mat in materials:
+        params = get_parameters(TCdata, mat)
+        func_type = get_func_type(params["fit_type"])
+        # print(mat, func_type)
+        y_data = []
+        for n in range(len(T_full)):
+            if (T_full[n] < params["fit_range"][0]) or (T_full[n] > params["fit_range"][1]):
+                y_data.append(0)
+            else:
+                y_append = func_type(T_full[n], params)
+                if (y_append > 1e6) or (y_append < 0):
+                    y_data.append(0)
+                else:
+                    y_data.append(y_append)
+        tc_datatable = np.vstack((tc_datatable, np.round(y_data,3)))
+    headers = np.insert(materials, 0, ["Temperature [K]"], axis=0)
+    tc_datatable = np.insert(np.array(tc_datatable, dtype=object), 0, headers, axis = 1)
+
+    with open("data_table.csv", 'w', newline='') as savefile:
+        # convert array into dataframe         
+        # save the dataframe as a csv file 
+        np.savetxt(savefile, np.transpose(tc_datatable), delimiter=",", fmt="%s")
+
+    return
+"""
+curated_TC = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
+curated_matnames = curated_TC[1:,0]
+
+make_a_table(curated_TC, curated_matnames)
+"""

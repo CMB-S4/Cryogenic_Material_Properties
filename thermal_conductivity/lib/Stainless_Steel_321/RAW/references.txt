@@ -10,7 +10,7 @@ Mikhailova_1971.csv
 ['Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K'
  'G.N. Mikhailova' '1971']
  
-StitiusEtAl_1973.csv
+StutiusDillinger_1973.csv
 ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
  'W. Stutius and J.R. Dillinger' '1973']
  

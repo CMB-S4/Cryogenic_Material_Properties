@@ -1,0 +1,8 @@
+1993 J. R. Olson DuPont Corian low temperatures.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
+1993 J. R. Olson DuPont Corian.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
