@@ -11,7 +11,7 @@ def get_func_type(key):
                      "NIST-copperfit":  NIST5a_2,
                      "lowTextrapolate": lowTextrapolate,
                      "NIST-experf":     NIST_experf,
-                     "powerlaw":       power_law
+                     "powerlaw":       power_law,
                     "OFHC_RRR_Wc":     OFHC_RRR_Wc}
     return fit_type_dict[key]
 
