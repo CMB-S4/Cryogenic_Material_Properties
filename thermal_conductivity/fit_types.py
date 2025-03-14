@@ -11,7 +11,8 @@ def get_func_type(key):
                      "NIST-copperfit":  NIST5a_2,
                      "lowTextrapolate": lowTextrapolate,
                      "NIST-experf":     NIST_experf,
-                     "powerlaw":       power_law}
+                     "powerlaw":       power_law
+                    "OFHC_RRR_Wc":     OFHC_RRR_Wc}
     return fit_type_dict[key]
 
 ######################################################################
@@ -446,3 +447,28 @@ Case 8 'Superconducting extension
         Conductivity = IParameters(32) * Exp(IParameters(31) * (1 - IParameters(30) / temp))
     End If  
 """
+
+
+
+
+def OFHC_RRR_Wc(T,RRR,param):
+    t = T
+    RRR = RRR
+    params = param
+    def w_0(t,RRR,params):
+        return (params[0]/((RRR-1)*t))
+    def w_c(t,param):
+        return (params[9]*np.log(t/params[10])*np.exp(-((np.log(t/params[11])/params[12])**2)) + params[13]*np.log(t/params[14])*np.exp(-((np.log(t/params[15])/params[16])**2)) + params[17]*np.log(t/params[18])*np.exp(-((np.log(t/params[19])/params[20])**2)))
+    def w_i_with_w_c(t,params,w_c):
+        q = params[1]*(t**params[2])
+        r = params[1]*params[3]*(t**(params[2]+params[4]))*np.exp(-((params[5]/t)**params[6]))
+        s = 1+r
+        p = q/s
+        return (p + w_c)
+    def w_i0(RRR,w_i,w_0):
+        return ((params[7]*((RRR-1)**params[8])*w_i*w_0)/(w_i+w_0))
+    w_0 = w_0(t,RRR,params)
+    w_c = w_c(t,params)
+    w_i = w_i_with_w_c(t,params,w_c)
+    w_i0 = w_i0(RRR,w_i,w_0)
+    return (1/(w_0+w_i+w_i0))
