@@ -1,0 +1,6 @@
+Aluminum1100_2025.csv
+['Aluminum1100' 'TexMEx' '2025']
+ 
+ALUMINUM110_2008.csv
+['Aluminum110' 'RunyanJones' '2008']
+ 

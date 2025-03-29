@@ -1,6 +1,11 @@
 ## Author: Henry Nachman
+
+# This file contains the functions that are used to fit the thermal conductivity data.
+# Some words are said about the functions here - a more detailed account can be found in the documentation.
+
 import numpy as np
 from scipy.special import erf
+
 
 def get_func_type(key):
     fit_type_dict = {"polylog":         polylog,
@@ -17,6 +22,9 @@ def get_func_type(key):
 
 ######################################################################
 def koT_function(T, koT, orders, weights):
+    """
+    Description : Fits a polynomial to the T vs k/T data.
+    """
     low_fit_xs = np.linspace(np.min(T), np.max(T), 100)
     lofit_full = np.polyfit(T, koT, orders, full=True, w=weights)
     low_fit, residuals_lo, rank_lo, sing_vals_lo, rcond_lo = lofit_full
@@ -24,6 +32,7 @@ def koT_function(T, koT, orders, weights):
     return low_fit_xs, low_fit
 
 def logk_function(logT, logk, orders, weights):
+
     fit_T = np.linspace(np.min(logT), np.max(logT), 100)
     fit_full = np.polyfit(logT, logk, orders, full=True, w=weights)
     fit, residuals_hi, rank_hi, sing_vals_hi, rcond_hi =  fit_full
@@ -31,10 +40,17 @@ def logk_function(logT, logk, orders, weights):
     return fit_T, fit
 
 def Nppoly(T, param_dictionary):
+    """
+    Description : k = T*polynomial(T)
+                : k = T*(a + bT + cT**2 ...)
+    """
     param = param_dictionary["low_param"]
     return T*np.polyval(param, T)
 def polylog(T, param_dictionary):
-    # print(len(param_dictionary["hi_param"]))
+    """
+    Description : k = 10**polynomial(log10(T))
+                : k = 10*(a + b*log10(T) + c*log10(T)**2 ...)
+    """
     if len(param_dictionary["hi_param"])!=0:
         param = param_dictionary["hi_param"]
     else:
@@ -77,6 +93,10 @@ def loglog_func(T, param_dictionary, erf_multiplicity=15): #**kwargs
 ######################################################################
 
 def power_law(T, param_dictionary):
+    """
+    Description : k = A*T^B
+                : k = A*T**B
+    """
     params = param_dictionary["low_param"]
     A, B = params
 
@@ -88,6 +108,10 @@ def power_law(T, param_dictionary):
 # From the NIST website
 
 def NIST1(T, params):
+    """
+    Description : k = T*polynomial(log10(T))
+                : k = T*(a + b*log10(T) + c*log10(T)**2 ...)
+    """
     k = 10**np.polyval(params, np.log10(T))
     return k
 
@@ -450,7 +474,7 @@ Case 8 'Superconducting extension
 
 
 
-
+# New OFHC fit from Ray Radebaugh - Designed to fit any OFHC copper given a RRR value
 def OFHC_RRR_Wc(T,RRR_list,param):
     t = T
     RRR = RRR_list[0]

@@ -110,16 +110,17 @@ def main():
     output_array = np.append(output_array, bad_fit_output_array)
     
     #
-    create_data_table(output_array, f"{file_path}{os.sep}tc_generic_{current_date}.txt")
-    create_tc_csv(output_array, f"{file_path}{os.sep}tc_generic_{current_date}.csv")
+    # create_data_table(output_array, f"{file_path}{os.sep}tc_generic_{current_date}.txt")
+    create_tc_csv(output_array, f"{file_path}{os.sep}tc_simplified_{current_date}.csv")
 
 
     # 2. Everything Bagel : File that contains every single material and alloy
     everything_bagel = make_pathtofit(mat_directories, fits_to_parse="ALL")
     output_array = compile_csv(everything_bagel)
-    create_data_table(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.txt")
+    # create_data_table(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.txt")
     create_tc_csv(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.csv")
 
+    """
     # 3. Other fits + NIST
     other_fits = make_pathtofit(mat_directories, fits_to_parse="OTHER")
     output_array = compile_csv(other_fits)
@@ -131,7 +132,7 @@ def main():
     output_array = compile_csv(raw_fits)
     create_data_table(output_array, f"{file_path}{os.sep}tc_rawdata_fits_{current_date}.txt")
     create_tc_csv(output_array, f"{file_path}{os.sep}tc_rawdata_fits_{current_date}.csv")
-
+    """
 
 if __name__ == "__main__":
     main()
