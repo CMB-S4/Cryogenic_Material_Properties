@@ -31,4 +31,4 @@ Some useful Python and Excel tools can also be found in this repository for the 
 
 ## Site Map
 
-![alt text](https://github.com/CMB-S4/Cryogenic_Material_Properties/blob/main/docs/site_map.pdf?raw=true)
+![image](https://github.com/user-attachments/assets/b55d2ea4-a4eb-4f79-a77b-3d3b9cfd5ab6)
