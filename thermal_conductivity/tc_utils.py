@@ -337,16 +337,26 @@ def make_fit_lh5(fit_args, save_path):
             f.create_dataset(f"{key}", data=fit_args[key])
     return comp_file
 
-def compile_csv(path_to_fits):
+
+def compile_csv(path_to_fits, mat_name = None):
     """
     Description : Compiles the fit data of every material and outputs to a single array.
     """
     output_array = []
     for mat in path_to_fits.keys():
         file = path_to_fits[mat]
-        if not os.path.exists(f"{file}{os.sep}{mat}.csv"):
+        if mat_name != None:
+            file_path = f"{file}{os.sep}{mat_name}.csv"
+        else:
+            file_path = f"{file}{os.sep}{mat}.csv"
+
+        if not os.path.exists(file_path):
             for i in ["lo", "hi"]:
-                material_file = np.loadtxt(f"{file}{os.sep}{mat}_{i}.csv", dtype=str, delimiter=',')
+                if mat_name != None:
+                    file_path = f"{file}{os.sep}{mat_name}_{i}.csv"
+                else:
+                    file_path = f"{file}{os.sep}{mat}_{i}.csv"
+                material_file = np.loadtxt(file_path, dtype=str, delimiter=',')
                 headers = material_file[0]
                 headers = np.append([f"Material Name"], headers)
                 comb_fit = material_file[-1]
@@ -354,7 +364,7 @@ def compile_csv(path_to_fits):
                 mat_dict = dict(zip(headers, comb_fit))
                 output_array.append(mat_dict)
         else:
-            material_file = np.loadtxt(f"{file}{os.sep}{mat}.csv", dtype=str, delimiter=',')
+            material_file = np.loadtxt(file_path, dtype=str, delimiter=',')
             headers = material_file[0]
             headers = np.append(["Material Name"], headers)
             comb_fit = material_file[-1]
@@ -857,3 +867,69 @@ def find_gaps(data_array, threshold=0.5):
     
     # Return indices of major gaps in the original array
     return major_gap_indices_original
+
+def make_pathtofit(mat_direct, subset=None, fits_to_parse="ALL"):
+    path_to_fit_dict = dict()
+    if subset!=None:
+        subset_array = []
+        for mat in mat_direct:
+            if mat in subset:
+                subset_array = np.append(subset_array, mat)
+        mat_direct = subset_array
+    for mat in mat_direct:
+        mat_str = f"{path_to_lib}{os.sep}{mat}"
+        fit_str = f"{mat_str}{os.sep}fits"
+        other_str = f"{mat_str}{os.sep}OTHERFITS"
+        nist_str = f"{mat_str}{os.sep}NIST"
+        raw_str = f"{mat_str}{os.sep}RAW"
+        
+        if fits_to_parse=="ALL":
+            if os.path.exists(fit_str): # Prioritize RAW fits
+                path_to_fit_dict[mat] = fit_str
+                path_to_rawData[mat] = fit_str
+            elif os.path.exists(other_str): # Then other fits
+                path_to_fit_dict[mat] = other_str
+            elif os.path.exists(nist_str): # Lastly NIST Fits
+                path_to_fit_dict[mat] = nist_str
+
+        if fits_to_parse=="OTHER":
+            if os.path.exists(other_str): # Then other fits
+                path_to_fit_dict[mat] = other_str
+            elif os.path.exists(nist_str): # Lastly NIST Fits
+                path_to_fit_dict[mat] = nist_str
+
+        if fits_to_parse=="RAW":
+            if os.path.exists(raw_str): # Prioritize RAW fits
+                path_to_fit_dict[mat] = fit_str
+    
+    return path_to_fit_dict
+
+
+def get_all_fits(mat_direct, subset=None):
+    """
+    Gets all the paths to the fit files in the given directory.
+
+    Arguments:
+    - mat_direct: str, the path to the material folder.
+
+    Returns:
+    - path_to_fit_dict: dict, a dictionary containing the paths to the fit files.
+
+    """
+    path_to_fit_dict = dict()
+
+    fit_str = f"{mat_direct}{os.sep}fits"
+    other_str = f"{mat_direct}{os.sep}OTHERFITS"
+    nist_str = f"{mat_direct}{os.sep}NIST"
+    raw_str = f"{mat_direct}{os.sep}RAW"
+    
+    mat = os.path.split(mat_direct)[-1] # Get the material name from the directory path
+
+    if os.path.exists(fit_str): # Prioritize RAW fits
+        path_to_fit_dict["raw_fit"] = fit_str
+    if os.path.exists(other_str): # Then other fits
+        path_to_fit_dict["other_fit"] = other_str
+    if os.path.exists(nist_str): # Lastly NIST Fits
+        path_to_fit_dict["NIST_fit"] = nist_str
+    
+    return path_to_fit_dict
