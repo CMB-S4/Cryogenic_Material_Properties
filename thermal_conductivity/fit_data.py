@@ -12,6 +12,7 @@ import argparse
 
 # note : most functions needed for running this notebook can be found in tc_utils.
 from tc_utils import *
+from tc_plots import get_percdiff, tk_plot
 
 def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     print(f"{mat} : Using a low fit")

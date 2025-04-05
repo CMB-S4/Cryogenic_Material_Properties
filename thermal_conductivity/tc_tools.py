@@ -1,7 +1,6 @@
 ## Functions for using the thermal conductivity repository
 ## Author: Henry Nachman
 ## Date Created: 21 June 2024
-## Last Updated: 28 June 2024
 
 import numpy as np
 import os, sys

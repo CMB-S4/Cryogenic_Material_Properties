@@ -7,54 +7,39 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from scipy.special import erf
-from scipy.integrate import quad
 import sys, os
-from fit_types import *
+
 from tc_tools  import *
+from tc_utils import get_all_fits, compile_csv, create_tc_csv
+from tc_plots import plot_all_fits, plot_OFHC_RRR
 
 def main():
-    # Get the absolute path of the current script
-    abspath = os.path.abspath(__file__)
-    print(os.path.split(abspath))
-    path_to_tcFiles = f"{os.path.split(abspath)[0]}{os.sep}.."
+    # Define important paths
+    home_dir = os.path.dirname(os.path.abspath(__file__))
+    lib_dir = home_dir+f'{os.sep}lib'
+    
+    
+    for folder_name in os.listdir(lib_dir): # loop through each material folder in lib/
+        
+        folder_path = os.path.join(lib_dir, folder_name)
+        if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it
+            # First lets make a compilation file of each fit available for a material
+            paths = get_all_fits(folder_path) # paths to each fit file in the directory
+            csv = compile_csv(paths, folder_name) # format the csv
+            create_tc_csv(csv, f"{folder_path}{os.sep}all_fits.csv") # save the compilation file
+
+            # Now import the data from that all_fits file
+            TCdata = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype=str, delimiter=',') #
+
+            # This makes the plot with all the fits available - with a special case for OFHC RRR
+            if folder_name == "OFHC_RRR":
+                plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
+            else:
+                plot_all_fits(TCdata, folder_name, folder_path)
 
 
+    # big_data, data_dict = parse_raw(mat, path_to_RAW[mat], plots=True, weight_const=0.00)
+    # tk_plot(mat,path_to_RAW, data_dict, fit_args, fit_range = [100e-3, np.sort(T)[-1]], points=True, fits="combined", fill=True)
 
-
-    all_files = os.listdir(path_to_tcFiles)
-    exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
-    print(exist_files)
-    tc_file_date = exist_files[0][-12:-4]
-
-    TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
-    mat_names = TCdata[:,0]
-
-
-    for mat in mat_names[1:]: # ["Graphite"]: # 
-        param_dictionary = get_parameters(TCdata, mat)
-        T = np.logspace(np.log10(param_dictionary["fit_range"][0]),np.log10(param_dictionary["fit_range"][1]),100)
-        print(f"Plotting {mat} using fit type: {param_dictionary['fit_type']}")
-
-        func = get_func_type(param_dictionary["fit_type"])
-        y_pred = func(T, param_dictionary)
-
-        plt.plot(T, y_pred, label=f'{mat} fit')
-        plt.semilogx()
-        plt.semilogy()
-        plt.ylabel("k [W/m/K]")
-        plt.xlabel("T [K]")
-        plt.legend()
-        plt.grid(True)
-        plt.title(f"{mat} Thermal Conductivity Fit\nFit Type: {param_dictionary['fit_type']}")
-        plots_dir = f"{os.path.split(abspath)[0]}{os.sep}lib{os.sep}{mat}{os.sep}plots{os.sep}"
-        try:
-            if not os.path.exists(plots_dir):
-                print(f"making path {plots_dir}")
-                os.mkdir(plots_dir)
-            plt.savefig(f"{plots_dir}{mat}_fitPlot.pdf", dpi=300)
-        except FileNotFoundError:
-            pass
-        plt.clf()
 if __name__ == "__main__":
     main()
