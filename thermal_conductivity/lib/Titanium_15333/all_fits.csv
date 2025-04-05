@@ -1,0 +1,2 @@
+Material Name,Fit Type,Low Temp,High Temp,Perc Err,a,b,c,d,e,f,g,h,i
+NIST_fit,polylog,1.400,300.000,3.0,-2.39879e+00,8.97074e+00,-2.91929e+01,5.48714e+01,-5.96714e+01,3.88932e+01,-1.49418e+01,3.11162e+00,-2.70453e-01
