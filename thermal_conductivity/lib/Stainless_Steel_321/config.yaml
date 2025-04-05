@@ -2,11 +2,13 @@
     {
         "name": "Stainless_Steel_321",
         "parent": "Stainless_Steel",
-        "source": "RAW"
+        "source": "RAW",
+        "fit_type": "None"
     },
     {
         "name": "Stainless_Steel_321",
         "parent": "Stainless_Steel",
-        "source": "other"
+        "source": "other",
+        "fit_type": "None"
     }
 ]

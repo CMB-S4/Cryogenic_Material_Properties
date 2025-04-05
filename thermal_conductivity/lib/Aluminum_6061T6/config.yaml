@@ -2,6 +2,7 @@
     {
         "name": "Aluminum_6061T6",
         "parent": "NA",
-        "source": "NIST"
+        "source": "NIST",
+        "fit_type": "None"
     }
 ]

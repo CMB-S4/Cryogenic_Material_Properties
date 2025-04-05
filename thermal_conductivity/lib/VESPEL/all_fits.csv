@@ -1,2 +1,2 @@
 Material Name,Fit Type,Low Temp,High Temp,Perc Err,erf param,a,b,c,d
-raw_fit,Nppoly,0.322,3.032,26.714,0.00e+00,2.53032e-04,3.15702e-03,-1.80723e-03,3.40509e-04
+raw_fit,Nppoly,0.070,3.032,26.015,0.00e+00,-9.79994e-05,3.80718e-03,-2.13106e-03,3.89512e-04

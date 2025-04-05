@@ -2,6 +2,7 @@
     {
         "name": "CFRP_Graphlite",
         "parent": "CFRP",
-        "source": "RAW"
+        "source": "RAW",
+        "fit_type": "None"
     }
 ]

@@ -2,6 +2,7 @@
     {
         "name": "Cu_OFHC_RRR100",
         "parent": "NA",
-        "source": "NIST"
+        "source": "NIST",
+        "fit_type": "None"
     }
 ]

@@ -2,11 +2,13 @@
     {
         "name": "Teflon",
         "parent": "NA",
-        "source": "RAW"
+        "source": "RAW",
+        "fit_type": "None"
     },
     {
         "name": "Teflon",
         "parent": "NA",
-        "source": "NIST"
+        "source": "NIST",
+        "fit_type": "None"
     }
 ]

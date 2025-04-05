@@ -2,6 +2,7 @@
     {
         "name": "CFRP",
         "parent": "NA",
-        "source": "RAW"
+        "source": "RAW",
+        "fit_type": "None"
     }
 ]

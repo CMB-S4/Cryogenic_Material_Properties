@@ -2,6 +2,7 @@
     {
         "name": "Aluminum_3003F",
         "parent": "NA",
-        "source": "NIST"
+        "source": "NIST",
+        "fit_type": "None"
     }
 ]

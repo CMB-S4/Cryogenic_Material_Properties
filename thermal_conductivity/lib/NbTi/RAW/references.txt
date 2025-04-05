@@ -14,3 +14,11 @@
 ['﻿Thermal conductivity of some common cryostat materials between 0.05 and 2 K'
  'J.R. Olson' 'Cryogenics 1993 Vol 33  No 7']
  
+1993 J. R. Olson Nb(37)Ti(63) rod.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
+1993 J. R. Olson Nb(37)Ti(63) wire.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 

@@ -53,6 +53,7 @@ def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
 def fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, path_to_plots):
     print(f"{mat} : Using a combined fit")# - data exists on both sides of 20K")
     erf_locList = np.linspace(np.sort(T)[0], np.sort(T)[-1], 15)
+    perc_diff_avgs = np.array([])
     for erf_loc in erf_locList:
         dsplit = split_data(big_data, erf_loc)
         lowT, lowT_k, lowT_koT, low_ws, hiT, hiT_k, hiT_koT, hi_ws = dsplit
@@ -197,22 +198,6 @@ def main():
     path_to_fits = dict()
     path_to_plots = dict()
 
-    # for mat in mat_directories:
-    #     path_to_mat = f"{path_to_lib}{os.sep}{mat}"
-    #     raw_str = f"{path_to_mat}{os.sep}RAW"
-    #     fits_str = f"{path_to_mat}{os.sep}fits"
-    #     plots_str = f"{path_to_mat}{os.sep}plots"
-    #     if os.path.exists(raw_str):
-    #         path_to_RAW[mat] = raw_str
-    #         if not os.path.exists(fits_str):
-    #             os.mkdir(fits_str)
-    #         path_to_fits[mat] = fits_str
-    #         if not os.path.exists(plots_str):
-    #             os.mkdir(plots_str)
-    #         path_to_fits[mat] = fits_str
-    #         path_to_plots[mat] = plots_str
-
-
     # Now we can loop through each material and run our fitting algorithm
     # You can also change the array that mat cycles through if you wish to only run the code for certain materials
     for mat in mat_directories: #path_to_RAW.keys(): #  ["Kapton"]: #
@@ -231,14 +216,16 @@ def main():
                 os.mkdir(plots_str)
             path_to_fits[mat] = fits_str
             path_to_plots[mat] = plots_str
-        
+        else:
+            print(f"Skipping {mat} as it does not have a RAW directory.")
+            continue
 
         with open(config_str, 'r') as file: # opens the config file
             mat_config = json.load(file)
         fit_type = mat_config[0]["fit_type"] # pull the fit type from the config file
 
 
-        perc_diff_avgs = np.array([])
+        
         ## First, let's collect the raw data from their csv files
         big_data, data_dict = parse_raw(mat, path_to_RAW[mat], plots=True, weight_const=0.00)
         T, k, koT, weights = [big_data[:,0], big_data[:,1], big_data[:,2], big_data[:,3]]
@@ -257,10 +244,10 @@ def main():
                 print(f"{mat} : No data to fit")
                 continue
             elif lenLow == 0:
-                print(f"{mat} : Using a hi fit")
+                # Using a hi fit
                 fit_type = fit_types[1]
             elif lenHi == 0:
-                print(f"{mat} : Using a low fit")
+                # Using a low fit - no high data to fit
                 fit_type = fit_types[0]
             else:
                 fit_type = "combined"
@@ -272,7 +259,6 @@ def main():
         elif fit_type == "combined": # If the fit type is a combined fit, we will fit the low and high data
             fit_args = fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, path_to_plots)
 
-        print(fit_args)
         if gaps:
             print(f"Gap found in data - splitting fit into low and high")
             low_array = format_splitfit(fit_args, "low")

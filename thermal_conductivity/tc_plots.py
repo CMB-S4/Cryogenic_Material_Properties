@@ -150,7 +150,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     plt.title(f"{material_name}", fontsize=32)
     plt.semilogx()
     plt.semilogy()
-    plt.savefig(f"{os.path.split(raw_directory)[0]}{os.sep}plots{os.sep}{material_name}_fullPlot.pdf", dpi=300, format="pdf", bbox_inches='tight')
+    plt.savefig(f"{os.path.split(raw_directory)[0]}{os.sep}plots{os.sep}{material_name}_fitToData_Plot.pdf", dpi=300, format="pdf", bbox_inches='tight')
     plt.grid(True, which="both", ls="-", color='0.65', alpha=0.35)
     # plt.show()
     plt.close()
@@ -316,12 +316,18 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     Returns : 
     - null
     """    
-    plot_full(material_name, path_dict, data_dict, fit_args, fit_range, points, fits, fill)
-
-    plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range, fill)
-
-    plot_residuals(material_name, path_dict, data_dict, fit_args, fit_range)
-
+    try:
+        plot_full(material_name, path_dict, data_dict, fit_args, fit_range, points, fits, fill)
+    except:
+        print(f"Failed to plot split fits for {material_name}. This may be due to an insufficient number of data points or a poor fit.")
+    try:
+        plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range, fill)
+    except:
+        print(f"Failed to plot split fits for {material_name}. This may be due to an insufficient number of data points or a poor fit.")
+    try:
+        plot_residuals(material_name, path_dict, data_dict, fit_args, fit_range)
+    except:
+        print(f"Failed to plot residuals for {material_name}. This may be due to an insufficient number of data points or a poor fit.")
     return
 
 def plot_all_fits(TCdata, folder_name, folder_path):

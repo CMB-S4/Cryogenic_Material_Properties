@@ -7,7 +7,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-import string, yaml, csv#, h5py
+import string, yaml, csv
+import h5py
 import sys,os
 from datetime import datetime
 

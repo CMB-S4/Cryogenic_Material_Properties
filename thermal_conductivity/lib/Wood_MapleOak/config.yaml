@@ -2,6 +2,7 @@
     {
         "name": "Wood_MapleOak",
         "parent": "NA",
-        "source": "other"
+        "source": "other",
+        "fit_type": "None"
     }
 ]
