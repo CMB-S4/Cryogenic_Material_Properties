@@ -37,6 +37,7 @@ def main():
             else:
                 plot_all_fits(TCdata, folder_name, folder_path)
 
+        # now we need to check and update the parent files
 
     # big_data, data_dict = parse_raw(mat, path_to_RAW[mat], plots=True, weight_const=0.00)
     # tk_plot(mat,path_to_RAW, data_dict, fit_args, fit_range = [100e-3, np.sort(T)[-1]], points=True, fits="combined", fill=True)
