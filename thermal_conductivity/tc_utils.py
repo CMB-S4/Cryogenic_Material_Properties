@@ -347,14 +347,19 @@ def compile_csv(path_to_fits, mat_name = None):
     for mat in path_to_fits.keys():
         file = path_to_fits[mat]
         if mat_name != None:
-            file_path = f"{file}{os.sep}{mat_name}.csv"
+            if mat_name == "parent":
+                file_path = f"{file}{os.sep}{os.path.split(os.path.split(file)[0])[1]}.csv"
+            else:
+                file_path = f"{file}{os.sep}{mat_name}.csv"
         else:
             file_path = f"{file}{os.sep}{mat}.csv"
-
         if not os.path.exists(file_path):
             for i in ["lo", "hi"]:
                 if mat_name != None:
-                    file_path = f"{file}{os.sep}{mat_name}_{i}.csv"
+                    if mat_name == "parent":
+                        file_path = f"{file}{os.sep}{os.path.split(os.path.split(file)[0])[1]}_{i}.csv"
+                    else:
+                        file_path = f"{file}{os.sep}{mat_name}_{i}.csv"
                 else:
                     file_path = f"{file}{os.sep}{mat}_{i}.csv"
                 material_file = np.loadtxt(file_path, dtype=str, delimiter=',')

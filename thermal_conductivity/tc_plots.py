@@ -331,6 +331,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     return
 
 def plot_all_fits(TCdata, folder_name, folder_path):
+    limits = [1, 1, 1, 1] # [min_x, max_x, min_y, max_y]
     for i in range(1, len(TCdata)): # Loop over the different fits available
         mat_parameters = get_parameters(TCdata, index = i) # get the parameters for the fit in row i
         try:
@@ -338,6 +339,8 @@ def plot_all_fits(TCdata, folder_name, folder_path):
             fit_range = mat_parameters["fit_range"]
             # Let's make our plotting range the listed fit range
             T_range = np.linspace(fit_range[0], fit_range[1], 1000)
+            # New T_range is over the entire range of the data regardless of individual fit range
+            # T_range = np.logspace(np.log10(float(min(TCdata[1:, 2]))),np.log10(float(max(TCdata[1:, 3]))),1000) # 
 
             # Now let's use the fit to get the thermal conductivity values over the range
             # Luckily, every function type is defined in such a way to readily accept the parameter dictionary as it was defined above
@@ -351,10 +354,20 @@ def plot_all_fits(TCdata, folder_name, folder_path):
             plt.xlabel("T [K]")
             plt.ylabel("Thermal Conductivity : k [W/m/K]")
             plt.grid()
+            # Set xlim and ylim ignoring NaNs and inf
+            finite_x = T_range[np.isfinite(T_range)]
+            finite_y = y_vals[np.isfinite(y_vals)]
+            if len(finite_x) > 0 and len(finite_y) > 0:
+                limits[0] = float(min(limits[0], np.min(finite_x)))
+                limits[1] = float(max(limits[1], np.max(finite_x)))
+                limits[2] = float(max(min(limits[2], np.min(finite_y)), 1e-4))
+                limits[3] = float(min(max(limits[3], np.max(finite_y)), 1e4))
             plt.legend(loc='best') # Add legend to the plot for the material name or folder name if not specified in the dictionary
         except:
             print(f"Error encountered when evaluating {func_type.__name__}, function type not yet supported. Skipping this fit.")
             pass
+    plt.xlim(limits[0], limits[1])
+    plt.ylim(limits[2], limits[3])
     plots_dir = f"{folder_path}{os.sep}plots{os.sep}"
     if not os.path.exists(plots_dir):
         print(f"making path {plots_dir}")
