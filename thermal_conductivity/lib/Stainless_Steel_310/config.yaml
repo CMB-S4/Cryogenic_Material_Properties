@@ -1,13 +1,13 @@
 [
     {
         "name": "Stainless_Steel_310",
-        "parent": "Stainless_Steel",
+        "parent": "NA",
         "source": "RAW",
         "fit_type": "None"
     },
     {
         "name": "Stainless_Steel_310",
-        "parent": "Stainless_Steel",
+        "parent": "NA",
         "source": "NIST",
         "fit_type": "None"
     }

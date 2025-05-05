@@ -12,16 +12,18 @@ import sys, os
 from tc_tools  import *
 from tc_utils import get_all_fits, compile_csv, create_tc_csv
 from tc_plots import plot_all_fits, plot_OFHC_RRR
+import yaml
 
 def main():
     # Define important paths
     home_dir = os.path.dirname(os.path.abspath(__file__))
     lib_dir = home_dir+f'{os.sep}lib'
     
-    
+    parent_dictionary = {}
     for folder_name in os.listdir(lib_dir): # loop through each material folder in lib/
         
         folder_path = os.path.join(lib_dir, folder_name)
+        
         if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it
             # First lets make a compilation file of each fit available for a material
             paths = get_all_fits(folder_path) # paths to each fit file in the directory
@@ -36,11 +38,40 @@ def main():
                 plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
             else:
                 plot_all_fits(TCdata, folder_name, folder_path)
-
+        
         # now we need to check and update the parent files
+        # Open the material config file
+        config_path = os.path.join(folder_path, "config.yaml")
+        if os.path.exists(config_path): # opens the config.yaml file if it exists
+            with open(config_path, 'r') as config_file:
+                config_data = yaml.safe_load(config_file)
+                parent = config_data[0]['parent'] # get the parent name from the config.yaml file
+                if parent != "NA": # If the parent is not NA, we will check if it exists in the lib directory
+                    parent_path = os.path.join(lib_dir, parent)
+                    if os.path.exists(parent_path): # check if the parent directory exists
+                        if parent not in parent_dictionary.keys():
+                            parent_dictionary[parent] = []
+                        parent_dictionary[parent].append(folder_path)
+                    else:
+                        print(f"Parent file {parent} does not exist in {folder_path}") 
+        else:
+            print(f"No config.yaml found in {folder_path}")
 
-    # big_data, data_dict = parse_raw(mat, path_to_RAW[mat], plots=True, weight_const=0.00)
-    # tk_plot(mat,path_to_RAW, data_dict, fit_args, fit_range = [100e-3, np.sort(T)[-1]], points=True, fits="combined", fill=True)
+    # Now that every individual material has been processed, we will update the parent files with all of the fits of their children
+    for parent in parent_dictionary.keys():
+        parent_path = os.path.join(lib_dir, parent)
+        print(f"PARENT: {parent}\n")
+        full_paths = {}
+        for child in parent_dictionary[parent]:
+            paths = get_all_fits(child) # paths to each fit file in the directory
+            for path in paths.keys():
+                full_paths[os.path.basename(child) + "_" + os.path.basename(path)] = paths[path]
+        csv = compile_csv(full_paths, "parent") # format the csv
+        create_tc_csv(csv, f"{parent_path}{os.sep}all_fits.csv") # save the compilation file
+
+        # Now import the data from that all_fits file
+        TCdata = np.loadtxt(f"{parent_path}{os.sep}all_fits.csv", dtype=str, delimiter=',') #
+        plot_all_fits(TCdata, parent, parent_path)
 
 if __name__ == "__main__":
     main()
