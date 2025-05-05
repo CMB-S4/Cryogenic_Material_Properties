@@ -2,6 +2,7 @@
     {
         "name": "Graphite_brad",
         "parent": "NA",
-        "source": "other"
+        "source": "other",
+        "fit_type": "None"
     }
 ]

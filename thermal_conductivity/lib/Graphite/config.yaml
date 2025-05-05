@@ -2,6 +2,7 @@
     {
         "name": "Graphite",
         "parent": "NA",
-        "source": "other"
+        "source": "other",
+        "fit_type": "None"
     }
 ]

@@ -8,6 +8,10 @@
  'R. Berman'
  'The London Edinburgh and Dublin Philosophical Magazine and Journal of Science 1951']
  
+1993 J. R. Olson constantan wire.csv
+['ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
 2003 H. Muta.csv
 ['ï»¿Thermoelectric properties of constantan/spherical SiO2Â\xa0and Al2O3Â\xa0particles composite'
  'H.Â\xa0Muta--Â\xa0K.Â\xa0Kurosaki--Â\xa0M.Â\xa0Uno--Â\xa0S.Â\xa0Yamanaka'

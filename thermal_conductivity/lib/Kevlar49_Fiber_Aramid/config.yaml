@@ -2,6 +2,7 @@
     {
         "name": "Kevlar49_Fiber_Aramid",
         "parent": "NA",
-        "source": "NIST"
+        "source": "NIST",
+        "fit_type": "None"
     }
 ]

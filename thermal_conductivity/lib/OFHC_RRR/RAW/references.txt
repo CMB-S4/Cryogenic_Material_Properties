@@ -1,0 +1,46 @@
+1955 G.K. White RRR = 20.3.csv
+['\ufeffThermal and electrical conductivities of solids at low temperatures'
+ 'G.K. White-- S.B. Woods' 'Can. J. Phys. 33 (1955) pp. 58-73']
+ 
+1959 R.L. Powell (drawn) RRR = 100.4.csv
+['\ufeffLow temperature transport properties of copper and its dilute alloys: Pure copper annealed and cold-drawn'
+ 'R.L. Powell-- H.M. Roder-- W.J. Hall'
+ 'Phys. Rev. 115 (1959) pp. 314-323']
+ 
+1960 G.K. White RRR = 1903.csv
+['\ufeffLorenz number for high-purity copper' 'G.K. White-- R.J. Tainsh'
+ 'Phys. Rev. 119 (1960) pp. 1869-1871']
+ 
+1965 P. Lindenfeld RRR = 192.csv
+['\ufeffMetallic heat conductivity below 1 K'
+ 'P. Lindenfeld-- E.A. Lynton-- R. Soulen'
+ 'Physics Letters 19 (1965) p. 265']
+ 
+1967 J.P. Moore RRR = 900.csv
+['\ufeffMetallic heat conductivity below 1 K'
+ 'P. Lindenfeld-- E.A. Lynton-- R. Soulen'
+ 'Physics Letters 19 (1965) p. 265']
+ 
+1967 M.J. Laubitz RRR = 900.csv
+['\ufeffMetallic heat conductivity below 1 K'
+ 'P. Lindenfeld-- E.A. Lynton-- R. Soulen'
+ 'Physics Letters 19 (1965) p. 265']
+ 
+1972 R. Fletcher RRR = 43.8.csv
+['\ufeffThe Nernst-Ettinghausen coefficient and the Kondo effect in copper and gold'
+ 'R. Fletcher' 'Philos. Mag. 25 (1972) pp. 87-95']
+ 
+1974 C.Y. Ho RRR = 2633.csv
+['\ufeffThermal Conductivity of the Elements: A Comprehensive Review'
+ 'C.Y. Ho-- R.W. Powell--  P.E. Liley'
+ 'J. Phys. Chem. Ref. Data 3 Supplement No. 1 (1974) pp. 242-257 ']
+ 
+1974 J.G. Hust RRR = 213.csv
+['\ufeffThermal Conductivity' 'J.G. Hust-- P.J.Giarratano'
+ 'Semi-Annual Report on Materials Research in Support of Superconducting Machinery NBSIR 74-393 (1974) pp. 1-35.']
+ 
+1994 G.Ke RRR = 5727.csv
+['\ufeffMeasurement of thermal conductivity of ultrapure copper at low temperatures'
+ 'G. Ke-- H. Makuuchi-- T. Hashimoto-- N. Yamamoto'
+ 'Jpn. J. Appl. Phys. 33 (1994) pp. 1468-1469']
+ 

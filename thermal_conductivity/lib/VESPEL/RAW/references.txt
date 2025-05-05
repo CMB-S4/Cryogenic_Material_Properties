@@ -1,3 +1,7 @@
+1993 J. R. Olson SP22 rod.csv
+['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+ 'J. R. Olson' 'Cornell University 1993']
+ 
 VESPEL SP-1 ROD_2008.csv
 ['VESPEL SP-1 ROD:' 'RunyanJones' '2008']
  

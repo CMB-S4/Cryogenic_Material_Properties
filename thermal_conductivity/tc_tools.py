@@ -1,7 +1,6 @@
 ## Functions for using the thermal conductivity repository
 ## Author: Henry Nachman
 ## Date Created: 21 June 2024
-## Last Updated: 28 June 2024
 
 import numpy as np
 import os, sys
@@ -21,7 +20,7 @@ tc_file_date = exist_files[0][-12:-4]
 TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
 
 
-def get_parameters(TCdata, mat):
+def get_parameters(TCdata, mat="", index=None):
     """
     Function: extracts the fit parameters for the specified material
 
@@ -32,8 +31,13 @@ def get_parameters(TCdata, mat):
     Returns: Dictionary of specified material fit parameters.
     """
     headers = TCdata[0] # pulls the headers from the file
-    mat_names = TCdata[:,0] # makes an array of material names
-    mat_row = TCdata[int(np.argwhere(mat_names == mat)[0][0])] # searches material name array for mat specified above and return relevant row
+    
+    if index is not None:
+        mat_row = TCdata[index]
+    else:
+        mat_names = TCdata[:,0] # makes an array of material names
+        mat_row = TCdata[int(np.argwhere(mat_names == mat)[0][0])] # searches material name array for mat specified above and return relevant row
+      
     param_headers = headers[5:]
     fit_type = mat_row[1]
     num_hi = sum(1 for c in param_headers if c.isupper()) # searches for the number of low parameters (by lower case letter)
@@ -46,6 +50,7 @@ def get_parameters(TCdata, mat):
     # loop through headers and if lower case add to low_param vice versa
     low_param = []
     hi_param = []
+    erf_param = None
     for key in headers[5:]:
         if key.islower() and key != "erf param":
             low_param.append(float(fit_params[int(np.argwhere(headers == key)[0][0])]))
@@ -116,7 +121,7 @@ def get_conductivity_integral(T_low, T_high, material, extra_parameters = [], ve
 
 
 def make_a_table(TCdata, materials):
-    T_one = np.round(np.arange(0.01, .1, 0.005), 3)
+    T_one = np.roud(np.arange(0.01, .1, 0.005), 3)
     T_full = []
     for i in range(4):
         T_full.extend(T_one*10**(i+1))

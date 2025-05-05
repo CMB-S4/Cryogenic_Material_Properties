@@ -23,42 +23,6 @@ def main():
     path_to_otherfits = dict()
     path_to_rawData = dict()
 
-    def make_pathtofit(mat_direct, subset=None, fits_to_parse="ALL"):
-        path_to_fit_dict = dict()
-        if subset!=None:
-            subset_array = []
-            for mat in mat_direct:
-                if mat in subset:
-                    subset_array = np.append(subset_array, mat)
-            mat_direct = subset_array
-        for mat in mat_direct:
-            mat_str = f"{path_to_lib}{os.sep}{mat}"
-            fit_str = f"{mat_str}{os.sep}fits"
-            other_str = f"{mat_str}{os.sep}OTHERFITS"
-            nist_str = f"{mat_str}{os.sep}NIST"
-            raw_str = f"{mat_str}{os.sep}RAW"
-            
-            if fits_to_parse=="ALL":
-                if os.path.exists(fit_str): # Prioritize RAW fits
-                    path_to_fit_dict[mat] = fit_str
-                    path_to_rawData[mat] = fit_str
-                elif os.path.exists(other_str): # Then other fits
-                    path_to_fit_dict[mat] = other_str
-                elif os.path.exists(nist_str): # Lastly NIST Fits
-                    path_to_fit_dict[mat] = nist_str
-
-            if fits_to_parse=="OTHER":
-                if os.path.exists(other_str): # Then other fits
-                    path_to_fit_dict[mat] = other_str
-                elif os.path.exists(nist_str): # Lastly NIST Fits
-                    path_to_fit_dict[mat] = nist_str
-
-            if fits_to_parse=="RAW":
-                if os.path.exists(raw_str): # Prioritize RAW fits
-                    path_to_fit_dict[mat] = fit_str
-        
-        return path_to_fit_dict
-
     # # This code block deletes the old files
     try:
         all_files = os.listdir(f"{file_path}")

@@ -2,6 +2,7 @@
     {
         "name": "Copper-Nickel",
         "parent": "NA",
-        "source": "RAW"
+        "source": "RAW",
+        "fit_type": "None"
     }
 ]

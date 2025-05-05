@@ -1,0 +1,2 @@
+Material Name,Fit Type,Low Temp,High Temp,Perc Err,a,b,c,d,e,f,g,h,i
+NIST_fit,NIST-copperfit,4.000,300.000,1.0,1.35700e+00,3.98100e-01,2.66900e+00,-1.34600e-01,-6.68300e-01,1.34200e-02,5.77300e-02,2.14700e-04,0.00e+00

@@ -11,6 +11,7 @@ def get_func_type(key):
     fit_type_dict = {"polylog":         polylog,
                      "3 order polylog": polylog,
                      "Nppoly":          Nppoly,
+                     "loglog":          loglog_func,
                      "comppoly":        loglog_func,
                      "TchebyLnT":       NIST5a_3,
                      "NIST-copperfit":  NIST5a_2,

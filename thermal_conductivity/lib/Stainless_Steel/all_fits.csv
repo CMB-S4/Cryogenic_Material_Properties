@@ -1,0 +1,2 @@
+Material Name,Fit Type,Low Temp,High Temp,Perc Err,erf param,a,b,c,d,A,B,C,D
+raw_fit,comppoly,0.045,1672.000,5.946,1.19471e+02,5.79186e-02,3.93602e-03,-6.84706e-05,3.22930e-07,-1.56968e+00,2.82413e+00,-1.09799e+00,1.61695e-01
