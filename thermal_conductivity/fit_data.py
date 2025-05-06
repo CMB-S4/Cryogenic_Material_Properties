@@ -15,6 +15,16 @@ from tc_utils import *
 from tc_plots import get_percdiff, tk_plot
 
 def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
+    """
+    Description: This function fits the low temperature data using a polynomial fit. It first checks if the low temperature data is available, and if not, it uses a high temperature fit. It also checks for gaps in the data and splits the data accordingly.
+    
+    Arguments :
+    - mat (str) - The name of the material being fitted
+    - T (np.array) - The temperature data
+    - k (np.array) - The thermal conductivity data
+    - koT (np.array) - thermal_conductivity / temperature data
+    - fit_orders (list) - The orders of the polynomial fits for the low and high temperature data
+    """
     print(f"{mat} : Using a low fit")
     low_fit_xs, low_fit = koT_function(T, koT, fit_orders[0], weights)
     hi_fit, hi_fit_xs, erf_loc = [[0], [0], 0]
@@ -39,6 +49,15 @@ def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     return fit_args
 
 def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
+    """
+    Description: This function fits the high temperature data using a polynomial fit. It first checks if the high temperature data is available, and if not, it uses a low temperature fit. It also checks for gaps in the data and splits the data accordingly.
+    Arguments :
+    - mat (str) - The name of the material being fitted
+    - T (np.array) - The temperature data
+    - k (np.array) - The thermal conductivity data
+    - koT (np.array) - thermal_conductivity / temperature data
+    - fit_orders (list) - The orders of the polynomial fits for the low and high temperature data
+    """
     print(f"{mat} : Using a hi fit")
     hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
     low_fit, low_fit_xs, erf_loc = [[0], [0], -1]
@@ -51,6 +70,17 @@ def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     return fit_args
 
 def fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, path_to_plots):
+    """
+    Description: This function fits the combined data using a polynomial fit. It first checks if the combined data is available, and if not, it uses a low temperature fit. It also checks for gaps in the data and splits the data accordingly.
+    Arguments :
+    - mat (str) - The name of the material being fitted
+    - T (np.array) - The temperature data
+    - k (np.array) - The thermal conductivity data
+    - koT (np.array) - thermal_conductivity / temperature data
+    - fit_orders (list) - The orders of the polynomial fits for the low and high temperature data
+    - big_data (np.array) - The combined data
+    - path_to_plots (str) - The path to the plots directory (for saving plots)
+    """
     print(f"{mat} : Using a combined fit")# - data exists on both sides of 20K")
     erf_locList = np.linspace(np.sort(T)[0], np.sort(T)[-1], 15)
     perc_diff_avgs = np.array([])
