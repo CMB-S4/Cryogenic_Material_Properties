@@ -13,6 +13,42 @@ sys.path.insert(0, f"{file_path}")
 from thermal_conductivity.fit_types import *
 from thermal_conductivity.tc_utils import *
 
+def make_pathtofit(mat_direct, path_to_lib, path_to_rawData, subset=None, fits_to_parse="ALL"):
+    path_to_fit_dict = dict()
+    if subset!=None:
+        subset_array = []
+        for mat in mat_direct:
+            if mat in subset:
+                subset_array = np.append(subset_array, mat)
+        mat_direct = subset_array
+    for mat in mat_direct:
+        mat_str = f"{path_to_lib}{os.sep}{mat}"
+        fit_str = f"{mat_str}{os.sep}fits"
+        other_str = f"{mat_str}{os.sep}OTHERFITS"
+        nist_str = f"{mat_str}{os.sep}NIST"
+        raw_str = f"{mat_str}{os.sep}RAW"
+        
+        if fits_to_parse=="ALL":
+            if os.path.exists(fit_str): # Prioritize RAW fits
+                path_to_fit_dict[mat] = fit_str
+                path_to_rawData[mat] = fit_str
+            elif os.path.exists(other_str): # Then other fits
+                path_to_fit_dict[mat] = other_str
+            elif os.path.exists(nist_str): # Lastly NIST Fits
+                path_to_fit_dict[mat] = nist_str
+
+        if fits_to_parse=="OTHER":
+            if os.path.exists(other_str): # Then other fits
+                path_to_fit_dict[mat] = other_str
+            elif os.path.exists(nist_str): # Lastly NIST Fits
+                path_to_fit_dict[mat] = nist_str
+
+        if fits_to_parse=="RAW":
+            if os.path.exists(raw_str): # Prioritize RAW fits
+                path_to_fit_dict[mat] = fit_str
+    
+    return path_to_fit_dict
+
 def main():
 
     path_to_lib = f"{file_path}{os.sep}thermal_conductivity{os.sep}lib"
@@ -55,10 +91,10 @@ def main():
                         "Phosbronze","Platinum","Polystyrene_2.0_lbft3","Polyurethane_2.0_lbft3_CO2",
                         "PVC_1.25_lbft3_air","Stainless_Steel","Teflon","Ti6Al4V","Titanium_15333",
                         "Torlon","Tungsten","VESPEL"]
-    simple_bagel = make_pathtofit(mat_directories, subset=simple_mat_direct)
+    simple_bagel = make_pathtofit(mat_directories, path_to_lib, path_to_rawData, subset=simple_mat_direct)
     output_array = compile_csv(simple_bagel)
     bad_fit_mats = ["Brass", "Constantan","Cu_OFHC","Stainless_Steel_310","Stainless_Steel_316"]
-    bad_simple_bagel = make_pathtofit(mat_directories, subset=bad_fit_mats)
+    bad_simple_bagel = make_pathtofit(mat_directories, path_to_lib, path_to_rawData, subset=bad_fit_mats)
     bad_fit_output_array = compile_csv(bad_simple_bagel)
 
     # Add a flag for bad materials
@@ -79,7 +115,7 @@ def main():
 
 
     # 2. Everything Bagel : File that contains every single material and alloy
-    everything_bagel = make_pathtofit(mat_directories, fits_to_parse="ALL")
+    everything_bagel = make_pathtofit(mat_directories, path_to_lib, path_to_rawData, fits_to_parse="ALL")
     output_array = compile_csv(everything_bagel)
     # create_data_table(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.txt")
     create_tc_csv(output_array, f"{file_path}{os.sep}tc_fullrepo_{current_date}.csv")

@@ -29,7 +29,9 @@ def get_func_type(key):
                      "lowTextrapolate": lowTextrapolate,
                      "NIST-experf":     NIST_experf,
                      "powerlaw":       power_law,
-                    "OFHC_RRR_Wc":     OFHC_RRR_Wc}
+                     "OFHC_RRR_Wc":     OFHC_RRR_Wc,
+                     "RRadebaugh_koT": RRadebaugh_koT,
+                     "RRadebaugh_logkexp": RRadebaugh_logkexp}
     return fit_type_dict[key]
 
 ######################################################################
@@ -361,6 +363,32 @@ def RRadebaugh3(T, low_param, hi_param, erf_param):
     k = low_fit*erf_low+hi_fit*erf_hi
     return k
 
+def RRadebaugh_koT(T, param_dictionary):
+    """
+    Description : Fits the data in a linear space with a polynomial + 1 order
+    Description : k = T*polynomial(T)
+                : k = T*(a + bT + cT**2 ...)
+    Arguments :
+    - T - temperature(s) at which to estimate the thermal conductivity.
+    - param_dictionary - dictionary containing the parameters for the polynomial fit.
+    """
+    param = param_dictionary["low_param"]
+    return T*(np.polyval(param, T) + 1e-9*T**4)
+
+def RRadebaugh_logkexp(T, param_dictionary):
+    """
+    Description : Fits the data in a log10 space 
+    Description : Fit Type k = 10**polynomial(log10(T)) (or) k = 10*(a + b*log10(T) + c*log10(T)**2 ...)
+    
+    Arguments :
+    - T - temperature(s) at which to estimate the thermal conductivity.
+    - param_dictionary - dictionary containing the parameters for the polynomial fit.
+    """
+    if len(param_dictionary["hi_param"])!=0:
+        param = param_dictionary["hi_param"]
+    else:
+        param = param_dictionary["low_param"]
+    return 10**(np.polyval(param[1:], np.log10(T)) + param[0]*np.exp(-np.log10(T)))
 ###########################################################################
 # From the NIST5a Excel Spreadsheet
 

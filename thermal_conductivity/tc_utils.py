@@ -11,7 +11,7 @@ import string, yaml, csv
 import h5py
 import sys,os
 from datetime import datetime
-
+import regex as re
 abspath = os.path.abspath(__file__)
 sys.path.insert(0, os.path.dirname(abspath))
 
@@ -42,6 +42,7 @@ def get_datafiles(raw_path):
     print(f"Found {len(raw_files)} measurements.")
     return raw_files
 
+
 def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
     """
     Arguments : 
@@ -58,18 +59,34 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
     
     big_data = np.empty((0,4), float)
     data_dict = dict()
+    # with open(f"{raw_directory}{os.sep}references.bib", 'w') as bfile:
     with open(f"{raw_directory}{os.sep}references.txt", 'w') as file:
-        for f in raw_files:
-            f_path = raw_directory + os.sep + f
+        i = 0
+        for rawfile in raw_files:
+            f_path = raw_directory + os.sep + rawfile
             try:
                 file1 = np.loadtxt(f_path, dtype=str, delimiter=',')
             except ValueError:
-                print(f_path)
-            file.write(f)
+                print(f"Error loading {rawfile} as csv from {f_path}")
+            file.write(f"Reference : {i}\n")
+            file.write(f"Filename  : {rawfile}\n")
+            file.write(f"Title     : {file1[0][0]}\n")
+            file.write(f"Author(s) : {file1[0][1].replace('--',',')}\n")
+            year_match = re.search(r'\b(19[0-9]{2}|20[0-9]{2})\b', rawfile)
+            year = year_match.group(0) if year_match else "????"
+            file.write(f"Year      : {year}\n")
+            file.write(f"Publisher : {file1[0][2]}\n")
+            file.write(f"Search Key: {file1[0]}\n")
+            file.write(f"\n-----------------------------------------------------\n")
             file.write("\n")
-            file.write(str(file1[0]))
-            file.write("\n \n")
-            ref_name = f[:-4]
+            # bfile.write(f"@article{{{year}_{i},\n")
+            # bfile.write(f"  title = {{{file1[0][0]}}},\n")
+            # bfile.write(f"  author = {{{file1[0][1].replace('--',',')}}},\n")
+            # bfile.write(f"  year = {{{year}}},\n")
+            # bfile.write(f"  publisher = {{{file1[0][2]}}},\n")
+            # bfile.write(r"}")
+
+            ref_name = rawfile[:-4]
             raw_data = np.array(file1[2:,:], dtype=float)           
             
             if weight_const != 0:
@@ -88,6 +105,7 @@ def parse_raw(material_name, raw_directory, plots=False, weight_const=0):
             
             if plots:
                 plt.plot(T, k, '.', label=ref_name)
+            i+=1
     if plots:
         plt.legend()
         plt.xlabel("Temperature")
@@ -214,7 +232,6 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     else:
         all_params = np.append(erf_loc, np.append(low_param, hi_param))################################### 20240612
 
-
     #########
     arg_dict = {"low_function_type"  : low_func,
                 "low_fit_param"      : low_param.tolist(),
@@ -224,7 +241,7 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
                 "combined_function_type" : "comppoly",
                 "combined_fit_param" : all_params.tolist(),
-                "combined_fit_range" : np.array([min(min(low_fit_xs), 10**min(hi_fit_xs)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist(),
+                "combined_fit_range" : np.array([max(min(min(low_fit_xs), 10**min(hi_fit_xs)), float(0.001)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist(),
                 "combined_fit_erfloc": erf_loc ################## 20240605
                 }
     return arg_dict
@@ -346,37 +363,47 @@ def compile_csv(path_to_fits, mat_name = None):
     output_array = []
     for mat in path_to_fits.keys():
         file = path_to_fits[mat]
-        if mat_name != None:
-            if mat_name == "parent":
-                file_path = f"{file}{os.sep}{os.path.split(os.path.split(file)[0])[1]}.csv"
-            else:
-                file_path = f"{file}{os.sep}{mat_name}.csv"
-        else:
-            file_path = f"{file}{os.sep}{mat}.csv"
-        if not os.path.exists(file_path):
-            for i in ["lo", "hi"]:
-                if mat_name != None:
-                    if mat_name == "parent":
-                        file_path = f"{file}{os.sep}{os.path.split(os.path.split(file)[0])[1]}_{i}.csv"
-                    else:
-                        file_path = f"{file}{os.sep}{mat_name}_{i}.csv"
-                else:
-                    file_path = f"{file}{os.sep}{mat}_{i}.csv"
+        # if mat_name != None:
+        #     if mat_name == "parent":
+        #         file_path = f"{file}{os.sep}{os.path.split(os.path.split(file)[0])[1]}.csv"
+        #     else:
+        #         file_path = f"{file}{os.sep}{mat_name}.csv"
+        # else:
+        #     file_path = f"{file}{os.sep}{mat}.csv"
+        # if not os.path.exists(file_path):
+        #     for i in ["lo", "hi"]:
+        #         if mat_name != None:
+        #             if mat_name == "parent":
+        #                 file_path = f"{file}{os.sep}{os.path.split(os.path.split(file)[0])[1]}_{i}.csv"
+        #             else:
+        #                 file_path = f"{file}{os.sep}{mat_name}_{i}.csv"
+        #         else:
+        #             file_path = f"{file}{os.sep}{mat}_{i}.csv"
+        #         material_file = np.loadtxt(file_path, dtype=str, delimiter=',')
+        #         headers = material_file[0]
+        #         headers = np.append([f"Material Name"], headers)
+        #         comb_fit = material_file[-1]
+        #         comb_fit = np.append([f"{mat}_{i}"], comb_fit)
+        #         mat_dict = dict(zip(headers, comb_fit))
+        #         output_array.append(mat_dict)
+
+        
+        # else:
+        
+        for csv_file in os.listdir(file):
+            if csv_file.endswith(".csv"):
+                file_path = os.path.join(file, csv_file)
+
                 material_file = np.loadtxt(file_path, dtype=str, delimiter=',')
                 headers = material_file[0]
-                headers = np.append([f"Material Name"], headers)
+                headers = np.append(["Material Name"], headers)
                 comb_fit = material_file[-1]
-                comb_fit = np.append([f"{mat}_{i}"], comb_fit)
+                comb_fit = np.append([f"{mat}"], comb_fit)
                 mat_dict = dict(zip(headers, comb_fit))
                 output_array.append(mat_dict)
-        else:
-            material_file = np.loadtxt(file_path, dtype=str, delimiter=',')
-            headers = material_file[0]
-            headers = np.append(["Material Name"], headers)
-            comb_fit = material_file[-1]
-            comb_fit = np.append([f"{mat}"], comb_fit)
-            mat_dict = dict(zip(headers, comb_fit))
-            output_array.append(mat_dict)
+            
+            else:
+                continue
 
     return output_array
 
@@ -559,41 +586,7 @@ def find_gaps(data_array, threshold=0.5):
     # Return indices of major gaps in the original array
     return major_gap_indices_original
 
-def make_pathtofit(mat_direct, subset=None, fits_to_parse="ALL"):
-    path_to_fit_dict = dict()
-    if subset!=None:
-        subset_array = []
-        for mat in mat_direct:
-            if mat in subset:
-                subset_array = np.append(subset_array, mat)
-        mat_direct = subset_array
-    for mat in mat_direct:
-        mat_str = f"{path_to_lib}{os.sep}{mat}"
-        fit_str = f"{mat_str}{os.sep}fits"
-        other_str = f"{mat_str}{os.sep}OTHERFITS"
-        nist_str = f"{mat_str}{os.sep}NIST"
-        raw_str = f"{mat_str}{os.sep}RAW"
-        
-        if fits_to_parse=="ALL":
-            if os.path.exists(fit_str): # Prioritize RAW fits
-                path_to_fit_dict[mat] = fit_str
-                path_to_rawData[mat] = fit_str
-            elif os.path.exists(other_str): # Then other fits
-                path_to_fit_dict[mat] = other_str
-            elif os.path.exists(nist_str): # Lastly NIST Fits
-                path_to_fit_dict[mat] = nist_str
 
-        if fits_to_parse=="OTHER":
-            if os.path.exists(other_str): # Then other fits
-                path_to_fit_dict[mat] = other_str
-            elif os.path.exists(nist_str): # Lastly NIST Fits
-                path_to_fit_dict[mat] = nist_str
-
-        if fits_to_parse=="RAW":
-            if os.path.exists(raw_str): # Prioritize RAW fits
-                path_to_fit_dict[mat] = fit_str
-    
-    return path_to_fit_dict
 
 
 def get_all_fits(mat_direct, subset=None):

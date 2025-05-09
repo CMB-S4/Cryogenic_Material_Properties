@@ -1,12 +1,12 @@
 [
     {
-        "name": "Manganin",
+        "name": "manganin",
         "parent": "NA",
         "source": "RAW",
         "fit_type": "None"
     },
     {
-        "name": "Manganin",
+        "name": "manganin",
         "parent": "NA",
         "source": "other",
         "fit_type": "None"

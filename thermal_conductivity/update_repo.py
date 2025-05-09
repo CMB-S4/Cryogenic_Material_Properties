@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import sys, os
+from tqdm import tqdm
 
 from tc_tools  import *
 from tc_utils import get_all_fits, compile_csv, create_tc_csv
@@ -20,8 +21,9 @@ def main():
     lib_dir = home_dir+f'{os.sep}lib'
     
     parent_dictionary = {}
-    for folder_name in os.listdir(lib_dir): # loop through each material folder in lib/
-        
+    num_dir = len(os.listdir(lib_dir)) # number of directories in lib/
+    for i in tqdm(range(num_dir)):
+        folder_name = os.listdir(lib_dir)[i] # loop through each material folder in lib/
         folder_path = os.path.join(lib_dir, folder_name)
         
         if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it

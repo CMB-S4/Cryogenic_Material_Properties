@@ -1,10 +1,24 @@
-2007 I.O. Owate.csv
-['﻿A device for thermal conductivity measurement in a developing economy'
+Reference : 0
+Filename  : 2007 I.O. Owate.csv
+Title     : ﻿A device for thermal conductivity measurement in a developing economy
+Author(s) : I. O. Owate, O. E. Abumere, G.O. Avwiri
+Year      : 2007
+Publisher : Scientific Research and Essay Vol. 2 2007
+Search Key: ['﻿A device for thermal conductivity measurement in a developing economy'
  'I. O. Owate-- O. E. Abumere-- G.O. Avwiri'
  'Scientific Research and Essay Vol. 2 2007']
- 
-2018 I. Rojas-Rodr�guez.csv
-['﻿The Influence of the Precipitation Heat Treatment Temperature on the Metallurgical Microstructure Thermal Properties and Microhardness of an Alpha Brass'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : 2018 I. Rojas-Rodr�guez.csv
+Title     : ﻿The Influence of the Precipitation Heat Treatment Temperature on the Metallurgical Microstructure Thermal Properties and Microhardness of an Alpha Brass
+Author(s) : I. Rojas-Rodríguez et.al.
+Year      : 2018
+Publisher : Scietific Research Publishing Materials Sciences and Applications 2018
+Search Key: ['﻿The Influence of the Precipitation Heat Treatment Temperature on the Metallurgical Microstructure Thermal Properties and Microhardness of an Alpha Brass'
  'I. Rojas-Rodr�\xadguez et.al.'
  'Scietific Research Publishing Materials Sciences and Applications 2018']
- 
+
+-----------------------------------------------------
+

@@ -8,8 +8,8 @@ from tc_tools import get_parameters
 cmap = cm.get_cmap('Dark2')
 
 markers = ['o', 's', 'd', 'P','3', '*']
-
-
+linestyle_tuple = ["-","--", "-.", ":"]
+linewidths = [2, 3, 4, 5, 6, 7]
 
 ###############################################################
 ###############################################################
@@ -331,7 +331,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     return
 
 def plot_all_fits(TCdata, folder_name, folder_path):
-    limits = [1, 1, 1, 1] # [min_x, max_x, min_y, max_y]
+    limits = [1, 1.1, 1, 1.1] # [min_x, max_x, min_y, max_y]
     for i in range(1, len(TCdata)): # Loop over the different fits available
         mat_parameters = get_parameters(TCdata, index = i) # get the parameters for the fit in row i
         try:
@@ -347,7 +347,7 @@ def plot_all_fits(TCdata, folder_name, folder_path):
 
             y_vals = func_type(T_range, mat_parameters)
             # Plotting
-            plt.plot(T_range, y_vals, label=TCdata[i,0]) # Plot the fit line for the material
+            plt.plot(T_range, y_vals, label=f'{TCdata[i][0]} : {mat_parameters["fit_type"]}', alpha=0.5, linestyle=np.random.choice(linestyle_tuple), linewidth=np.random.choice(linewidths)) # Plot the fit line for the material
             plt.semilogy()
             plt.semilogx()
             plt.title(f"Plot of {folder_name} Fits")
@@ -358,11 +358,11 @@ def plot_all_fits(TCdata, folder_name, folder_path):
             finite_x = T_range[np.isfinite(T_range)]
             finite_y = y_vals[np.isfinite(y_vals)]
             if len(finite_x) > 0 and len(finite_y) > 0:
-                limits[0] = float(min(limits[0], np.min(finite_x)))
-                limits[1] = float(max(limits[1], np.max(finite_x)))
+                limits[0] = float(min(limits[0], fit_range[0]))
+                limits[1] = float(max(limits[1], fit_range[1]))
                 limits[2] = float(max(min(limits[2], np.min(finite_y)), 1e-4))
                 limits[3] = float(min(max(limits[3], np.max(finite_y)), 1e4))
-            plt.legend(loc='best') # Add legend to the plot for the material name or folder name if not specified in the dictionary
+            plt.legend(loc='center', bbox_to_anchor=(1.5,0.5)) # Add legend to the plot for the material name or folder name if not specified in the dictionary
         except:
             print(f"Error encountered when evaluating {func_type.__name__}, function type not yet supported. Skipping this fit.")
             pass
@@ -372,6 +372,7 @@ def plot_all_fits(TCdata, folder_name, folder_path):
     if not os.path.exists(plots_dir):
         print(f"making path {plots_dir}")
         os.mkdir(plots_dir)
+    plt.tight_layout()
     plt.savefig(f"{plots_dir}{folder_name}_all_fits.pdf", dpi=300) # Save the figure to the folder of the material
     plt.clf()
 
@@ -385,9 +386,7 @@ def plot_OFHC_RRR(TCdata, folder_name, folder_path, RRR_vals = np.array([10, 100
 
         
         func_type = get_func_type(mat_parameters["fit_type"])
-        print(func_type)
         fit_range = mat_parameters["fit_range"]
-        print(fit_range)
         # Let's make our plotting range the listed fit range
         T_range = np.linspace(fit_range[0], fit_range[1], 1000)
 
@@ -406,4 +405,3 @@ def plot_OFHC_RRR(TCdata, folder_name, folder_path, RRR_vals = np.array([10, 100
         plt.legend(loc='best') # Add legend to the plot for the material name or folder name if not specified in the dictionary
         
     plt.savefig(f"{folder_path}{os.sep}plots{os.sep}{folder_name}_all_fits.pdf", dpi=300) # Save the figure to the folder of the material
-    plt.show()
