@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import sys, os
+import sys, os, json
 from tqdm import tqdm
 
 from tc_tools  import *
@@ -25,7 +25,7 @@ def main():
     for i in tqdm(range(num_dir)):
         folder_name = os.listdir(lib_dir)[i] # loop through each material folder in lib/
         folder_path = os.path.join(lib_dir, folder_name)
-        
+        print(f"\n Processing {folder_name} ({i+1}/{num_dir})\n")
         if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it
             # First lets make a compilation file of each fit available for a material
             paths = get_all_fits(folder_path) # paths to each fit file in the directory
@@ -53,9 +53,22 @@ def main():
                     if os.path.exists(parent_path): # check if the parent directory exists
                         if parent not in parent_dictionary.keys():
                             parent_dictionary[parent] = []
+                        parent_dictionary[parent].append(folder_path) # and append it to the list of parent directories
+                    else: # if it does not exist, we will create it
+                        print(f"Creating parent folder : {folder_path}")
+                        os.makedirs(parent_path) # make the directory
+                        # create the config.yaml file
+                        yaml_dict = []
+                        yaml_dict.append({"name":f"{parent}", 
+                                        "parent":f"NA",
+                                        "source":f"NA",
+                                        "fit_type":f"NA"}) # Define JSON dictionary
+                        yaml_dict = json.dumps(yaml_dict, indent=4)
+                        with open(f"{parent_path}{os.sep}config.yaml", 'w') as file:
+                            file.write(yaml_dict)
+                        if parent not in parent_dictionary.keys():
+                            parent_dictionary[parent] = []
                         parent_dictionary[parent].append(folder_path)
-                    else:
-                        print(f"Parent file {parent} does not exist in {folder_path}") 
         else:
             print(f"No config.yaml found in {folder_path}")
 

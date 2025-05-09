@@ -1,7 +1,7 @@
 [
     {
         "name": "PVC_1.25_lbft3_air",
-        "parent": "NA",
+        "parent": "PVC",
         "source": "NIST",
         "fit_type": "None"
     }

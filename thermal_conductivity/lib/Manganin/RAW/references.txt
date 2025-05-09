@@ -56,7 +56,7 @@ Search Key: ['﻿A simple method for measuring the low temperature thermal condu
 -----------------------------------------------------
 
 Reference : 5
-Filename  : 1999 I. Peroni 2%Ni.csv
+Filename  : 1999 I. Peroni 2percNi.csv
 Title     : ﻿Thermal conductivity of manganin below 1 K
 Author(s) : I. Peroni, E. Gottardi, A. Peruzzi, G. Ponti, G. Ventura
 Year      : 1999
@@ -68,13 +68,13 @@ Search Key: ['﻿Thermal conductivity of manganin below 1 K'
 -----------------------------------------------------
 
 Reference : 6
-Filename  : 1999 I. Peroni 4%Ni.csv
-Title     : ﻿Thermal conductivity of manganin below 1 K
-Author(s) : I. Peroni, E. Gottardi, A. Peruzzi, G. Ponti, G. Ventura
+Filename  : 1999 I. Peroni 4percNi.csv
+Title     : Thermal conductivity of manganin below 1 K
+Author(s) : I. Peroni, E. Gottardi, A. Peruzzi, G. Ponti, G. Ventura 
 Year      : 1999
 Publisher : Nuclear Physics B 1999
-Search Key: ['﻿Thermal conductivity of manganin below 1 K'
- 'I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura'
+Search Key: ['Thermal conductivity of manganin below 1 K'
+ 'I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura '
  'Nuclear Physics B 1999']
 
 -----------------------------------------------------

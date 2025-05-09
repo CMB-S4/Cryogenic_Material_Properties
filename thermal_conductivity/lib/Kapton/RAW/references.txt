@@ -1,32 +1,88 @@
-1990 D. L. Rule H-003-R.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+Reference : 0
+Filename  : 1990 D. L. Rule H-003-R.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-1990 D. L. Rule H-003.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : 1990 D. L. Rule H-003.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-1990 D. L. Rule HN-003.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : 1990 D. L. Rule HN-003.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-1990 D. L. Rule MT-001.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+
+-----------------------------------------------------
+
+Reference : 3
+Filename  : 1990 D. L. Rule MT-001.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-1990 D. L. Rule MT-003-R.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+
+-----------------------------------------------------
+
+Reference : 4
+Filename  : 1990 D. L. Rule MT-003-R.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-1990 D. L. Rule MT-003.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+
+-----------------------------------------------------
+
+Reference : 5
+Filename  : 1990 D. L. Rule MT-003.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-1990 D. L. Rule MTL-003.csv
-['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
+
+-----------------------------------------------------
+
+Reference : 6
+Filename  : 1990 D. L. Rule MTL-003.csv
+Title     : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+Author(s) : D. L. Rule, D. R. Smith, L. L. Sparks
+Year      : 1990
+Publisher : NISTIR 3948 1990
+Search Key: ['﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"'
  'D. L. Rule-- D. R. Smith-- L. L. Sparks' 'NISTIR 3948 1990']
- 
-2000 J. Lawrence.csv
-['﻿The thermal conductivity of Kapton HN between 0.5 and 5 K'
+
+-----------------------------------------------------
+
+Reference : 7
+Filename  : 2000 J. Lawrence.csv
+Title     : ﻿The thermal conductivity of Kapton HN between 0.5 and 5 K
+Author(s) : J. Lawrence, A.B. Patel, J.G. Barrison
+Year      : 2000
+Publisher : Cryogenics Vol. 40 2000
+Search Key: ['﻿The thermal conductivity of Kapton HN between 0.5 and 5 K'
  'J. Lawrence-- A.B. Patel-- J.G. Barrison' 'Cryogenics Vol. 40 2000']
- 
+
+-----------------------------------------------------
+

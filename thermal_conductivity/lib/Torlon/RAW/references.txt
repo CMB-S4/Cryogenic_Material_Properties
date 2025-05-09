@@ -1,3 +1,10 @@
-TORLON 4301 ROD_2008.csv
-['TORLON 4301 ROD:' "RunyanJones'" '2008']
- 
+Reference : 0
+Filename  : TORLON 4301 ROD_2008.csv
+Title     : TORLON 4301 ROD:
+Author(s) : RunyanJones'
+Year      : ????
+Publisher : 2008
+Search Key: ['TORLON 4301 ROD:' "RunyanJones'" '2008']
+
+-----------------------------------------------------
+

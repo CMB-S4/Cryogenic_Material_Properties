@@ -1,2 +1,2 @@
 Material Name,Fit Type,Low Temp,High Temp,Perc Err,erf param,A,B,C,D
-raw_fit,polylog,0.000,296.000,2.060,-1.00000e+00,0.00e+00,4.79082e+00,8.57758e-01,-1.38664e+00
+raw_fit,polylog,0.001,296.000,2.060,-1.00000e+00,0.00e+00,4.79082e+00,8.57758e-01,-1.38664e+00

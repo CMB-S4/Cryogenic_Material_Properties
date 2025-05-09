@@ -25,7 +25,7 @@ def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     - koT (np.array) - thermal_conductivity / temperature data
     - fit_orders (list) - The orders of the polynomial fits for the low and high temperature data
     """
-    print(f"{mat} : Using a low fit")
+    print(f"{mat:>15} : Using a low fit")
     low_fit_xs, low_fit = koT_function(T, koT, fit_orders[0], weights)
     hi_fit, hi_fit_xs, erf_loc = [[0], [0], 0]
     fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch = "low")
@@ -37,7 +37,7 @@ def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     fit_args["combined_perc_err"] =  perc_diff_low
     fit_args["combined_function_type"] = fit_types[0]
     if perc_diff_low > 50:
-        print(f"{mat} : Using a hi fit")
+        print(f"{mat:>15} : Using a hi fit")
         hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
         low_fit, erf_loc = [[0], -1]
         fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch = "high")
@@ -58,7 +58,7 @@ def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     - koT (np.array) - thermal_conductivity / temperature data
     - fit_orders (list) - The orders of the polynomial fits for the low and high temperature data
     """
-    print(f"{mat} : Using a hi fit")
+    print(f"{mat:>15} : Using a hi fit")
     hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
     low_fit, low_fit_xs, erf_loc = [[0], [0], -1]
     fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
@@ -81,7 +81,7 @@ def fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, 
     - big_data (np.array) - The combined data
     - path_to_plots (str) - The path to the plots directory (for saving plots)
     """
-    print(f"{mat} : Using a combined fit")# - data exists on both sides of 20K")
+    print(f"{mat:>15} : Using a combined fit")# - data exists on both sides of 20K")
     erf_locList = np.linspace(np.sort(T)[0], np.sort(T)[-1], 15)
     perc_diff_avgs = np.array([])
     for erf_loc in erf_locList:
@@ -288,6 +288,8 @@ def main():
             fit_args = fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types)
         elif fit_type == "combined": # If the fit type is a combined fit, we will fit the low and high data
             fit_args = fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, path_to_plots)
+        elif fit_type == "OFHC":
+            continue
 
         if gaps:
             print(f"Gap found in data - splitting fit into low and high")

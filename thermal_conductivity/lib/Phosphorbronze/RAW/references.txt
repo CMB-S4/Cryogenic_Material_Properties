@@ -1,17 +1,45 @@
-1956 N. V. Zavaritskii.csv
-['﻿N/A' 'N.V. Zavaritskii-- A.G.  Zeldovich'
+Reference : 0
+Filename  : 1956 N. V. Zavaritskii.csv
+Title     : ﻿N/A
+Author(s) : N.V. Zavaritskii, A.G.  Zeldovich
+Year      : 1956
+Publisher : Sov. Phys. – Tech. Phys. 1956
+Search Key: ['﻿N/A' 'N.V. Zavaritskii-- A.G.  Zeldovich'
  'Sov. Phys. – Tech. Phys. 1956']
- 
-2010 J. Tuttle JWST cable sample.csv
-['﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : 2010 J. Tuttle JWST cable sample.csv
+Title     : ﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE
+Author(s) : J. Tuttle, E. Canavan, M. DiPirro
+Year      : 2010
+Publisher : AIP Conference Proceedings 2010
+Search Key: ['﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE'
  'J. Tuttle-- E. Canavan-- M. DiPirro' 'AIP Conference Proceedings 2010']
- 
-2010 J. Tuttle without guard can and insulation.csv
-['﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE'
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : 2010 J. Tuttle without guard can and insulation.csv
+Title     : ﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE
+Author(s) : J. Tuttle, E. Canavan, M. DiPirro
+Year      : 2010
+Publisher : AIP Conference Proceedings 2010
+Search Key: ['﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE'
  'J. Tuttle-- E. Canavan-- M. DiPirro' 'AIP Conference Proceedings 2010']
- 
-2017 S. Jayachandran.csv
-['﻿Characterization of various two-phase materials based on thermal conductivity using modified transient plane source method'
+
+-----------------------------------------------------
+
+Reference : 3
+Filename  : 2017 S. Jayachandran.csv
+Title     : ﻿Characterization of various two-phase materials based on thermal conductivity using modified transient plane source method
+Author(s) : S. Jayachandran, R. N. Prithiviraajan, K. S. Reddy
+Year      : 2017
+Publisher : AIP Conference Proceedings 2017
+Search Key: ['﻿Characterization of various two-phase materials based on thermal conductivity using modified transient plane source method'
  'S. Jayachandran-- R. N. Prithiviraajan-- K. S. Reddy'
  'AIP Conference Proceedings 2017']
- 
+
+-----------------------------------------------------
+

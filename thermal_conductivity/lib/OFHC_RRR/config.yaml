@@ -2,7 +2,13 @@
     {
         "name": "OFHC_RRR",
         "parent": "NA",
+        "source": "RAW",
+        "fit_type": "OFHC"
+    },
+    {
+        "name": "OFHC_RRR",
+        "parent": "NA",
         "source": "NIST",
-        "fit_type": "None"
+        "fit_type": "OFHC"
     }
 ]

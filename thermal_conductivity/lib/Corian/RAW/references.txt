@@ -1,8 +1,22 @@
-1993 J. R. Olson DuPont Corian low temperatures.csv
-['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+Reference : 0
+Filename  : 1993 J. R. Olson DuPont Corian low temperatures.csv
+Title     : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+Author(s) : J. R. Olson
+Year      : 1993
+Publisher : Cornell University 1993
+Search Key: ['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
  'J. R. Olson' 'Cornell University 1993']
- 
-1993 J. R. Olson DuPont Corian.csv
-['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : 1993 J. R. Olson DuPont Corian.csv
+Title     : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+Author(s) : J. R. Olson
+Year      : 1993
+Publisher : Cornell University 1993
+Search Key: ['﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces'
  'J. R. Olson' 'Cornell University 1993']
- 
+
+-----------------------------------------------------
+

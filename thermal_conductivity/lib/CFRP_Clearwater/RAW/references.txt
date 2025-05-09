@@ -1,20 +1,55 @@
-Crowley_Clearwater_0.25K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+Reference : 0
+Filename  : Crowley_Clearwater_0.25K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
-Crowley_Clearwater_0.27K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : Crowley_Clearwater_0.27K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
-Crowley_Clearwater_0.36K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : Crowley_Clearwater_0.36K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
-Crowley_Clearwater__0.1K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+
+-----------------------------------------------------
+
+Reference : 3
+Filename  : Crowley_Clearwater__0.1K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
-Crowley_Clearwater__0.5K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+
+-----------------------------------------------------
+
+Reference : 4
+Filename  : Crowley_Clearwater__0.5K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
+
+-----------------------------------------------------
+

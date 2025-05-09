@@ -1,8 +1,22 @@
-Crowley_DPP__0.3K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+Reference : 0
+Filename  : Crowley_DPP__0.3K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
-Crowley_DPP__1.4K_2022.csv
-['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : Crowley_DPP__1.4K_2022.csv
+Title     : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+Author(s) : Crowley et al
+Year      : ????
+Publisher : 2022
+Search Key: ['The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K'
  'Crowley et al' '2022']
- 
+
+-----------------------------------------------------
+

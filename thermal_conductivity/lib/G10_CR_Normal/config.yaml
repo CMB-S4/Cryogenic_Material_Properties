@@ -1,7 +1,7 @@
 [
     {
         "name": "G10_CR_Normal",
-        "parent": "NA",
+        "parent": "G10_parent",
         "source": "NIST",
         "fit_type": "None"
     }

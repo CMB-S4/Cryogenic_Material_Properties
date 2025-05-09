@@ -1,7 +1,7 @@
 [
     {
         "name": "Wood_MapleOak",
-        "parent": "NA",
+        "parent": "Wood",
         "source": "other",
         "fit_type": "None"
     }

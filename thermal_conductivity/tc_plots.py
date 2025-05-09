@@ -331,7 +331,7 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     return
 
 def plot_all_fits(TCdata, folder_name, folder_path):
-    limits = [1, 1.1, 1, 1.1] # [min_x, max_x, min_y, max_y]
+    limits = [1, 1.1, 1e-4, 0] # [min_x, max_x, min_y, max_y]
     for i in range(1, len(TCdata)): # Loop over the different fits available
         mat_parameters = get_parameters(TCdata, index = i) # get the parameters for the fit in row i
         try:
@@ -358,6 +358,7 @@ def plot_all_fits(TCdata, folder_name, folder_path):
             finite_x = T_range[np.isfinite(T_range)]
             finite_y = y_vals[np.isfinite(y_vals)]
             if len(finite_x) > 0 and len(finite_y) > 0:
+                # print(folder_name, limits[0], fit_range[0])
                 limits[0] = float(min(limits[0], fit_range[0]))
                 limits[1] = float(max(limits[1], fit_range[1]))
                 limits[2] = float(max(min(limits[2], np.min(finite_y)), 1e-4))

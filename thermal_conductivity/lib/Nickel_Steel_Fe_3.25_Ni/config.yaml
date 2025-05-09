@@ -1,7 +1,7 @@
 [
     {
         "name": "Nickel_Steel_Fe_3.25_Ni",
-        "parent": "NA",
+        "parent": "Nickel_Steel",
         "source": "NIST",
         "fit_type": "None"
     }

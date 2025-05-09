@@ -1,9 +1,30 @@
-KETRON PEEK 1000 ROD_2008.csv
-['KETRON PEEK 1000 ROD' 'RunyanJones' '2008']
- 
-KETRON PEEK-CA30 ROD 1_2008.csv
-['KETRON PEEK-CA30 ROD' 'RunyanJones' '2008']
- 
-KETRON PEEK-CA30 ROD_2008.csv
-['KETRON PEEK-CA30 ROD' 'RunyanJones' '2008']
- 
+Reference : 0
+Filename  : KETRON PEEK 1000 ROD_2008.csv
+Title     : KETRON PEEK 1000 ROD
+Author(s) : RunyanJones
+Year      : ????
+Publisher : 2008
+Search Key: ['KETRON PEEK 1000 ROD' 'RunyanJones' '2008']
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : KETRON PEEK-CA30 ROD 1_2008.csv
+Title     : KETRON PEEK-CA30 ROD
+Author(s) : RunyanJones
+Year      : ????
+Publisher : 2008
+Search Key: ['KETRON PEEK-CA30 ROD' 'RunyanJones' '2008']
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : KETRON PEEK-CA30 ROD_2008.csv
+Title     : KETRON PEEK-CA30 ROD
+Author(s) : RunyanJones
+Year      : ????
+Publisher : 2008
+Search Key: ['KETRON PEEK-CA30 ROD' 'RunyanJones' '2008']
+
+-----------------------------------------------------
+

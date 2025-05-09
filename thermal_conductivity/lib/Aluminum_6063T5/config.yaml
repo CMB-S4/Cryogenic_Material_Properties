@@ -1,7 +1,7 @@
 [
     {
         "name": "Aluminum_6063T5",
-        "parent": "NA",
+        "parent": "Aluminum",
         "source": "NIST",
         "fit_type": "None"
     }

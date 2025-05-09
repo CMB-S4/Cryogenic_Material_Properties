@@ -1,7 +1,7 @@
 [
     {
         "name": "Polyurethane_3.06_lbft3_He",
-        "parent": "NA",
+        "parent": "Polyurethane",
         "source": "NIST",
         "fit_type": "None"
     }

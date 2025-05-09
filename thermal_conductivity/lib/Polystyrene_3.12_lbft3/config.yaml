@@ -1,13 +1,13 @@
 [
     {
         "name": "Polystyrene_3.12_lbft3",
-        "parent": "NA",
+        "parent": "Polystyrene",
         "source": "other",
         "fit_type": "None"
     },
     {
         "name": "Polystyrene_3.12_lbft3",
-        "parent": "NA",
+        "parent": "Polystyrene",
         "source": "NIST",
         "fit_type": "None"
     }

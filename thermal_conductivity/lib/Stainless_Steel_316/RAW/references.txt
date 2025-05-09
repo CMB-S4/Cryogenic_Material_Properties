@@ -1,23 +1,65 @@
-BarucciEtAl_2008.csv
-['Measurement of the thermal conductivity of the supports of CUORE cryostat'
+Reference : 0
+Filename  : BarucciEtAl_2008.csv
+Title     : Measurement of the thermal conductivity of the supports of CUORE cryostat
+Author(s) : M. Barucci-L. Lolli-L. Risegari-G. Ventura
+Year      : ????
+Publisher : 2008
+Search Key: ['Measurement of the thermal conductivity of the supports of CUORE cryostat'
  'M. Barucci-L. Lolli-L. Risegari-G. Ventura' '2008']
- 
-Bogaard_1983.csv
-['Thermal conductivity of selected stainless steels' 'Bogaard' '1983']
- 
-Filoni_1987.csv
-['Thermal conductivity of iron plain carbon and stainless steels an Inconel 718 from 360 K to 900 K'
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : Bogaard_1983.csv
+Title     : Thermal conductivity of selected stainless steels
+Author(s) : Bogaard
+Year      : ????
+Publisher : 1983
+Search Key: ['Thermal conductivity of selected stainless steels' 'Bogaard' '1983']
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : Filoni_1987.csv
+Title     : Thermal conductivity of iron plain carbon and stainless steels an Inconel 718 from 360 K to 900 K
+Author(s) : L. Filoni
+Year      : ????
+Publisher : 1987
+Search Key: ['Thermal conductivity of iron plain carbon and stainless steels an Inconel 718 from 360 K to 900 K'
  'L. Filoni' '1987']
- 
-KaschnitzEtAl_2017.csv
-['Electrical resistivity measured by millisecond pulse-heating in comparison to thermal conductivity of stainless steel AISI 316L at elevated temperature'
+
+-----------------------------------------------------
+
+Reference : 3
+Filename  : KaschnitzEtAl_2017.csv
+Title     : Electrical resistivity measured by millisecond pulse-heating in comparison to thermal conductivity of stainless steel AISI 316L at elevated temperature
+Author(s) : E. Kaschnitz-H. Kaschnitz-T. Schleutker-A. Gulhan-B. Bonvoisin
+Year      : ????
+Publisher : 2017
+Search Key: ['Electrical resistivity measured by millisecond pulse-heating in comparison to thermal conductivity of stainless steel AISI 316L at elevated temperature'
  'E. Kaschnitz-H. Kaschnitz-T. Schleutker-A. Gulhan-B. Bonvoisin' '2017']
- 
-UmezawaEtAl_1992.csv
-['Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures'
+
+-----------------------------------------------------
+
+Reference : 4
+Filename  : UmezawaEtAl_1992.csv
+Title     : Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures
+Author(s) : O. Umezawa-K. Ishikawa
+Year      : ????
+Publisher : 1992
+Search Key: ['Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures'
  'O. Umezawa-K. Ishikawa' '1992']
- 
-WatsonEtAl_1963.csv
-['Thermal conductivity of a sample of type 316 stainless steel'
+
+-----------------------------------------------------
+
+Reference : 5
+Filename  : WatsonEtAl_1963.csv
+Title     : Thermal conductivity of a sample of type 316 stainless steel
+Author(s) : T.W. Watson-E.R. Robinson
+Year      : ????
+Publisher : 1963
+Search Key: ['Thermal conductivity of a sample of type 316 stainless steel'
  'T.W. Watson-E.R. Robinson' '1963']
- 
+
+-----------------------------------------------------
+

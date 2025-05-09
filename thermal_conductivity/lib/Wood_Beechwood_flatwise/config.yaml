@@ -1,7 +1,7 @@
 [
     {
         "name": "Wood_Beechwood_flatwise",
-        "parent": "NA",
+        "parent": "Wood",
         "source": "NIST",
         "fit_type": "None"
     }
