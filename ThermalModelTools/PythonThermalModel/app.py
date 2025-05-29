@@ -33,8 +33,7 @@ file_path = os.path.dirname(abspath)
 sys.path.insert(0, f"{file_path}{os.sep}..{os.sep}..{os.sep}")
 
 
-path_to_Onedrive = abspath.split("OneDrive")[0]
-git_repo_path = f"{path_to_Onedrive}{os.sep}OneDrive - The University of Texas at Austin{os.sep}01_RESEARCH{os.sep}05_CMBS4{os.sep}Cryogenic_Material_Properties"
+git_repo_path = os.path.dirname(os.path.dirname(file_path))
 
 path_to_tcFiles = git_repo_path
 all_files = os.listdir(path_to_tcFiles)
