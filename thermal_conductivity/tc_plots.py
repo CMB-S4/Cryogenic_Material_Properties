@@ -350,8 +350,16 @@ def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
             # Luckily, every function type is defined in such a way to readily accept the parameter dictionary as it was defined above
 
             y_vals = func_type(T_range, mat_parameters)
+            if "raw_fit" in str(TCdata[i][0]):
+                linestyle = "--"
+                linewidth = 3
+                alpha=1
+            else:
+                linestyle = "-"
+                linewidth = 4
+                alpha = 0.5
             # Plotting
-            plt.plot(T_range, y_vals, label=f'Fit #{i}', alpha=0.75)#, linestyle=np.random.choice(linestyle_tuple), linewidth=np.random.choice(linewidths)) # Plot the fit line for the material
+            plt.plot(T_range, y_vals, label=f'Fit #{i}', alpha=alpha, linestyle=linestyle, linewidth=linewidth)#, linestyle=np.random.choice(linestyle_tuple), linewidth=np.random.choice(linewidths)) # Plot the fit line for the material
             plt.semilogy()
             plt.semilogx()
             plt.title(f"Plot of {folder_name} Fits", fontsize=15)
@@ -369,12 +377,17 @@ def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
                 limits[1] = float(max(limits[1], fit_range[1]))
                 limits[2] = float(max(min(limits[2], np.min(finite_y)), 1e-4))
                 limits[3] = float(min(max(limits[3], np.max(finite_y)), 1e4))
-            plt.legend(loc='center', bbox_to_anchor=(0.5,-0.35), ncols=4) # Add legend to the plot for the material name or folder name if not specified in the dictionary
+            # plt.legend(loc='center', bbox_to_anchor=(0.5,-0.35), ncols=4) # Add legend to the plot for the material name or folder name if not specified in the dictionary
         except:
             print(f"Error encountered when evaluating {func_type.__name__}, function type not yet supported. Skipping this fit.")
             pass
     plt.xlim(limits[0], limits[1])
     plt.ylim(limits[2], limits[3])
+    # plt.xlim(1, 4)
+    # plt.ylim(0.05, 0.5)
+    # # plt.xlim(40, 200)
+    # # plt.ylim(4, 16)
+    
     plots_dir = f"{folder_path}{os.sep}plots{os.sep}"
     if not os.path.exists(plots_dir):
         print(f"making path {plots_dir}")
@@ -394,8 +407,6 @@ def plot_OFHC_RRR(TCdata, folder_name, folder_path, RRR_vals = np.array([10, 100
         # print(i)
         mat_parameters = get_parameters(TCdata, index = 1) # get the parameters for the first material in the array (assumes all materials have same fit type)
         # print(parameters)
-
-        
         func_type = get_func_type(mat_parameters["fit_type"])
         fit_range = mat_parameters["fit_range"]
         # Let's make our plotting range the listed fit range

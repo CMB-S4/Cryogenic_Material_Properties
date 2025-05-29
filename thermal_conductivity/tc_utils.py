@@ -202,6 +202,8 @@ def format_splitfit(fit_args, fit = "low"):
     dict_vals = np.append(dict_vals, np.array(fit_args[f"{fit}_function_type"], dtype=str).flatten())
     dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{fit}_fit_range"], dtype=float)).flatten())
     dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"{fit}_perc_err"])))
+    dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(0))) ################################### 20250527
+    print(dict_vals)
     param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{fit}_fit_param"], dtype=float)).flatten()
     while len(param_str_arr) < len(result):
         param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))

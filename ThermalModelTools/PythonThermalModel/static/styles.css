@@ -1,0 +1,42 @@
+/* styles.css */
+.stage {
+    background-color: var(--stage-color);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.stage-header {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.component {
+    background-color: var(--stage-color);
+    border: 1px solid black;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.component-name {
+    font-weight: bold;
+}
+
+.component-properties {
+    margin-top: 10px;
+}
+
+.banner {
+    background-color: var(--stage-color);
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+    font-size:1.5rem;
+    }
+

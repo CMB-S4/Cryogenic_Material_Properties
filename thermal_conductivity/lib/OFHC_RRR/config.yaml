@@ -3,12 +3,12 @@
         "name": "OFHC_RRR",
         "parent": "NA",
         "source": "RAW",
-        "fit_type": "OFHC"
+        "fit_type": "None"
     },
     {
         "name": "OFHC_RRR",
         "parent": "NA",
         "source": "NIST",
-        "fit_type": "OFHC"
+        "fit_type": "None"
     }
 ]

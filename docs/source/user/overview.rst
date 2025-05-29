@@ -1,13 +1,8 @@
-General Usage
+Overview
 =============
 
-Most users of this repository will only ever use the thermal conductivity compilation files, which may then be imported into other programs. These files contain the multi-order fits to real thermal conductivity data. The *compile_TC.py* is responsible for compiling each individual material fit, and exporting the full .csv and .txt files. It is also how the compilation files are updated after changes in the library.
-
-More information on accessing and using this information can be found in the tools documentation.
-
-For users who wish to adjust the fits, add more data, or investigate the 'behind the scenes' of this repository, it is encouraged to familiarize oneself with the documention found in the repository section. 
-
-Ultimately, the output of the code pipeline are a .csv and a .txt file with the thermal conductivity fit parameters for each material. The code also produces plots for each material. 
+This repository is designed to provide a comprehensive and transparent database of cryogenic material properties, with a focus on thermal conductivity. The goal is to create a resource that can be used by researchers in experimental cosmology and other fields requiring precise material property data at cryogenic temperatures.
+The repository includes raw data, fitting methods, and tools for analyzing and utilizing this data. It is intended to be a living document that can be updated as new data becomes available or as scientific needs evolve.
 
 Goals and Motivation
 ````````````````````
@@ -16,8 +11,6 @@ Goals and Motivation
 - **Transparency:** Produce a transparent database that saves references to data and clearly shows and explains how fits are procured.
 - **Tools:** Provide example tools demonstrating the operation of the pipeline output in scientific applications.
 - **Versatility:** Develop a pipeline that can be easily updated by users as new data is added, or changed depending on specific scientific goals.
-
-
 
 About Us and Contact
 ````````
