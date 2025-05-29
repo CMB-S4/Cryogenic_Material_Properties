@@ -12,10 +12,10 @@ Excel Thermal Model Notebooks:
 Python Thermal Model:
 
  Due to the difficulties of using the Excel model, a Python GUI version of the thermal model was developped. To run it, you must first install the required packages. The easiest way to do this is to use the provided `requirements.txt` file. You can install the required packages by running:
-```bash
+```
 pip install -r requirements.txt
 ```
 Once the packages are installed, you can run the thermal model by executing the following command in your terminal:
-```bash
+```
 streamlit run app.py
 ```

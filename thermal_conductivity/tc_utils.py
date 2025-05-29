@@ -214,10 +214,22 @@ def format_splitfit(fit_args, fit = "low"):
     output_array.append(mat_dict)
     return output_array
 
-def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err=[0,0,0], fit_catch="NONE"):#, kdata):
-    # low_func = f"{fit_orders[0]} order {fit_types[0]}"
-    # hi_func = f"{fit_orders[1]} order {fit_types[1]}"
-    
+def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err=[0,0,0], fit_catch="NONE"):
+    """
+    Description : Makes a dictionary of the compound fit parameters and information with the appropriate formating and headings to be saved in other file formats.
+    Arguments :
+    - low_fit      - Array of the low fit parameters.
+    - low_fit_xs   - Array of the low fit x values.
+    - hi_fit       - Array of the high fit parameters.
+    - hi_fit_xs    - Array of the high fit x values.
+    - fit_orders   - Tuple of the fit orders for the low and high fits.
+    - fit_types    - Tuple of the fit types for the low and high fits.
+    - erf_loc      - Location of the error function.
+    - perc_err     - Tuple of the percentage errors for the low, high, and combined fits.
+    - fit_catch    - String indicating which fit to catch (low, high, or NONE).
+    Returns :
+    - arg_dict     - Dictionary of fit arguments - includes low fit, high fit, and combined fit arguments.
+    """
     low_func = f"{fit_types[0]}"
     hi_func = f"{fit_types[1]}"
 
@@ -248,7 +260,17 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 }
     return arg_dict
 
-def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):  
+def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):
+    """
+    Description : Makes a dictionary of fit parameters for a single non-compound fit with the appropriate formating and headings to be saved in other file formats.
+    Arguments :
+    - fit_param   - Array of the fit parameters.
+    - fit_range   - Array of the fit range.
+    - fit_type    - String indicating the type of fit.
+    - perc_err    - Percentage error of the fit.
+    Returns :
+    - arg_dict    - Dictionary of fit arguments - includes low fit, high fit, and combined fit arguments.
+    """
     fit_param = fit_param[::-1] ################################### 20240531
     arg_dict = {"combined_function_type" : fit_type,
                 "combined_fit_param" : fit_param.tolist(),
@@ -258,7 +280,7 @@ def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):
 
 def format_monofit(fit_args):
     """
-    Description : Makes a dictionary of strings with the appropriate formating and headings to be saved in other file formats.
+    Description : properly formats the fit arguments for a single non-compound fit with the appropriate formating and headings to be saved in other file formats.
     """
     num_fit_param_combined = len(fit_args["combined_fit_param"])
 
@@ -286,6 +308,15 @@ def format_monofit(fit_args):
     return output_array
 
 def find_closest(arr, val): 
+    """
+    Description : Finds the closest Temperature value in an array to a given value and returns the difference and index.
+    Arguments :
+    - arr - Array of values to search.
+    - val - Value to find the closest match to.
+    Returns :
+    - stored_T - The closest value in the array to the given value.
+    - stored_index - The index of the closest value in the array.
+    """
     diff_arr = arr-val
     stored_T = max(diff_arr)
     stored_index = 0
@@ -298,6 +329,15 @@ def find_closest(arr, val):
     return stored_T, stored_index
 
 def split_data(big_data, erf_loc):
+    """
+    Description : Splits the data into low and high temperature ranges based on the erf_loc value.
+    Arguments :
+    - big_data - Array of measurement data concatenated (should be of shape: [N, 4]).
+    - erf_loc  - Temperature at which to split the data for fitting (and to place the error function).
+    Returns :
+    - lowT, lowT_k, lowT_koT, low_ws, hiT, hiT_k, hiT_koT, hi_ws - Arrays of the low and high temperature ranges and their corresponding k/T values and weights.
+    """
+    
     # divide the data array into three columns
     T, k, koT, weights = [big_data[:,0], big_data[:,1], big_data[:,2], big_data[:,3]]
 

@@ -309,13 +309,10 @@ def main():
             make_fit_lh5(fit_args, path_to_fits[mat])
 
         else:
-            # print(fit_args)
             output_array = format_combofit(fit_args)
-            # Finally, we will output the fit parameters as a csv, and lh5 file - and plot the data.
             create_data_table(output_array, f"{path_to_fits[mat]}{os.sep}{mat}.txt")
             create_tc_csv(output_array, f"{path_to_fits[mat]}{os.sep}{mat}.csv")
             make_fit_lh5(fit_args, path_to_fits[mat])
-            # PLOTTING CODE
         if plots:
             tk_plot(mat,path_to_RAW, data_dict, fit_args, fit_range = [100e-3, np.sort(T)[-1]], points=True, fits="combined", fill=True)
 

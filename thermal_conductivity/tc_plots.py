@@ -22,39 +22,18 @@ linewidths = [2, 3, 4, 5, 6, 7]
 ###############################################################
 
 def plot_datapoints(data_dict):
+    """
+    Plots the data points from the data_dict.
+    Arguments:
+    - data_dict: dictionary of data with reference information as keys
+    Returns:
+    - null
+    """
     i = 0
     m = 1
     for ref_name in data_dict.keys():
         T, k, koT, ws = data_dict[ref_name].T
         plt.plot(T, k, marker=markers[i], ms=7, mfc='none', ls='none', label=ref_name, c=cmap((i%6)/6), alpha=np.mean(ws))
-        # Adjustments for CFRP
-        # print(ref_name) #, contains_word = bool(re.search(r'\b{}\b'.format(re.escape(word_to_check)), phrase)))
-        # if m == 1:
-        #     label="Clearwater"
-        #     marker = markers[1]
-        #     c=cmap((m%6)/6)
-        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
-        # elif m==6:
-        #     label = "DPP"
-        #     marker = markers[2]
-        #     c=cmap((m%6)/6)
-        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
-        # elif m==8:
-        #     label = "Graphlite"
-        #     marker = markers[3]
-        #     c=cmap((m%6)/6)
-        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
-        # elif m==9:
-        #     label = "Runyan/Jones \nGraphlite"
-        #     marker = markers[5]
-        #     c=cmap((m%6)/6)
-        #     plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', label=label, c=c, alpha=1)
-        # else:
-        #     label="none"
-        # plt.plot(T, k, marker=marker, ms=12, mfc='none', ls='none', c=c, alpha=np.mean(ws))
-        # Adjustments for SS304 simplified
-        # plt.plot(T, k, marker=markers[i], ms=15, mfc='none', ls='none', label=f"Ref {m}", c=cmap((i%6)/6), alpha=np.mean(ws))
-
         i+=1
         m+=1
         if i == len(markers):
@@ -62,6 +41,25 @@ def plot_datapoints(data_dict):
     return
 
 def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
+    """
+    Description : Extracts the data needed for plotting the thermal conductivity data and fits.
+    Arguments :
+    - material_name - name of the material
+    - path_dict     - dictionary type of paths to data
+    - data_dict     - dictionary of raw data with reference information as keys
+    - fit_args      - combined fit arguments
+    - fit_range     - default=[100e-4,25e2] - range over which to model the fit
+    Returns :
+    - Tdata         - array of temperature data
+    - kdata         - array of thermal conductivity data
+    - low_t_range   - range of temperatures for the low fit
+    - hi_t_range    - range of temperatures for the high fit
+    - low_fit_k     - array of thermal conductivity data for the low fit
+    - hi_fit_k      - array of thermal conductivity data for the high fit
+    - full_T_range  - range of temperatures for the full fit
+    - raw_directory - directory containing the raw data for the material
+    """
+
     # Defines the directory for saving
     raw_directory = path_dict[material_name]
 
@@ -106,6 +104,21 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
 
 
 def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], points=True, fits="combined", fill=False):
+    """
+    Description : Plots the thermal conductivity data and fits for a given material.
+    Arguments :
+    - material_name - name of the material
+    - path_dict     - dictionary type of paths to data
+    - data_dict     - dictionary of raw data with reference information as keys
+    - fit_args      - combined fit arguments
+    - fit_range     - default=[100e-4,25e2] - range over which to model the fit
+    - points        - default=True          - Boolean argument, if true, data points are added to the plot.
+    - fits          - options: 'combined', 'low', 'hi', other - defines which fits to plot.
+    - fill          - default=False         - Boolean argument, if true, 15% confidence interval is shaded around plot.
+    Returns :
+    - null
+    """
+
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     # Plots the data points
     plt.figure(figsize=(13, 11))
@@ -162,6 +175,17 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     return
 
 def get_percdiff(Tdata, kdata, fit_args):
+    """
+    Description : Calculates the percent difference between the predicted and measured thermal conductivity values.
+    Arguments :
+    - Tdata         - array of temperature data
+    - kdata         - array of thermal conductivity data
+    - fit_args      - combined fit arguments
+    Returns :
+    - avg_perc_diff - average percent difference between predicted and measured thermal conductivity values
+    - perc_diff_arr - array of percent differences between predicted and measured thermal conductivity values
+    """
+
     low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
@@ -184,6 +208,19 @@ def get_percdiff(Tdata, kdata, fit_args):
     return avg_perc_diff, perc_diff_arr
 
 def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2], fill=True):
+    """
+    Description : Plots the thermal conductivity data and fits for a given material, split into low and high temperature fits.
+    Arguments :
+    - material_name - name of the material
+    - path_dict     - dictionary type of paths to data
+    - data_dict     - dictionary of raw data with reference information as keys
+    - fit_args      - combined fit arguments
+    - fit_range     - default=[100e-4,25e2] - range over which to model the fit
+    - fill          - default=False         - Boolean argument, if true, 15% confidence interval is shaded around plot.
+    Returns :
+    - null
+    """
+
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
 
     low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
@@ -253,6 +290,18 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
     return
 
 def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-4,25e2]):
+    """
+    Description : Plots the residuals of the thermal conductivity data and fits for a given material.
+    Arguments :
+    - material_name - name of the material
+    - path_dict     - dictionary type of paths to data
+    - data_dict     - dictionary of raw data with reference information as keys
+    - fit_args      - combined fit arguments
+    - fit_range     - default=[100e-4,25e2] - range over which to model the fit
+    Returns :
+    - null
+    """
+
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
 
@@ -335,6 +384,18 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
     return
 
 def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
+    """
+    Description : Plots all the fits available in the TCdata array.
+    Arguments :
+    - TCdata       - array of thermal conductivity data
+    - folder_name  - name of the folder containing the data
+    - folder_path  - path to the folder containing the data
+    - save         - default=True          - Boolean argument, if true, plot is saved to the folder.
+    - show         - default=False         - Boolean argument, if true, plot is shown in notebook.
+    Returns :
+    - null
+    """
+
     limits = [1, 1.1, 1e-4, 0] # [min_x, max_x, min_y, max_y]
     for i in range(1, len(TCdata)): # Loop over the different fits available
         mat_parameters = get_parameters(TCdata, index = i) # get the parameters for the fit in row i
@@ -403,6 +464,17 @@ def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
     return
 
 def plot_OFHC_RRR(TCdata, folder_name, folder_path, RRR_vals = np.array([10, 100, 200, 500, 1000])):
+    """
+    Description : Plots the thermal conductivity fits for OFHC copper with different RRR values.
+    Arguments :
+    - TCdata       - array of thermal conductivity data
+    - folder_name  - name of the folder containing the data
+    - folder_path  - path to the folder containing the data
+    - RRR_vals     - array of RRR values to plot, default=[10, 100, 200, 500, 1000]
+    Returns :
+    - null
+    """
+
     for i in range(len(RRR_vals)):
         # print(i)
         mat_parameters = get_parameters(TCdata, index = 1) # get the parameters for the first material in the array (assumes all materials have same fit type)
