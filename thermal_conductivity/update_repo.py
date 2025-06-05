@@ -36,7 +36,7 @@ def main():
             TCdata = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype=str, delimiter=',') #
 
             # This makes the plot with all the fits available - with a special case for OFHC RRR
-            if folder_name == "OFHC_RRR":
+            if folder_name == "Cu_OFHC":
                 plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
             else:
                 plot_all_fits(TCdata, folder_name, folder_path)

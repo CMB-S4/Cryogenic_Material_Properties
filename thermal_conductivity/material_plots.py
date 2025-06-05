@@ -32,29 +32,30 @@ def main():
 
 
     for mat in mat_names[1:]: # ["Graphite"]: # 
-        param_dictionary = get_parameters(TCdata, mat)
-        T = np.logspace(np.log10(param_dictionary["fit_range"][0]),np.log10(param_dictionary["fit_range"][1]),100)
-        print(f"Plotting {mat} using fit type: {param_dictionary['fit_type']}")
+        if mat != "Cu_OFHC":
+            param_dictionary = get_parameters(TCdata, mat)
+            T = np.logspace(np.log10(param_dictionary["fit_range"][0]),np.log10(param_dictionary["fit_range"][1]),100)
+            print(f"Plotting {mat} using fit type: {param_dictionary['fit_type']}")
 
-        func = get_func_type(param_dictionary["fit_type"])
-        y_pred = func(T, param_dictionary)
+            func = get_func_type(param_dictionary["fit_type"])
+            y_pred = func(T, param_dictionary)
 
-        plt.plot(T, y_pred, label=f'{mat} fit')
-        plt.semilogx()
-        plt.semilogy()
-        plt.ylabel("k [W/m/K]")
-        plt.xlabel("T [K]")
-        plt.legend()
-        plt.grid(True)
-        plt.title(f"{mat} Thermal Conductivity Fit\nFit Type: {param_dictionary['fit_type']}")
-        plots_dir = f"{os.path.split(abspath)[0]}{os.sep}lib{os.sep}{mat}{os.sep}plots{os.sep}"
-        try:
-            if not os.path.exists(plots_dir):
-                print(f"making path {plots_dir}")
-                os.mkdir(plots_dir)
-            plt.savefig(f"{plots_dir}{mat}_fitPlot.pdf", dpi=300)
-        except FileNotFoundError:
-            pass
-        plt.clf()
+            plt.plot(T, y_pred, label=f'{mat} fit')
+            plt.semilogx()
+            plt.semilogy()
+            plt.ylabel("k [W/m/K]")
+            plt.xlabel("T [K]")
+            plt.legend()
+            plt.grid(True)
+            plt.title(f"{mat} Thermal Conductivity Fit\nFit Type: {param_dictionary['fit_type']}")
+            plots_dir = f"{os.path.split(abspath)[0]}{os.sep}lib{os.sep}{mat}{os.sep}plots{os.sep}"
+            try:
+                if not os.path.exists(plots_dir):
+                    print(f"making path {plots_dir}")
+                    os.mkdir(plots_dir)
+                plt.savefig(f"{plots_dir}{mat}_fitPlot.pdf", dpi=300)
+            except FileNotFoundError:
+                pass
+            plt.clf()
 if __name__ == "__main__":
     main()

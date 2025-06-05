@@ -13,6 +13,7 @@ sys.path.insert(0, f"{file_path}")
 from thermal_conductivity.fit_types import *
 from thermal_conductivity.tc_utils import *
 
+
 def make_pathtofit(mat_direct, path_to_lib, path_to_rawData, subset=None, fits_to_parse="ALL"):
     path_to_fit_dict = dict()
     if subset!=None:
@@ -72,7 +73,7 @@ def main():
         for file in old_files:
             os.remove(f"{file_path}{os.sep}{file}")
         print(f"Removing files from date: {old_date}")
-        os.chdir(f"{os.getcwd()}{os.sep}thermal_conductivity")
+        os.chdir(os.path.join(file_path, "thermal_conductivity"))
     except IndexError:
         pass
 

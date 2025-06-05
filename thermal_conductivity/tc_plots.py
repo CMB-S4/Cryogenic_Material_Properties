@@ -420,7 +420,8 @@ def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
                 linewidth = 4
                 alpha = 0.5
             # Plotting
-            plt.plot(T_range, y_vals, label=f'Fit #{i}', alpha=alpha, linestyle=linestyle, linewidth=linewidth)#, linestyle=np.random.choice(linestyle_tuple), linewidth=np.random.choice(linewidths)) # Plot the fit line for the material
+            plot_label = f"{TCdata[i][0]}"
+            plt.plot(T_range, y_vals, label=plot_label, alpha=alpha, linestyle=linestyle, linewidth=linewidth)#, linestyle=np.random.choice(linestyle_tuple), linewidth=np.random.choice(linewidths)) # Plot the fit line for the material
             plt.semilogy()
             plt.semilogx()
             plt.title(f"Plot of {folder_name} Fits", fontsize=15)
@@ -438,10 +439,10 @@ def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
                 limits[1] = float(max(limits[1], fit_range[1]))
                 limits[2] = float(max(min(limits[2], np.min(finite_y)), 1e-4))
                 limits[3] = float(min(max(limits[3], np.max(finite_y)), 1e4))
-            # plt.legend(loc='center', bbox_to_anchor=(0.5,-0.35), ncols=4) # Add legend to the plot for the material name or folder name if not specified in the dictionary
         except:
             print(f"Error encountered when evaluating {func_type.__name__}, function type not yet supported. Skipping this fit.")
             pass
+    plt.legend(loc='center', bbox_to_anchor=(1.25,0.5)) # Add legend to the plot for the material name or folder name if not specified in the dictionary
     plt.xlim(limits[0], limits[1])
     plt.ylim(limits[2], limits[3])
     # plt.xlim(1, 4)
@@ -456,6 +457,7 @@ def plot_all_fits(TCdata, folder_name, folder_path, save=True, show=False):
     plt.tight_layout()
     if save:
         plt.savefig(f"{plots_dir}{folder_name}_all_fits.png", dpi=300) # Save the figure to the folder of the material
+        plt.savefig(f"{plots_dir}{folder_name}_all_fits.pdf", dpi=300) # Save the figure to the folder of the material
         plt.clf()
     if show:
         plt.show()

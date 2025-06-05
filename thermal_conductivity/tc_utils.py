@@ -435,7 +435,6 @@ def compile_csv(path_to_fits, mat_name = None):
         for csv_file in os.listdir(file):
             if csv_file.endswith(".csv"):
                 file_path = os.path.join(file, csv_file)
-
                 material_file = np.loadtxt(file_path, dtype=str, delimiter=',')
                 headers = material_file[0]
                 headers = np.append(["Material Name"], headers)
