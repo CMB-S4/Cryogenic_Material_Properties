@@ -1,7 +1,7 @@
 # Thermal Model Tools
 ## Description
 
-## Last Updated: 29 August 2024
+## Last Updated: 04 June 2024
 
 This folder contains various example tools that can be used in tandem with the thermal conductivity data stored in this repository. The tools allow the user to create 'thermal models' of cryogenic systems. 
 
@@ -13,7 +13,7 @@ The `ExampleThermalModel` notebook is a barebones example that provides a short 
 The `Bluefors_LD400` file contains the thermal model of a standard Bluefors LD400 Dilution Refrigerator system (based on a system installed at the University of Texas). This serves as an example thermal model of a realistic system. 
 
 ### Python Models
-This repository also contains some tools developed in Python. Both are provided as there do exist benefits to both the Excel Models and these Python models. However, the Python models (more so than the Excel models) are still in active development.
+This repository also contains some tools developed in Python. Both are provided as there do exist benefits to both the Excel Models and these Python models.
 
 ## Documentation
 
