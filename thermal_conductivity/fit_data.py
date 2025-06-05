@@ -131,6 +131,12 @@ def fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, 
     return fit_args
 
 def main():
+    """
+    Description: This is the main function that runs the thermal conductivity fitting program. 
+    It first finds the raw data directories.
+    Then it creates the config.yaml files for each material in the library, which contains the material name, parent material, source of data, and fit type.
+    Finally it tries to fit the data for each material in the library.
+    """
     # Define the Arg Parser
     parser = argparse.ArgumentParser(description="Run the thermal conductivity fitting program.")
     parser.add_argument('--matlist', help="List of materials to fit, add sequentially with space delimiters and no brackets (with quotes)", type=str, nargs="+", default=None)
