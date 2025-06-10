@@ -1,0 +1,1 @@
+['Thermal Conductivity of Wood at Low Temperatures', 'Th. Wagner - S. Götz - G. Eska', 'Cryogenics 1994 Volume 34 Number 8']
