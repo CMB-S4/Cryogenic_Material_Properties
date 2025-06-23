@@ -30,3 +30,14 @@ To do so, follow the outline steps:
    * - 320
      - 14.75
      - 0.0461
+
+Adding Fits
+============================
+
+If you are adding a fit without accesss to the raw data, you can still add the fit via specifying the fit parameters in a new file within the material folder.
+#. Navigate to the material folder.
+#. If the subfolder titled ``OTHERFITS`` does not exist, create it. 
+#. Within the ``OTHERFITS`` folder, create a new file with the name of the fit you wish to add. The file should be a ``.csv`` file and contain the fit parameters as shown in the image below.
+
+Alternatively, you can use the examples shown in ``manual_add.ipynb`` to guide you.
+
