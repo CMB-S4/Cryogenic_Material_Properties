@@ -31,7 +31,9 @@ def get_func_type(key):
                      "powerlaw":       power_law,
                      "OFHC_RRR_Wc":     OFHC_RRR_Wc,
                      "RRadebaugh_koT": RRadebaugh_koT,
-                     "RRadebaugh_logkexp": RRadebaugh_logkexp}
+                     "RRadebaugh_logkexp": RRadebaugh_logkexp,
+                     "Chebyshev": Chebyshev,
+                     "Superconducting": Superconducting}
     return fit_type_dict[key]
 
 ######################################################################
@@ -188,6 +190,29 @@ def OFHC_RRR_Wc(T,RRR_list,param):
     w_i = w_i_with_w_c(t,params,w_c)
     w_i0 = w_i0(RRR,w_i,w_0)
     return (1/(w_0+w_i+w_i0))
+
+def Chebyshev(T, param_dictionary):
+    """
+    Description : Fits the data to a Chebyshev series specified by the given coefficients for a log(k) vs log(T) graph.
+    Arguments :
+    - T - temperature at which to estimate the thermal conductivity.
+    - param_dictionary - dictionary containing the coefficients of the Chebyshev series.
+    """
+    T = np.log(T)
+    coefficients = param_dictionary["low_param"]
+    return np.exp(np.polynomial.chebyshev.chebval(T, coefficients))
+
+def Superconducting(T, param_dictionary):
+    """
+    Description : A theoretical curve based on the heat transfer due to phonons and electrons at superconducting temperatures.
+    Arguments :
+    - T - temperature at which to estimate  the thermal conductivity.
+    - param_dictionary - dictionary containing material-specific parameters for its conductivity curve.
+    """
+    alpha, beta, gamma, delta = param_dictionary["lower_param"]
+    phonons = alpha * T ** beta
+    electrons = gamma * T * np.exp(delta / T)
+    return phonons + electrons
 
 ##################################################################
 # The following functions were taken from an existing Excel spreadsheet.

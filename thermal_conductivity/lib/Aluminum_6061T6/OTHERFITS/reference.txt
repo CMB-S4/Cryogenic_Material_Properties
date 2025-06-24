@@ -1,0 +1,6 @@
+Filename  : Aluminum_6061T6.csv
+Title     : Development of a Closed-Cycle Dilution Refrigerator for future cosmological missions
+Author(s) : Valentin Sauvage
+Year      : 2023
+Search Key: ['Development of a Closed-Cycle Dilution Refrigerator forfuture cosmological missions'
+ 'Valentin Sauvage' '2023']
