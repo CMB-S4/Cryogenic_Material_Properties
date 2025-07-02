@@ -38,7 +38,7 @@ def get_parameters(TCdata, mat="", index=None):
         mat_names = TCdata[:,0] # makes an array of material names
         mat_row = TCdata[int(np.argwhere(mat_names == mat)[0][0])] # searches material name array for mat specified above and return relevant row
       
-    param_headers = headers[5:]
+    param_headers = headers[4:]
     fit_type = mat_row[1]
     num_hi = sum(1 for c in param_headers if c.isupper()) # searches for the number of low parameters (by lower case letter)
     num_low = sum(1 for c in param_headers if c.islower()) # searches for number of high parameters
@@ -51,7 +51,7 @@ def get_parameters(TCdata, mat="", index=None):
     low_param = []
     hi_param = []
     erf_param = None
-    for key in headers[5:]:
+    for key in param_headers:
         if key.islower() and key != "erf param":
             low_param.append(float(fit_params[int(np.argwhere(headers == key)[0][0])]))
         elif key.isupper():

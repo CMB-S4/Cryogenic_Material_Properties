@@ -165,6 +165,7 @@ def format_combofit(fit_args):
         dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"{i}_perc_err"])))
+        dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"erfloc"]))) ################################### 20250527
         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
         while len(param_str_arr) < len(result):
             param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
@@ -172,6 +173,8 @@ def format_combofit(fit_args):
     
         mat_dict = dict(zip(keys, dict_vals))
         output_array.append(mat_dict)
+    print("\nOutput Array:")
+    print(output_array)
     return output_array
 
 def format_splitfit(fit_args, fit = "low"):
@@ -240,12 +243,15 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     hi_param = hi_param[::-1] ################################### 20240531
 
     if fit_catch == "low":
-        all_params = np.append(erf_loc, [low_param]) ################################### 20240605
+        all_params = [low_param] # np.append(erf_loc, [low_param]) ################################### 20240605
     elif fit_catch == "high":
-        all_params = np.append(erf_loc, [hi_param])################################### 20240612
+        all_params = [hi_param] # np.append(erf_loc, [hi_param])################################### 20240612
     else:
-        all_params = np.append(erf_loc, np.append(low_param, hi_param))################################### 20240612
-
+        all_params = np.append(low_param, hi_param) # np.append(erf_loc, np.append(low_param, hi_param))################################### 20240612
+    print("erf_loc:", erf_loc)
+    print("low_param:", low_param)
+    print("hi_param:", hi_param)
+    print("all_params:", all_params)
     #########
     arg_dict = {"low_function_type"  : low_func,
                 "low_fit_param"      : low_param.tolist(),
@@ -254,9 +260,9 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
                 "hi_fit_param"       : hi_param.tolist(),
                 "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
                 "combined_function_type" : "comppoly",
-                "combined_fit_param" : all_params.tolist(),
+                "combined_fit_param" : all_params, #.tolist(),
                 "combined_fit_range" : np.array([max(min(min(low_fit_xs), 10**min(hi_fit_xs)), float(0.001)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist(),
-                "combined_fit_erfloc": erf_loc ################## 20240605
+                "erfloc": erf_loc ################## 20240605
                 }
     return arg_dict
 

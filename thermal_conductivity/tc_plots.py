@@ -64,7 +64,7 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
     raw_directory = path_dict[material_name]
 
     # Extracts the fit parameters from the fit args object
-    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["erfloc"], fit_args["combined_function_type"] ################################### 20240605
     
     # Defines a range over which to model the fit
     if fit_args["low_fit_range"][1] == 0:
@@ -125,7 +125,7 @@ def plot_full(material_name: str, path_dict, data_dict, fit_args, fit_range=[100
     if points:
         plot_datapoints(data_dict)
 
-    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["erfloc"], fit_args["combined_function_type"] ################################### 20240605
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
     if fit_type in ["Nppoly", "polylog", "comppoly"]:
@@ -186,7 +186,7 @@ def get_percdiff(Tdata, kdata, fit_args):
     - perc_diff_arr - array of percent differences between predicted and measured thermal conductivity values
     """
 
-    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["erfloc"], fit_args["combined_function_type"] ################################### 20240605
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
     if fit_type in ["Nppoly", "polylog", "comppoly"]:
@@ -223,7 +223,7 @@ def plot_splitfits(material_name: str, path_dict, data_dict, fit_args, fit_range
 
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
 
-    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["erfloc"], fit_args["combined_function_type"] ################################### 20240605
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
     if fit_type in ["Nppoly", "polylog", "comppoly"]:
@@ -305,7 +305,7 @@ def plot_residuals(material_name: str, path_dict, data_dict, fit_args, fit_range
     Tdata, kdata, low_t_range, hi_t_range, low_fit_k, hi_fit_k, full_T_range, raw_directory = get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range)
     avg_perc_diff, perc_diff_arr = get_percdiff(Tdata, kdata, fit_args)
 
-    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["combined_fit_erfloc"], fit_args["combined_function_type"] ################################### 20240605
+    low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["erfloc"], fit_args["combined_function_type"] ################################### 20240605
     # low_param = low_param[::-1] ################################### 20240531
     # hi_param = hi_param[::-1] ################################### 20240531
     if fit_type in ["Nppoly", "polylog", "comppoly"]:

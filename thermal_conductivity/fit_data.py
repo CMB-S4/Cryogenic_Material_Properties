@@ -61,8 +61,9 @@ def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     print(f"{mat:>15} : Using a hi fit")
     hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
     low_fit, low_fit_xs, erf_loc = [[0], [0], -1]
-    fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
+    fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch= "high")
     perc_diff_hi, perc_diff_arr = get_percdiff(T[T>=min(hi_fit_xs)],k[T>=min(hi_fit_xs)], fit_args)
+    print(fit_args)
     fit_args["hi_perc_err"] = perc_diff_hi
     fit_args["low_perc_err"] =  0
     fit_args["combined_perc_err"] =  perc_diff_hi
