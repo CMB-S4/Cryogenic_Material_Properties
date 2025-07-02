@@ -39,7 +39,7 @@ def get_datafiles(raw_path):
     all_files = os.listdir(raw_path)
     extension = ".csv"
     raw_files = [file for file in all_files if file.endswith(extension)]
-    print(f"Found {len(raw_files)} measurements.")
+    # print(f"Found {len(raw_files)} measurements.")
     return raw_files
 
 
@@ -135,7 +135,7 @@ def generate_alphabet_array(n, case = "l"):
         alphabet = list(string.ascii_lowercase)
     else:
         alphabet = list(string.ascii_uppercase)
-    if n>1:
+    if n>=1:
         return alphabet[:n]
     else:
         return [] ####################################### 20240612
@@ -154,32 +154,39 @@ def format_combofit(fit_args):
     result_lo = generate_alphabet_array(num_fit_param_lo, "l")
     result_hi = generate_alphabet_array(num_fit_param_hi, "h")
     result = np.append(result_lo, result_hi)
-    # result = np.append(result, "erf param") ################################### 20240605
+    
     result = list(result)
-
     output_array = []
-    keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err", "erf param"] + result ################################### 20240605
+    keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err"]
+    if 'erfloc' in fit_args:
+        keys.append("erf param")
+    keys += result 
 
     for i in ["low", "hi", "combined"]:
+        if len(fit_args[f"{i}_fit_param"]) == 0:
+            # print(f"Skipping {i} fit as it has no parameters.")
+            continue
         dict_vals = []
         dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"{i}_perc_err"])))
         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', float(fit_args[f"erfloc"]))) ################################### 20250527
         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
+        if i == "hi":
+            param_str_arr = np.append(num_fit_param_lo*list(np.char.mod('%0.' + str(5) + 'e',[0])), param_str_arr)
         while len(param_str_arr) < len(result):
             param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
         dict_vals = np.append(dict_vals, param_str_arr)
     
         mat_dict = dict(zip(keys, dict_vals))
         output_array.append(mat_dict)
+        
     return output_array
 
 def format_splitfit(fit_args, fit = "low"):
     """
     Description : Makes a dictionary of strings with the appropriate formating and headings to be saved in other file formats.
     """
-    
     max_fit_param = 0
     
     num_fit_param_hi = len(fit_args["hi_fit_param"])
@@ -234,77 +241,105 @@ def dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types,
     hi_func = f"{fit_types[1]}"
 
     low_param = np.array(low_fit)
-    low_param = low_param[::-1] ################################### 2024053
+    low_param = list(low_param[::-1]) ################################### 2024053
 
     hi_param = np.array(hi_fit)
-    hi_param = hi_param[::-1] ################################### 20240531
+    hi_param = list(hi_param[::-1]) ################################### 20240531
 
     if fit_catch == "low":
-        all_params = [low_param] # np.append(erf_loc, [low_param]) ################################### 20240605
+        all_params = low_param # np.append(erf_loc, [low_param]) ################################### 20240605
     elif fit_catch == "high":
-        all_params = [hi_param] # np.append(erf_loc, [hi_param])################################### 20240612
+        all_params = hi_param # np.append(erf_loc, [hi_param])################################### 20240612
     else:
         all_params = np.append(low_param, hi_param) # np.append(erf_loc, np.append(low_param, hi_param))################################### 20240612
     #########
-    arg_dict = {"low_function_type"  : low_func,
-                "low_fit_param"      : low_param.tolist(),
-                "low_fit_range"      : np.array([min(low_fit_xs), max(low_fit_xs)]).tolist(),
-                "hi_function_type"   : hi_func,
-                "hi_fit_param"       : hi_param.tolist(),
-                "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
-                "combined_function_type" : "comppoly",
-                "combined_fit_param" : all_params, #.tolist(),
-                "combined_fit_range" : np.array([max(min(min(low_fit_xs), 10**min(hi_fit_xs)), float(0.001)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist(),
-                "erfloc": erf_loc ################## 20240605
-                }
+    # print(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, perc_err)
+    arg_dict = {}
+
+    if len(low_fit) != 0:
+        arg_dict["low_fit_range"] = np.array([min(low_fit_xs), max(low_fit_xs)]).tolist()
+    else:
+        arg_dict["low_fit_range"] = []
+    if len(hi_fit) != 0:
+        arg_dict["hi_fit_range"] = np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist()
+    else:
+        arg_dict["hi_fit_range"] = []
+
+    arg_dict["low_function_type"] = low_func
+    arg_dict["low_fit_param"] = low_param
+    arg_dict["hi_function_type"] = hi_func
+    arg_dict["hi_fit_param"] = hi_param
+    arg_dict["combined_function_type"] = "comppoly"
+    arg_dict["combined_fit_param"] = all_params
+    if len(low_fit) != 0 and len(hi_fit) != 0:
+        arg_dict["combined_fit_range"] = np.array([min(low_fit_xs), 10**max(hi_fit_xs)]).tolist()
+    elif len(low_fit) != 0:
+        arg_dict["combined_fit_range"] = np.array([min(low_fit_xs), max(low_fit_xs)]).tolist()
+    elif len(hi_fit) != 0:
+        arg_dict["combined_fit_range"] = np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist()
+    else:
+        arg_dict["combined_fit_range"] = []    
+    arg_dict["erfloc"] = erf_loc
+
+    # arg_dict = {"low_function_type"  : low_func,
+    #             "low_fit_param"      : low_param.tolist(),
+    #             "low_fit_range"      : np.array([min(low_fit_xs), max(low_fit_xs)]).tolist(),
+    #             "hi_function_type"   : hi_func,
+    #             "hi_fit_param"       : hi_param.tolist(),
+    #             "hi_fit_range"       : np.array([10**min(hi_fit_xs), 10**max(hi_fit_xs)]).tolist(),
+    #             "combined_function_type" : "comppoly",
+    #             "combined_fit_param" : all_params, #.tolist(),
+    #             "combined_fit_range" : np.array([max(min(min(low_fit_xs), 10**min(hi_fit_xs)), float(0.001)), max(max(low_fit_xs), 10**max(hi_fit_xs))]).tolist(),
+    #             "erfloc": erf_loc ################## 20240605
+    #             }
     return arg_dict
 
-def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):
-    """
-    Description : Makes a dictionary of fit parameters for a single non-compound fit with the appropriate formating and headings to be saved in other file formats.
-    Arguments :
-    - fit_param   - Array of the fit parameters.
-    - fit_range   - Array of the fit range.
-    - fit_type    - String indicating the type of fit.
-    - perc_err    - Percentage error of the fit.
-    Returns :
-    - arg_dict    - Dictionary of fit arguments - includes low fit, high fit, and combined fit arguments.
-    """
-    fit_param = fit_param[::-1] ################################### 20240531
-    arg_dict = {"combined_function_type" : fit_type,
-                "combined_fit_param" : fit_param.tolist(),
-                "combined_fit_range" : np.array(fit_range).tolist(),
-                "combined_perc_err": perc_err}
-    return arg_dict
+# def dict_monofit(fit_param, fit_range, fit_type, perc_err="??"):
+#     """
+#     Description : Makes a dictionary of fit parameters for a single non-compound fit with the appropriate formating and headings to be saved in other file formats.
+#     Arguments :
+#     - fit_param   - Array of the fit parameters.
+#     - fit_range   - Array of the fit range.
+#     - fit_type    - String indicating the type of fit.
+#     - perc_err    - Percentage error of the fit.
+#     Returns :
+#     - arg_dict    - Dictionary of fit arguments - includes low fit, high fit, and combined fit arguments.
+#     """
+#     fit_param = fit_param[::-1] ################################### 20240531
+#     arg_dict = {"combined_function_type" : fit_type,
+#                 "combined_fit_param" : fit_param.tolist(),
+#                 "combined_fit_range" : np.array(fit_range).tolist(),
+#                 "combined_perc_err": perc_err}
+#     return arg_dict
 
-def format_monofit(fit_args):
-    """
-    Description : properly formats the fit arguments for a single non-compound fit with the appropriate formating and headings to be saved in other file formats.
-    """
-    num_fit_param_combined = len(fit_args["combined_fit_param"])
+# def format_monofit(fit_args):
+#     """
+#     Description : properly formats the fit arguments for a single non-compound fit with the appropriate formating and headings to be saved in other file formats.
+#     """
+#     num_fit_param_combined = len(fit_args["combined_fit_param"])
 
-    result = list(generate_alphabet_array(num_fit_param_combined, "l"))
+#     result = list(generate_alphabet_array(num_fit_param_combined, "l"))
     
-    output_array = []
-    keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err"] + result
+#     output_array = []
+#     keys = ["Fit Type", "Low Temp", "High Temp", "Perc Err"] + result
 
-    for i in ["combined"]:
-        dict_vals = []
-        dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
-        dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
-        dict_vals = np.append(dict_vals, fit_args[f"{i}_perc_err"])
+#     for i in ["combined"]:
+#         dict_vals = []
+#         dict_vals = np.append(dict_vals, np.array(fit_args[f"{i}_function_type"], dtype=str).flatten())
+#         dict_vals = np.append(dict_vals, np.char.mod('%0.' + str(3) + 'f', np.array(fit_args[f"{i}_fit_range"], dtype=float)).flatten())
+#         dict_vals = np.append(dict_vals, fit_args[f"{i}_perc_err"])
 
-        param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
+#         param_str_arr  = np.char.mod('%0.' + str(5) + 'e', np.array(fit_args[f"{i}_fit_param"], dtype=float)).flatten()
 
-        while len(param_str_arr) < len(result):
-            param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
+#         while len(param_str_arr) < len(result):
+#             param_str_arr = np.append(param_str_arr, np.char.mod('%0.' + str(5) + 'e',[0]))
     
-        dict_vals = np.append(dict_vals, param_str_arr)
+#         dict_vals = np.append(dict_vals, param_str_arr)
     
-        mat_dict = dict(zip(keys, dict_vals))
-        output_array.append(mat_dict)
+#         mat_dict = dict(zip(keys, dict_vals))
+#         output_array.append(mat_dict)
     
-    return output_array
+#     return output_array
 
 def find_closest(arr, val): 
     """
@@ -563,16 +598,16 @@ def dual_tc_fit(big_data, save_path, erf_loc = 20, fit_orders = (3,3), fit_types
         if (fit_types[0] == "Nppoly") and (len(lowT)!=0):
             low_fit_xs, low_fit = koT_function(lowT, lowT_koT, fit_orders[0], low_ws)
         elif (len(lowT)==0):
-            low_fit = [0]
-            low_fit_xs = [0]
+            low_fit = []
+            low_fit_xs = []
 
         # Fit the high data
         
         if fit_types[1] == "polylog" and (len(hiT)!=0):
             hi_fit_xs, hi_fit = logk_function(log_hi_T, log_hi_k, fit_orders[1], hi_ws)
         elif (len(hiT)==0):
-            hi_fit = [0]
-            hi_fit_xs = [0]
+            hi_fit = []
+            hi_fit_xs = []
 
     except np.linalg.LinAlgError:
         print("LinAlgError - likely not enough points after weight to fit the data.")

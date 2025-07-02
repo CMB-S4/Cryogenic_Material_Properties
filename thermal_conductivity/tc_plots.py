@@ -67,11 +67,11 @@ def get_plotting_data(material_name, path_dict, data_dict, fit_args, fit_range):
     low_param, hi_param, erf_param, fit_type = fit_args["low_fit_param"], fit_args["hi_fit_param"], fit_args["erfloc"], fit_args["combined_function_type"] ################################### 20240605
     
     # Defines a range over which to model the fit
-    if fit_args["low_fit_range"][1] == 0:
+    if len(fit_args["low_fit_range"]) == 0:
         upper_bound = fit_range[1]
     else:
         upper_bound = fit_args["low_fit_range"][1]
-    if fit_args["hi_fit_range"][0] == 0:
+    if len(fit_args["hi_fit_range"]) == 0:
         lower_bound = fit_range[0]
     else:
         lower_bound = fit_args["hi_fit_range"][0]
@@ -200,7 +200,11 @@ def get_percdiff(Tdata, kdata, fit_args):
     
     # Calculates the predicted k value for the measured T values (rather than a continuous range)
     func = get_func_type(param_dictionary["fit_type"])
-    kpred_discrete = func(Tdata, param_dictionary)
+    try:
+        kpred_discrete = func(Tdata, param_dictionary)
+    except Exception as e:
+        print(f"Error occurred while predicting k values: {e}")
+        return None, None
 
     diff = kpred_discrete-kdata                 # the difference between the predicted and measured k values
     perc_diff_arr = 100*diff/kpred_discrete     # Calculates a percent difference 
@@ -368,11 +372,16 @@ def tk_plot(material_name: str, path_dict, data_dict, fit_args, fit_range=[100e-
 
     Returns : 
     - null
+    
     """    
+    plot_full(material_name, path_dict, data_dict, fit_args, fit_range, points, fits, fill)
+    plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range, fill)
+    plot_residuals(material_name, path_dict, data_dict, fit_args, fit_range)
+
     try:
         plot_full(material_name, path_dict, data_dict, fit_args, fit_range, points, fits, fill)
     except:
-        print(f"Failed to plot split fits for {material_name}. This may be due to an insufficient number of data points or a poor fit.")
+        print(f"Failed to plot full plot for {material_name}. This may be due to an insufficient number of data points or a poor fit.")
     try:
         plot_splitfits(material_name, path_dict, data_dict, fit_args, fit_range, fill)
     except:

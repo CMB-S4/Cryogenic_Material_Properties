@@ -93,7 +93,10 @@ def polylog(T, param_dictionary):
         param = param_dictionary["hi_param"]
     else:
         param = param_dictionary["low_param"]
-    return 10**np.polyval(param, np.log10(T))
+    
+    logk = np.polyval(param, np.log10(T))
+    k = 10**logk
+    return k
 
 def loglog_func(T, param_dictionary, erf_multiplicity=15): #**kwargs
     """

@@ -25,7 +25,7 @@ def main():
     for i in tqdm(range(num_dir)):
         folder_name = os.listdir(lib_dir)[i] # loop through each material folder in lib/
         folder_path = os.path.join(lib_dir, folder_name)
-        print(f"\n Processing {folder_name} ({i+1}/{num_dir})\n")
+        # print(f"\n Processing {folder_name} ({i+1}/{num_dir})\n")
         if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it
             # First lets make a compilation file of each fit available for a material
             paths = get_all_fits(folder_path) # paths to each fit file in the directory
