@@ -9,6 +9,7 @@ import matplotlib
 matplotlib.use('TKAgg')
 import os, json, shutil
 import argparse
+from tqdm import tqdm
 
 # note : most functions needed for running this notebook can be found in tc_utils.
 from tc_utils import *
@@ -63,7 +64,6 @@ def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     low_fit, low_fit_xs, erf_loc = [[0], [0], -1]
     fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch= "high")
     perc_diff_hi, perc_diff_arr = get_percdiff(T[T>=min(hi_fit_xs)],k[T>=min(hi_fit_xs)], fit_args)
-    print(fit_args)
     fit_args["hi_perc_err"] = perc_diff_hi
     fit_args["low_perc_err"] =  0
     fit_args["combined_perc_err"] =  perc_diff_hi
@@ -161,6 +161,7 @@ def main():
         pass
 
     for mat in mat_directories:
+        print(mat)
         path_to_mat = f"{path_to_lib}{os.sep}{mat}"
         raw_str = f"{path_to_mat}{os.sep}RAW"
         config_str = f"{path_to_mat}{os.sep}config.yaml"
@@ -180,25 +181,27 @@ def main():
         # if it doesn't exist, set the parent to "NA" (undefined parent material)
         if not os.path.exists(config_str): 
             parent = "NA"
-        else: # if it does exist, load the parent from the config file
-            with open(config_str, 'r') as file:
-                mat_config = json.load(file)
-            parent = mat_config[0]["parent"]
-
-        # Check for existing config file
-        # if it doesn't exist, set the fit type None (undefined parent material)
-
-        if not os.path.exists(config_str):
             conf_fit_type = None
         else: # if it does exist, load the parent from the config file
             with open(config_str, 'r') as file:
                 mat_config = json.load(file)
+            parent = mat_config[0]["parent"]
             conf_fit_type = None # mat_config[0]["fit_type"]
 
-        
+        # # Check for existing config file
+        # # if it doesn't exist, set the fit type None (undefined parent material)
+
+        # if not os.path.exists(config_str):
+            
+        # else: # if it does exist, load the parent from the config file
+        #     with open(config_str, 'r') as file:
+        #         mat_config = json.load(file)
+        #     conf_fit_type = None # mat_config[0]["fit_type"]
 
         # Defines the dictionary for the config file
         yaml_dict = []
+        if len(source) == 0: # if there is no source, skip this material
+            source = ["NA"]
         for i in range(len(source)):
             yaml_dict.append({"name":f"{mat}", 
                               "parent":f"{parent}",
@@ -207,7 +210,6 @@ def main():
         yaml_dict = json.dumps(yaml_dict, indent=4)
         with open(config_str, 'w') as file:
             file.write(yaml_dict) # Write to new JSON
-
 
     # Loops over material list and checks if the parent material exists in the library
     for mat in mat_directories:
@@ -237,7 +239,8 @@ def main():
 
     # Now we can loop through each material and run our fitting algorithm
     # You can also change the array that mat cycles through if you wish to only run the code for certain materials
-    for mat in mat_directories: #path_to_RAW.keys(): #  ["Kapton"]: #
+    for mat_num in tqdm(range(len(mat_directories))): #path_to_RAW.keys(): #  ["Kapton"]: #
+        mat = mat_directories[mat_num]
         path_to_mat = f"{path_to_lib}{os.sep}{mat}"
         raw_str = f"{path_to_mat}{os.sep}RAW"
         fits_str = f"{path_to_mat}{os.sep}fits"

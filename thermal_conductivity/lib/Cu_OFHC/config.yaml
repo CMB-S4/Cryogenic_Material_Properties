@@ -1,12 +1,12 @@
 [
     {
-        "name": "OFHC_RRR",
+        "name": "Cu_OFHC",
         "parent": "NA",
         "source": "RAW",
         "fit_type": "None"
     },
     {
-        "name": "OFHC_RRR",
+        "name": "Cu_OFHC",
         "parent": "NA",
         "source": "NIST",
         "fit_type": "None"

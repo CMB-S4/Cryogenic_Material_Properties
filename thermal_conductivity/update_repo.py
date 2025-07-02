@@ -37,7 +37,8 @@ def main():
 
             # This makes the plot with all the fits available - with a special case for OFHC RRR
             if folder_name == "Cu_OFHC":
-                plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
+                # plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
+                continue
             else:
                 plot_all_fits(TCdata, folder_name, folder_path)
         

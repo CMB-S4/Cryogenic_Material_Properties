@@ -2,7 +2,7 @@
     {
         "name": "Wood",
         "parent": "NA",
-        "source": "RAW",
+        "source": "NA",
         "fit_type": "None"
     }
 ]
