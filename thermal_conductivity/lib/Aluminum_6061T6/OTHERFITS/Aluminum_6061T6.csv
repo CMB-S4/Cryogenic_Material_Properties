@@ -1,2 +1,2 @@
-Fit Type,Low Temp,High Temp,erf param,a,b,c,d,e,f,g,h,j
+Fit Type,Low Temp,High Temp,erf param,a,b,c,d,e,f,g,h,i
 Chebyshev,0.095,20.000,0.000,2.39703410e-01,1.88576787e+00,-4.39839595e-01,9.53687043e-02,2.05443158e-03,-2.89908152e-03,-1.33420775e-04,1.14453429e-04,-8.72830666e-06
