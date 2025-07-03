@@ -11,7 +11,7 @@ import sys, os, json
 from tqdm import tqdm
 
 from tc_tools  import *
-from tc_utils import get_all_fits, compile_csv, create_tc_csv
+from tc_utils import get_all_fits, compile_csv, create_tc_csv, update_interpolation
 from tc_plots import plot_all_fits, plot_OFHC_RRR
 import yaml
 
@@ -34,7 +34,8 @@ def main():
 
             # Now import the data from that all_fits file
             TCdata = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype=str, delimiter=',') #
-
+            if len(paths) > 0:
+                update_interpolation(folder_path, preferred_fit = None)
             # This makes the plot with all the fits available - with a special case for OFHC RRR
             if folder_name == "Cu_OFHC":
                 # plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
@@ -70,6 +71,7 @@ def main():
                         if parent not in parent_dictionary.keys():
                             parent_dictionary[parent] = []
                         parent_dictionary[parent].append(folder_path)
+            
         else:
             print(f"No config.yaml found in {folder_path}")
 

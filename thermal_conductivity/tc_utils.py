@@ -12,12 +12,14 @@ import h5py
 import sys,os
 from datetime import datetime
 import regex as re
+import pickle as pkl
 abspath = os.path.abspath(__file__)
 sys.path.insert(0, os.path.dirname(abspath))
 
 
 from fit_types import * # Imports the different fit types from the associated file
-
+from tc_plots import plot_interpolation
+from tc_tools import get_parameters
 cmap = cm.get_cmap('Dark2')
 
 markers = ['o', 's', 'd', 'P','3', '*']
@@ -692,3 +694,103 @@ def get_all_fits(mat_direct, subset=None):
         path_to_fit_dict["NIST_fit"] = nist_str
     
     return path_to_fit_dict
+
+
+########################################################################################
+########################################################################################
+from scipy.interpolate import interp1d
+
+
+def interpolate(folder_path, preferred_fit = None):
+
+    # Let's search to see if the material has room temperature data so we can include that in our interpolation
+    room_temperature_data = False
+    config_path = f"{folder_path}{os.sep}room_temperature.yaml"
+    if os.path.exists(config_path):
+        with open(config_path, 'r') as file:
+            config = yaml.safe_load(file)
+        room_temperature_data = True
+        room_temp = float(config['room_temperature_conductivity'][0])
+        room_k = float(config['room_temperature_conductivity'][1])
+
+    # Loading all fit data for the material in question
+    fits = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype = str, delimiter = ',')
+    num_fits = len(fits) - 1
+
+    # This creates a list of each fit's low and high temperature bounds
+    low_temps = fits[1:, 2]
+    low_temps = [float(i) for i in low_temps]
+    high_temps = fits[1:, 3]
+    high_temps = [float(i) for i in high_temps]
+
+    # We want to sort our fits to go in numerical order by low temperature range 
+    # This will make it easy to choose when to switch fits during interpolation
+    sorting_indices = np.argsort(low_temps)
+    low_temps = np.array(low_temps)[sorting_indices]
+    high_temps = np.array(high_temps)[sorting_indices]
+    sorting_indices = np.append(0, sorting_indices + 1)
+    sorted_fits = fits[sorting_indices, :]
+    fit_names = sorted_fits[1:, 0]
+
+    Ts = np.empty(0, float)
+    ks = np.empty(0, float)
+
+    # If we have a fit we prefer the interpolation to use, it will create the points here and block other fits from overriding them later
+    if preferred_fit != None:
+        preferred_fit = str(preferred_fit)
+        parameters = get_parameters(sorted_fits, preferred_fit)
+        func_type = get_func_type(parameters['fit_type'])
+        preferred_fit_range = parameters['fit_range']
+        T = np.logspace(np.log10(preferred_fit_range[0]), np.log10(preferred_fit_range[1]), 1000)
+        k = func_type(T, parameters)
+        Ts = np.append(Ts, T)
+        ks = np.append(ks, k)
+
+    # Here, we go through every fit for the chosen material and decide what parts of each fit to use
+    for i in range(num_fits):
+        # We don't want to use a fit whose temperature range is contained inside the last fit we used
+        if i != 0 and high_temps[i] <= high_temps[i - 1]:
+            continue
+        # We want to reduce the list of fits just to the one in question because tc tools can get confused if two fits are both named "raw_fit" for example
+        current_fit = sorted_fits[[0, i + 1], :]
+        parameters = get_parameters(current_fit, fit_names[i])
+        func_type = get_func_type(parameters['fit_type'])
+        fit_range = parameters['fit_range']
+        # If two fits intersect at the temperature ranges, we want it to switch from one to the other so it does not oscillate between the two
+        if i != 0 and low_temps[i] < high_temps[i - 1]:
+            fit_range[0] = high_temps[i - 1]
+        T = np.logspace(np.log10(fit_range[0]), np.log10(fit_range[1]), 1000)
+        # Here we remove any points that intersect with our preferred fit
+        if preferred_fit != None:
+            indices = np.where((T < preferred_fit_range[0]) | (T > preferred_fit_range[1]))
+            T = T[indices]
+        # Here we generate our conductivity points to feed to the interpolation
+        # Some fits don't function the same as others and are not currently supported
+        try:
+            k = func_type(T, parameters)
+        except:
+            print(f"{func_type} not supported.")
+            k = [0 for i in T]
+
+        Ts = np.append(Ts, T)
+        ks = np.append(ks, k)
+
+    if room_temperature_data:
+        Ts = np.append(Ts, room_temp)
+        ks = np.append(ks, room_k)
+        
+    return interp1d(Ts, ks)
+
+def update_interpolation(folder_path, preferred_fit = None):
+    material = os.path.split(folder_path)[-1]
+    # Creating the interpolation
+    interpolation = interpolate(folder_path, preferred_fit)
+
+    # Creating a pickle file with the interpolation function for the material in question
+    with open(f'{folder_path}{os.sep}interpolation.pkl', 'wb') as file:
+        pkl.dump(interpolation, file)
+
+    # Creating plots for to view the interpolation curve
+    plot_interpolation(folder_path, interpolation)
+    plt.savefig(f"{folder_path}{os.sep}plots{os.sep}{material}_interpolation.png", dpi=300) 
+    plt.savefig(f"{folder_path}{os.sep}plots{os.sep}{material}_interpolation.pdf", dpi=300) 

@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 import os, sys
+import yaml
 
 abspath = os.path.abspath(__file__)
 sys.path.insert(0, os.path.dirname(abspath))
@@ -510,3 +511,58 @@ def plot_OFHC_RRR(TCdata, folder_name, folder_path, RRR_vals = np.array([10, 100
         plt.legend(loc='best') # Add legend to the plot for the material name or folder name if not specified in the dictionary
         
     plt.savefig(f"{folder_path}{os.sep}plots{os.sep}{folder_name}_all_fits.pdf", dpi=300) # Save the figure to the folder of the material
+
+
+#####################
+
+#####################
+
+def plot_interpolation(folder_path, interpolation_function, show = False):
+    material = os.path.basename(folder_path)
+    print(material)
+    # Let's search to see if the material has room temperature data so we can include that in our interpolation
+    room_temperature_data = False
+    config_path = f"{folder_path}{os.sep}room_temperature.yaml"
+    if os.path.exists(config_path):
+        with open(config_path, 'r') as file:
+            config = yaml.safe_load(file)
+        room_temperature_data = True
+        room_temp = float(config['room_temperature_conductivity'][0])
+        room_k = float(config['room_temperature_conductivity'][1])
+        print(type(room_temp))
+
+    # Generating plot assets and loading all fit data for the material in question
+    fig, ax = plt.subplots()
+    fits = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype = str, delimiter = ',')
+
+    # This creates a list of each fit's low and high temperature bounds
+    low_temps = fits[1:, 2]
+    low_temps = [float(i) for i in low_temps]
+    high_temps = fits[1:, 3]
+    high_temps = [float(i) for i in high_temps]
+
+    # Finding the range of the interpolation function
+    T_range = [min(low_temps), max(high_temps)]
+
+    if room_temperature_data:
+        T_range = [min(low_temps), max(*high_temps, room_temp)]
+        plt.plot(room_temp, room_k, '.', label = f"{room_temp} Kelvin conductivity")
+    T = np.logspace(np.log10(T_range[0]), np.log10(T_range[1]), 1000)
+    # Due to floating point error, we may want to redefine the final temperature point
+    # I was recieving an error that 300.00000001 was out of the interpolation's range
+    if room_temperature_data and T_range[1] == room_temp:
+        T[-1] = room_temp
+    # Here, we are generating the interpolation's conductivity points to plot 
+    k = interpolation_function(T)
+
+    # Finally, let's plot all the curves
+    plt.plot(T, k, label = "interpolation")
+    plot_all_fits(fits, material, folder_path, save = False, show = False)
+    # If our room temperature data is out of bounds of the fits, we may want to shift the plot limits
+    if room_temperature_data:
+        plt.xlim(T_range[0], T_range[1])
+        k_range = ax.get_ylim()
+        plt.ylim(k_range[0], max(k_range[1], room_k))
+    if show:
+        plt.show()
+        plt.clf()
