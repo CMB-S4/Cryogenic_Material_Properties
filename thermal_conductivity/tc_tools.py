@@ -7,16 +7,18 @@ import os, sys
 
 abspath = os.path.abspath(__file__)
 sys.path.insert(0, os.path.dirname(abspath))
-
+this_dir = os.path.dirname(abspath)
 
 from itertools import dropwhile
 from fit_types import get_func_type
+import pickle
 
 path_to_tcFiles = f"{os.path.split(abspath)[0]}{os.sep}..{os.sep}"
 all_files = os.listdir(path_to_tcFiles)
 exist_files = [file for file in all_files if file.startswith("tc_fullrepo")]
 tc_file_date = exist_files[0][-12:-4]
 
+path_to_lib = os.path.join(this_dir, "lib")
 TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
 
 
@@ -37,7 +39,6 @@ def get_parameters(TCdata, mat="", index=None):
     else:
         mat_names = TCdata[:,0] # makes an array of material names
         mat_row = TCdata[int(np.argwhere(mat_names == mat)[0][0])] # searches material name array for mat specified above and return relevant row
-      
     param_headers = headers[4:]
     fit_type = mat_row[1]
     num_hi = sum(1 for c in param_headers if c.isupper()) # searches for the number of low parameters (by lower case letter)
@@ -94,7 +95,7 @@ def get_thermal_conductivity(T, material, verbose=True):
     k_val = func(T, param_dictionary)
     return k_val
 
-def get_conductivity_integral(T_low, T_high, material, extra_parameters = [], verbose=True):
+def get_conductivity_integral(T_low, T_high, material, specify_fit = "", extra_parameters = [], verbose=True):
     """
     Function: Finds the integrated thermal conductivity of a given material over a temperature range.
 
@@ -105,8 +106,16 @@ def get_conductivity_integral(T_low, T_high, material, extra_parameters = [], ve
 
     Returns: ConInt, thermal conductivity in W/m
     """
+    if specify_fit != "":
+        # Choosing a specific fit from the list available for the material.
+        # Pull the individual material all_fits file instead of the full compilation file
+        TCdata = np.loadtxt(os.path.join(path_to_lib, material, "all_fits.csv"), dtype=str, delimiter=',') # imports compilation file csv
+        param_dictionary = get_parameters(TCdata, specify_fit) # gets the material fit parameters
+    else:
+        TCdata = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',')
+        param_dictionary = get_parameters(TCdata, material) # gets the material fit parameters
+
     T_values = np.linspace(T_low, T_high, 1000) # defines the temperature array over which to calculate integral
-    param_dictionary = get_parameters(TCdata, material) # gets the material fit parameters
     func = get_func_type(param_dictionary["fit_type"]) # finds the material fit type
     if verbose:
         if min(T_values)<param_dictionary["fit_range"][0] or max(T_values)>param_dictionary["fit_range"][1]:
@@ -152,9 +161,22 @@ def make_a_table(TCdata, materials):
         np.savetxt(savefile, np.transpose(tc_datatable), delimiter=",", fmt="%s")
 
     return
+
+def get_interpolation(material_path):
+    """
+    Function: Returns the interpolation function for a material.
+
+    Arguments:
+    - material_path: str. Path to the material's all_fits.csv file.
+
+    Returns: interp_func, interpolation function for the material.
+    """
+    interp_pkl = os.path.join(material_path, "interpolation.pkl")
+    with open(interp_pkl, "rb") as f:
+        interp_func = pickle.load(f)
+    return interp_func
 """
 curated_TC = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
 curated_matnames = curated_TC[1:,0]
-
-make_a_table(curated_TC, curated_matnames)
 """
+
