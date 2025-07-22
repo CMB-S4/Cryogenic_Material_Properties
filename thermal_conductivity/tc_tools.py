@@ -4,7 +4,7 @@
 
 import numpy as np
 import os, sys
-
+from scipy.integrate import quad
 abspath = os.path.abspath(__file__)
 sys.path.insert(0, os.path.dirname(abspath))
 this_dir = os.path.dirname(abspath)
@@ -175,8 +175,19 @@ def get_interpolation(material_path):
     with open(interp_pkl, "rb") as f:
         interp_func = pickle.load(f)
     return interp_func
-"""
-curated_TC = np.loadtxt(f"{path_to_tcFiles}{os.sep}tc_fullrepo_{tc_file_date}.csv", dtype=str, delimiter=',') # imports compilation file csv
-curated_matnames = curated_TC[1:,0]
-"""
 
+def get_interpolation_integral(lowT, highT, mat):
+    """Get the integral of the interpolation function for a material.
+
+    Args:
+        lowT (float): Lower temperature bound in Kelvin.
+        highT (float): Upper temperature bound in Kelvin.
+        mat (str): Material name.
+    """
+    material_path = os.path.join(path_to_lib, mat)
+    interp_func = get_interpolation(material_path)
+
+    T_values = np.linspace(lowT, highT, 1000)
+    k_values = interp_func(T_values)
+    integral = np.trapz(k_values, T_values)
+    return integral
