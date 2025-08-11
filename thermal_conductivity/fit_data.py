@@ -24,7 +24,7 @@ def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     hi_fit, hi_fit_xs, erf_loc = [[], [], 0]
     fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch = "low")
     fit_args["combined_function_type"] = fit_types[0]
-    perc_diff_low, perc_diff_arr = get_percdiff(T[T<=max(low_fit_xs)],k[T<=max(low_fit_xs)], fit_args)
+    perc_diff_low, perc_diff_arr, *_ = get_percdiff(T[T<=max(low_fit_xs)],k[T<=max(low_fit_xs)], fit_args)
     fit_args["low_perc_err"] =  perc_diff_low
     fit_args["hi_perc_err"] =  0
     fit_args["combined_perc_err"] =  perc_diff_low
@@ -36,7 +36,7 @@ def fit_lowT_data(mat, T, k, koT, fit_orders, weights, fit_types):
         low_fit, erf_loc = [[], -1]
         fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch = "high")
         fit_args["combined_function_type"] = fit_types[1]
-        perc_diff_hi, perc_diff_arr = get_percdiff(T[T>=min(hi_fit_xs)],k[T>=min(hi_fit_xs)], fit_args)
+        perc_diff_hi, perc_diff_arr, *_ = get_percdiff(T[T>=min(hi_fit_xs)],k[T>=min(hi_fit_xs)], fit_args)
         fit_args["hi_perc_err"] = perc_diff_hi
         fit_args["low_perc_err"] =  0
         fit_args["combined_perc_err"] =  perc_diff_hi
@@ -48,7 +48,7 @@ def fit_highT_data(mat, T, k, koT, fit_orders, weights, fit_types):
     hi_fit_xs, hi_fit = logk_function(np.log10(T), np.log10(k), fit_orders[1], weights)
     low_fit, low_fit_xs, erf_loc = [[], [], -1]
     fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc, fit_catch= "high")
-    perc_diff_hi, perc_diff_arr = get_percdiff(T[T>=min(hi_fit_xs)],k[T>=min(hi_fit_xs)], fit_args)
+    perc_diff_hi, perc_diff_arr, *_ = get_percdiff(T[T>=min(hi_fit_xs)],k[T>=min(hi_fit_xs)], fit_args)
     fit_args["hi_perc_err"] = perc_diff_hi
     fit_args["low_perc_err"] =  0
     fit_args["combined_perc_err"] =  perc_diff_hi
@@ -76,29 +76,29 @@ def fit_combined_data(mat, T, k, koT, fit_orders, weights, fit_types, big_data, 
         else:
             hi_fit_xs, hi_fit = logk_function(log_hi_T, log_hi_k, fit_orders[1], hi_ws)
         fit_args = dict_combofit(low_fit, low_fit_xs, hi_fit, hi_fit_xs, fit_orders, fit_types, erf_loc)
-        perc_diff_avg, perc_diff_arr = get_percdiff(T, k, fit_args)
+        perc_diff_avg, perc_diff_arr, *_ = get_percdiff(T, k, fit_args)
         perc_diff_avgs = np.append(perc_diff_avgs, perc_diff_avg)
     erf_locdict = dict(zip(erf_locList, perc_diff_avgs))
     bestRes = min(erf_locdict.values())
     besterf_loc = [key for key in erf_locdict if erf_locdict[key] == bestRes]
     fit_args = dual_tc_fit(big_data, path_to_plots[mat], erf_loc=min(besterf_loc), fit_orders=fit_orders, plots=False)
-    perc_diff_avg, perc_diff_arr = get_percdiff(T, k, fit_args)
+    perc_diff_avg, perc_diff_arr, *_ = get_percdiff(T, k, fit_args)
     if verbose:
         print(f"Low-Hi split centered at : {min(besterf_loc)} ~~ with average percent difference value of: {perc_diff_avg:.2f}%")
     if len(fit_args["low_fit_range"]) == 0:
         fit_args["low_perc_err"] = []
     else:
-        perc_diff_low, perc_diff_arr = get_percdiff(T[T<=max(fit_args["low_fit_range"])],k[T<=max(fit_args["low_fit_range"])], fit_args)
+        perc_diff_low, perc_diff_arr, *_ = get_percdiff(T[T<=max(fit_args["low_fit_range"])],k[T<=max(fit_args["low_fit_range"])], fit_args)
         fit_args["low_perc_err"] =  perc_diff_low
     if len(fit_args["hi_fit_range"]) == 0:
         fit_args["hi_perc_err"] = []
     else:
-        perc_diff_hi, perc_diff_arr = get_percdiff(T[T>=min(fit_args["hi_fit_range"])],k[T>=min(fit_args["hi_fit_range"])], fit_args)
+        perc_diff_hi, perc_diff_arr, *_ = get_percdiff(T[T>=min(fit_args["hi_fit_range"])],k[T>=min(fit_args["hi_fit_range"])], fit_args)
         fit_args["hi_perc_err"] =  perc_diff_hi
     if len(fit_args["combined_fit_range"]) == 0:
         fit_args["combined_perc_err"] = []
     else:
-        perc_diff_combo, perc_diff_arr = get_percdiff(T[T>=min(fit_args["combined_fit_range"])],k[T>=min(fit_args["combined_fit_range"])], fit_args)
+        perc_diff_combo, perc_diff_arr, *_ = get_percdiff(T[T>=min(fit_args["combined_fit_range"])],k[T>=min(fit_args["combined_fit_range"])], fit_args)
         fit_args["combined_perc_err"] =  perc_diff_combo
     return fit_args
 

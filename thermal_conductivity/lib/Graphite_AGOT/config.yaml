@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Graphite_AGOT",
+        "parent": "Graphite",
+        "source": "RAW",
+        "fit_type": "None"
+    }
+]
