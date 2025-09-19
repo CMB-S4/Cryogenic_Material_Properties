@@ -213,6 +213,10 @@ class Material:
         Args:
             new_fit_type (str): The new fit type to use.
         """
+        for i, fit in enumerate(self.fits):
+            if fit.source == "data":
+                # delete the existing fit
+                del self.fits[i]
         self.fit_type = new_fit_type
         try:
             popt, pcov = self.fit_data(n_param=n_param)
@@ -224,11 +228,13 @@ class Material:
         self.raw_fit_params = popt
         self.raw_fit_cov = pcov
         # Now update the material.fits list, replace the fit with source "data"
-        for i, fit in enumerate(self.fits):
-            if fit.source == "data":
-                self.fits[i] = Fit(self.name, "data", (min(self.temp_range), max(self.temp_range)), popt, pcov, self.fit_type)
+        # for i, fit in enumerate(self.fits):
+        #     print(fit.source, fit.fit_type)
+        #     if fit.source == "data":
+        #         self.fits[i] = Fit(self.name, "data", (min(self.temp_range), max(self.temp_range)), popt, pcov, self.fit_type)
+        # print(self.fits)
         self.interpolate_function = self.interpolate(preferred_fit=None)
-        return
+        return self
 
     def interpolate(self, preferred_fit: None):
         """
