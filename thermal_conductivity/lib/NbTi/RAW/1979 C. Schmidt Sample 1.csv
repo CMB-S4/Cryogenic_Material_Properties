@@ -1,0 +1,13 @@
+﻿"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi",C. Schmidt,Rev. Sci. Instrum. 50  454–457 (1979)
+T (K),k (W/m/K),k/T
+4.426,1.18E-01,2.67E-02
+4.628,1.36E-01,2.94E-02
+4.883,1.45E-01,2.97E-02
+5.205,1.64E-01,3.15E-02
+5.586,1.81E-01,3.23E-02
+6.037,2.12E-01,3.51E-02
+6.453,2.45E-01,3.80E-02
+6.928,2.77E-01,4.00E-02
+7.295,3.03E-01,4.16E-02
+7.663,3.20E-01,4.17E-02
+8.019,3.68E-01,4.58E-02

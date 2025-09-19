@@ -1,0 +1,66 @@
+Reference : 0
+Filename  : Bogaard_1993.csv
+Title     : Thermophysical properties of stainless steels
+Author(s) : R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho
+Year      : ????
+Publisher : 1993
+Search Key: ['Thermophysical properties of stainless steels'
+ 'R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho' '1993']
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : Marisov_1967.csv
+Title     : Thermal conductivity of some metals and alloys in the temperature range 4.2-273 K
+Author(s) : B.A. Marisov-V.I. Khotkevich-G.M. Zlobintsev-V.V. Kozinets
+Year      : ????
+Publisher : 1967
+Search Key: ['Thermal conductivity of some metals and alloys in the temperature range 4.2-273 K'
+ 'B.A. Marisov-V.I. Khotkevich-G.M. Zlobintsev-V.V. Kozinets' '1967']
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : Mikhailova_1971.csv
+Title     : Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K
+Author(s) : G.N. Mikhailova
+Year      : ????
+Publisher : 1971
+Search Key: ['Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K'
+ 'G.N. Mikhailova' '1971']
+
+-----------------------------------------------------
+
+Reference : 3
+Filename  : StutiusDillinger_1973.csv
+Title     : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+Author(s) : W. Stutius and J.R. Dillinger
+Year      : ????
+Publisher : 1973
+Search Key: ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
+ 'W. Stutius and J.R. Dillinger' '1973']
+
+-----------------------------------------------------
+
+Reference : 4
+Filename  : Zavaritskii_1956.csv
+Title     : Thermal conductivity of technical materials at low temperatures
+Author(s) : N.V.Zavaritskii-A.G. Zel'Dovich
+Year      : ????
+Publisher : 1956
+Search Key: ['Thermal conductivity of technical materials at low temperatures'
+ "N.V.Zavaritskii-A.G. Zel'Dovich" '1956']
+
+-----------------------------------------------------
+
+Reference : 5
+Filename  : Zhdanovich_1976.csv
+Title     : Special state standard of the unit of thermal conductivity of solids in the temperature range between 60 K and 300 K
+Author(s) : V.A. Zhdanovich-Yu. R. Chaskin
+Year      : ????
+Publisher : 1976
+Search Key: ['Special state standard of the unit of thermal conductivity of solids in the temperature range between 60 K and 300 K'
+ 'V.A. Zhdanovich-Yu. R. Chaskin' '1976']
+
+-----------------------------------------------------
+

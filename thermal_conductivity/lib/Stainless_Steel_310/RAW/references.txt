@@ -1,0 +1,33 @@
+Reference : 0
+Filename  : BlummEtAl_2007.csv
+Title     : Measurement of select thermophysical properties of the NPL certified reference material stainless steel 310
+Author(s) : J. Blumm-A. Lindemann-B. Niedrig-R. Campbell
+Year      : ????
+Publisher : 2007
+Search Key: ['Measurement of select thermophysical properties of the NPL certified reference material stainless steel 310'
+ 'J. Blumm-A. Lindemann-B. Niedrig-R. Campbell' '2007']
+
+-----------------------------------------------------
+
+Reference : 1
+Filename  : CorsanEtAl_1991.csv
+Title     : An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy 
+Author(s) : J.M. Corsan-N.J. Budd-W.F. Heminger
+Year      : ????
+Publisher : 1991
+Search Key: ['An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy '
+ 'J.M. Corsan-N.J. Budd-W.F. Heminger' '1991']
+
+-----------------------------------------------------
+
+Reference : 2
+Filename  : StutiusEtAl_1973.csv
+Title     : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+Author(s) : Stutius-Dillinger
+Year      : ????
+Publisher : 1973
+Search Key: ['Magnetic and thermal properties of some austenitic stainless steels at low temperatures'
+ 'Stutius-Dillinger' '1973']
+
+-----------------------------------------------------
+
