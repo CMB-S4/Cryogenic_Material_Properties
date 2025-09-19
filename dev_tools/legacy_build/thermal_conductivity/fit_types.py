@@ -83,7 +83,7 @@ def Nppoly(T, param_dictionary):
 def polylog(T, param_dictionary):
     """
     Description : Fits the data in a log10 space 
-    Description : Fit Type k = 10**polynomial(log10(T)) (or) k = 10*(a + b*log10(T) + c*log10(T)**2 ...)
+    Description : Fit Type k = 10**polynomial(log10(T)) (or) k = 10**(a + b*log10(T) + c*log10(T)**2 ...)
     
     Arguments :
     - T - temperature(s) at which to estimate the thermal conductivity.
@@ -193,6 +193,11 @@ def OFHC_RRR_Wc(T,RRR_list,param):
     w_i = w_i_with_w_c(t,params,w_c)
     w_i0 = w_i0(RRR,w_i,w_0)
     return (1/(w_0+w_i+w_i0))
+
+def chebyshev_function(logT, logk, order = 9):
+    fit = np.polynomial.Chebyshev.fit(logT, logk, order)
+    fit_parameters = fit.convert().coef
+    return fit, fit_parameters
 
 def Chebyshev(T, param_dictionary):
     """

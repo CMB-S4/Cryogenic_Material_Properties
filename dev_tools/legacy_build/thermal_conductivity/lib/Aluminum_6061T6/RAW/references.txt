@@ -1,0 +1,10 @@
+Reference : 0
+Filename  : Al_6061.csv
+Title     : Cryogenic Materials Repository
+Author(s) : Nachman et al.
+Year      : ????
+Publisher : 2025
+Search Key: ['Cryogenic Materials Repository' 'Nachman et al.' '2025']
+
+-----------------------------------------------------
+

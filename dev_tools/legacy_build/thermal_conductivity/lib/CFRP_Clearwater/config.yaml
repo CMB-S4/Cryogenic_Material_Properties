@@ -3,6 +3,6 @@
         "name": "CFRP_Clearwater",
         "parent": "CFRP",
         "source": "RAW",
-        "fit_type": "None"
+        "fit_type": "chebyshev"
     }
 ]

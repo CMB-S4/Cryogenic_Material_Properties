@@ -9,6 +9,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import sys, os, json
 from tqdm import tqdm
+import argparse
 
 from tc_tools  import *
 from tc_utils import get_all_fits, compile_csv, create_tc_csv, update_interpolation
@@ -26,22 +27,23 @@ def main():
         folder_name = os.listdir(lib_dir)[i] # loop through each material folder in lib/
         folder_path = os.path.join(lib_dir, folder_name)
         # print(f"\n Processing {folder_name} ({i+1}/{num_dir})\n")
-        if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it
-            # First lets make a compilation file of each fit available for a material
-            paths = get_all_fits(folder_path) # paths to each fit file in the directory
-            csv = compile_csv(paths, folder_name) # format the csv
-            create_tc_csv(csv, f"{folder_path}{os.sep}all_fits.csv") # save the compilation file
+        if not args.only_parents:
+            if os.path.isdir(folder_path): # If it is a directory, we will process the fits in it
+                # First lets make a compilation file of each fit available for a material
+                paths = get_all_fits(folder_path) # paths to each fit file in the directory
+                csv = compile_csv(paths, folder_name) # format the csv
+                create_tc_csv(csv, f"{folder_path}{os.sep}all_fits.csv") # save the compilation file
 
-            # Now import the data from that all_fits file
-            TCdata = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype=str, delimiter=',') #
-            if len(paths) > 0:
-                update_interpolation(folder_path, preferred_fit = None)
-            # This makes the plot with all the fits available - with a special case for OFHC RRR
-            if folder_name == "Cu_OFHC":
-                # plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
-                continue
-            else:
-                plot_all_fits(TCdata, folder_name, folder_path)
+                # Now import the data from that all_fits file
+                TCdata = np.loadtxt(f"{folder_path}{os.sep}all_fits.csv", dtype=str, delimiter=',') #
+                if len(paths) > 0:
+                    update_interpolation(folder_path, preferred_fit = None)
+                # This makes the plot with all the fits available - with a special case for OFHC RRR
+                if folder_name == "Cu_OFHC":
+                    # plot_OFHC_RRR(TCdata, folder_name, folder_path) # Special case for OFHC RRR to use a different plotting function
+                    continue
+                else:
+                    plot_all_fits(TCdata, folder_name, folder_path)
         
         # now we need to check and update the parent files
         # Open the material config file
@@ -92,4 +94,7 @@ def main():
         plot_all_fits(TCdata, parent, parent_path)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Update the thermal conductivity repository.")
+    parser.add_argument("--only_parents", action="store_true", help="Only update parent materials.")
+    args = parser.parse_args()
+    main(args)
