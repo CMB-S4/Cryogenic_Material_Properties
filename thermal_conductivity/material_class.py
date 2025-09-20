@@ -167,6 +167,16 @@ class Material:
                 data_class_dict[file] = DataSet(file, data)
         return data_dict, data_class_dict
     
+    def update_data(self):
+        """Update the data for the material.
+
+        Returns:
+            dict: A dictionary containing the updated data for the material.
+            dict: A dictionary containing updated DataSet objects for each data file.
+        """
+        self.data_classes = self.get_data()[1]
+        return
+        
     def fit_data(self, n_param = None, p0=None, bounds=None):
         """Fit the data for the material.
 
