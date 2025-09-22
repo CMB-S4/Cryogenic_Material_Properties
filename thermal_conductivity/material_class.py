@@ -304,11 +304,13 @@ class Material:
             add_fit_range = fit.range
             if i > 0:
                 prev_fit = sorted_fits[i-1]
-                if fit.range[0] < prev_fit.range[1]: # if the new fit starts before the previous fit ends
-                    add_fit_range = (prev_fit.range[1], fit.range[1]) # set the range of this fit to the end of the last to the end of the new
+                if fit.range[0] < max(Ts): # if the new fit starts before the previous fit ends
+                    add_fit_range = (max(Ts), fit.range[1]) # set the range of this fit to the end of the last to the end of the new
             # Now we can create the points for this fit
             if add_fit_range[0] < add_fit_range[1]:
                 T = np.logspace(np.log10(add_fit_range[0]), np.log10(add_fit_range[1]), 1000)
+                # if T[-1] > add_fit_range[1]:
+                #     T[-1] = add_fit_range[1]
                 k = get_func_type(fit.fit_type)(T, *fit.parameters)
                 Ts = np.append(Ts, T)
                 ks = np.append(ks, k)
@@ -398,6 +400,9 @@ class Material:
             return
         for fit in self.fits:
             x_range_plot = np.logspace(np.log10(fit.range[0]), np.log10(fit.range[1]), 100)
+            # print(fit.range)
+            # if x_range_plot[-1] > fit.range[1]:
+            #     x_range_plot[-1] = fit.range[1]
             y_fit = get_func_type(fit.fit_type)(x_range_plot, *fit.parameters)
             plt.plot(x_range_plot, y_fit, label=f"{fit.name}")
         if self.interpolate_function is not None:
