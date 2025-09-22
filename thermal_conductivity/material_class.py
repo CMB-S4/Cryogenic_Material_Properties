@@ -365,7 +365,7 @@ class Material:
         # concatenate the data from all files
         all_data = np.vstack(included_data)
         x = all_data[:, 0]
-        x_range_plot = np.linspace(min(x), max(x), 100)
+        x_range_plot = np.logspace(np.log10(min(x)), np.log10(max(x)), 100)
         y_fit = get_func_type(self.fit_type)(x_range_plot, *self.raw_fit_params)
         plt.xlabel("T [K]", fontsize=15)
         plt.ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
@@ -378,7 +378,7 @@ class Material:
     
     def plot_interpolation(self, loglog=True):
         if hasattr(self, 'interpolate_function') and self.interpolate_function is not None:
-            x_range_plot = np.linspace(self.interpolate_function.x[0], self.interpolate_function.x[-1], 100)
+            x_range_plot = np.logspace(np.log10(self.interpolate_function.x[0]), np.log10(self.interpolate_function.x[-1]), 100)
             y_fit = self.interpolate_function(x_range_plot)
             plt.plot(x_range_plot, y_fit, color="green", label="Interpolation")
             plt.xticks(fontsize=15)
