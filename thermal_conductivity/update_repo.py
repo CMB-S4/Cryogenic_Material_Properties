@@ -23,6 +23,8 @@ from fit_types import Nppoly
 from tqdm import tqdm
 
 this_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(this_dir)
+
 def main(mat_list = None, force_update=False):
     lib_folder = os.path.join(this_dir, "lib")
     # If no material list is provided, update all materials in the lib folder

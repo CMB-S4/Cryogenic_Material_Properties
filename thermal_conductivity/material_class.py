@@ -92,8 +92,8 @@ class Material:
                 self.room_temp_tuple = config['room_temperature_conductivity']
             else:
                 self.room_temp_tuple = None
-            if len(self.fits) > 0:
-                self.interpolate_function = self.interpolate(preferred_fit=None)
+        if len(self.fits) > 0:
+            self.interpolate_function = self.interpolate(preferred_fit=None)
         
         # If it has a parent
         # We want to copy any raw data files to the parent folder
@@ -276,7 +276,6 @@ class Material:
         # if self.roo
         # sorting_indices = np.append(0, sorting_indices+1)  # Add an index at the start for room temperature if it exists
         sorted_fits = [fits[i] for i in sorting_indices]
-
         Ts = np.empty(0, float)
         ks = np.empty(0, float)
 
@@ -306,11 +305,10 @@ class Material:
             if i > 0:
                 prev_fit = sorted_fits[i-1]
                 if fit.range[0] < prev_fit.range[1]: # if the new fit starts before the previous fit ends
-                    add_fit_range = (prev_fit.range[1], fit.range[1])
-            
+                    add_fit_range = (prev_fit.range[1], fit.range[1]) # set the range of this fit to the end of the last to the end of the new
             # Now we can create the points for this fit
             if add_fit_range[0] < add_fit_range[1]:
-                T = np.logspace(np.log10(add_fit_range[0]), np.log10(add_fit_range[1]), 100)
+                T = np.logspace(np.log10(add_fit_range[0]), np.log10(add_fit_range[1]), 1000)
                 k = get_func_type(fit.fit_type)(T, *fit.parameters)
                 Ts = np.append(Ts, T)
                 ks = np.append(ks, k)
@@ -399,11 +397,11 @@ class Material:
             print("No fits to plot.")
             return
         for fit in self.fits:
-            x_range_plot = np.linspace(fit.range[0], fit.range[1], 100)
+            x_range_plot = np.logspace(np.log10(fit.range[0]), np.log10(fit.range[1]), 100)
             y_fit = get_func_type(fit.fit_type)(x_range_plot, *fit.parameters)
             plt.plot(x_range_plot, y_fit, label=f"{fit.name}")
         if self.interpolate_function is not None:
-            x_range_plot = np.linspace(self.interpolate_function.x[0], self.interpolate_function.x[-1], 100)
+            x_range_plot = np.logspace(np.log10(self.interpolate_function.x[0]), np.log10(self.interpolate_function.x[-1]), 100)
             y_fit = self.interpolate_function(x_range_plot)
             plt.plot(x_range_plot, y_fit, color="gray", linestyle=':', label="Interpolation")
         if loglog:
