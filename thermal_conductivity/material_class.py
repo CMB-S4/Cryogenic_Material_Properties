@@ -508,10 +508,13 @@ class Fit:
         else:
             print("No fit type defined.")
             return None, None
-    def plot(self):
+    def plot(self, **plotkwargs):
         x = np.linspace(self.range[0], self.range[1], 100)
         y = get_func_type(self.fit_type)(x, *self.parameters)
-        plt.plot(x, y, label=f"{self.material} {self.source} fit")
+        if 'label' in plotkwargs:
+            plt.plot(x, y, **plotkwargs)
+        else:
+            plt.plot(x, y, label=f"{self.material} {self.source} fit", **plotkwargs)
         plt.xlabel("T [K]", fontsize=15)
         plt.ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
         plt.xscale("log")
