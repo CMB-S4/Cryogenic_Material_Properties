@@ -96,7 +96,17 @@ autoclass_content = "both"
 autodoc_mock_imports = ['spt3g', 
                         'so3g',
                         "fit_types",
-                        "fit_types.get_func_type"]
+                        "fit_types.get_func_type",
+                        "numpy",
+                        "astropy",
+                        "scipy",
+                        "matplotlib",
+                        "json",
+                        "shutil",
+                        "pickle",
+                        "yaml",
+                        
+                        ]
 
 from unittest import mock
 
