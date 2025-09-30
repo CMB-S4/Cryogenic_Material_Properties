@@ -5,5 +5,4 @@ numpy
 matplotlib
 astropy
 scipy
-pickle
-yaml
+PyYAML
