@@ -5,7 +5,5 @@ numpy
 matplotlib
 astropy
 scipy
-json
-shutil
 pickle
 yaml
