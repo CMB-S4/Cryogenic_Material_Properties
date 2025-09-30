@@ -29,6 +29,7 @@ For more detailed information on all of the features of the repository, please e
 .. toctree::
    :maxdepth: 3
    :caption: Repository Documentation
+   
    repo/mat_class
    repo/developers
    
