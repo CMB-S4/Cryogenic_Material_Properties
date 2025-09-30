@@ -1,5 +1,11 @@
 Material Class
 ===============
 
-.. autoclass:: Material
+.. autoclass:: material_class.Material
+    :members:
+
+.. autoclass:: material_class.Fit
+    :members:
+
+.. autoclass:: material_class.DataSet
     :members:
