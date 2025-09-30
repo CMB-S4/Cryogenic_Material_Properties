@@ -1,7 +1,7 @@
 # Thermal Model Tools
 ## Description
 
-## Last Updated: 04 June 2024
+## Last Updated: 30 September 2025
 
 This folder contains various example tools that can be used in tandem with the thermal conductivity data stored in this repository. The tools allow the user to create 'thermal models' of cryogenic systems. 
 

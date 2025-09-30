@@ -21,15 +21,15 @@ For more detailed information on all of the features of the repository, please e
 
    user/overview
    user/starting
-   
-.. toctree::
-   :maxdepth: 3
-   :caption: Repository Documentation
-
    repo/repo_structure
    repo/fitting
    repo/comparison
    repo/compfile
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Repository Documentation
+   repo/mat_class
    repo/developers
    
 .. toctree::
