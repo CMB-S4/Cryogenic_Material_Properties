@@ -1,5 +1,5 @@
 Material Class
 ===============
 
-.. autoclass:: material_class.Material
+.. autoclass:: Material
     :members:

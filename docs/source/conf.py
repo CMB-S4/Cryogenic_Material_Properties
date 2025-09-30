@@ -19,6 +19,8 @@ sys.path.insert(0, os.path.abspath('..'))
 path_to_tc = os.path.join(os.path.abspath(__file__).split("docs")[0], "thermal_conductivity")
 if path_to_tc not in sys.path:
     sys.path.insert(0, path_to_tc)
+
+from material_class import Material
 # -- Project information -----------------------------------------------------
 
 project = 'Cryogenic Materials Repository'
@@ -47,7 +49,6 @@ extensions = [
     'sphinx.ext.viewcode',
 ]
 extensions += ['sphinxarg.ext']
-extensions += ['sphinx.ext.autodoc']
 
 # Present auto-documented members in source order (rather than alphabetical).
 autodoc_default_options = {
