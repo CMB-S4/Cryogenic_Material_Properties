@@ -85,7 +85,10 @@ pygments_style = 'sphinx'
 # Have __init__ and class docstrings both show up
 autoclass_content = "both"
 
-autodoc_mock_imports = ['spt3g', 'so3g']
+autodoc_mock_imports = ['spt3g', 
+                        'so3g',
+                        "fit_types",
+                        "fit_types.get_func_type"]
 
 
 # -- Options for HTML output -------------------------------------------------
