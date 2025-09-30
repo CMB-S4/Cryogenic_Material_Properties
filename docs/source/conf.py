@@ -14,16 +14,21 @@
 #
 import os
 import sys
+print(os.path.abspath(__file__))
+print(os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('..'))
 
-path_to_tc = os.path.join(os.path.abspath(__file__).split("docs")[0], "thermal_conductivity")
+path_to_tc = os.path.join(os.path.abspath('..'),"thermal_conductivity")
 print(path_to_tc, os.path.exists(path_to_tc))
 if path_to_tc not in sys.path:
     sys.path.insert(0, path_to_tc)
 if os.path.dirname(path_to_tc) not in sys.path:
     sys.path.insert(0, os.path.dirname(path_to_tc))
 
-
+sys.path.insert(0, os.path.abspath('../..'))
+print(os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../../thermal_conductivity'))
+print(os.path.abspath('../../thermal_conductivity'))
 # -- Project information -----------------------------------------------------
 
 project = 'Cryogenic Materials Repository'
