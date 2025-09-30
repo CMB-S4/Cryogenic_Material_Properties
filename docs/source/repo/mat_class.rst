@@ -1,7 +1,7 @@
 Material Class
 ===============
 
-.. autoclass:: material_class.Material
+.. autoclass:: thermal_conductivity.material_class.Material
     :members:
 
 Fit Class
