@@ -90,7 +90,11 @@ autodoc_mock_imports = ['spt3g',
                         "fit_types",
                         "fit_types.get_func_type"]
 
+from unittest import mock
 
+for m in autodoc_mock_imports:
+    sys.modules[m] = mock.Mock()
+    
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
