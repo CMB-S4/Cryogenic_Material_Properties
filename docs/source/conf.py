@@ -104,8 +104,7 @@ autodoc_mock_imports = ['spt3g',
                         "json",
                         "shutil",
                         "pickle",
-                        "yaml",
-                        
+                        "yaml"
                         ]
 
 from unittest import mock
