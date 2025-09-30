@@ -2,3 +2,12 @@ sphinx>=5.0.0
 sphinx_rtd_theme>=2.0.0
 sphinx-argparse>=0.4.0
 numpy
+matplotlib
+astropy
+os
+sys
+scipy
+json
+shutil
+pickle
+yaml
