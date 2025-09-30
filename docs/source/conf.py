@@ -20,6 +20,9 @@ path_to_tc = os.path.join(os.path.abspath(__file__).split("docs")[0], "thermal_c
 print(path_to_tc, os.path.exists(path_to_tc))
 if path_to_tc not in sys.path:
     sys.path.insert(0, path_to_tc)
+if os.path.dirname(path_to_tc) not in sys.path:
+    sys.path.insert(0, os.path.dirname(path_to_tc))
+
 
 # -- Project information -----------------------------------------------------
 
@@ -94,7 +97,7 @@ from unittest import mock
 
 for m in autodoc_mock_imports:
     sys.modules[m] = mock.Mock()
-    
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for

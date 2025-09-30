@@ -16,8 +16,8 @@ if this_dir not in sys.path:
 
 from fit_types import get_func_type, linear_fit, loglog_func, Nppoly, polylog
 class Material:
-    """
-    A class to handle material data and fits.
+    """A class to handle material data and fits.
+    
     Attributes:
         name (str): Name of the material.
         folder (str): Path to the material's folder.
