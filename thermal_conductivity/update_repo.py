@@ -112,8 +112,8 @@ def main(mat_list = None, force_update=False):
     fits_to_df(compilation_fits).to_csv(general_comp_file, index=False)
 
     # Let's also make a more curated compilation file
-    # curated_comp_file = os.path.join(os.path.dirname(this_dir), f"tc_compilation_curated_{dt.now().strftime('%Y%m%d')}.csv")
-    # fits_to_df(curated_comp_fits).to_csv(curated_comp_file, index=False)
+    curated_comp_file = os.path.join(os.path.dirname(this_dir), f"tc_compilation_curated_{dt.now().strftime('%Y%m%d')}.csv")
+    fits_to_df(curated_comp_fits).to_csv(curated_comp_file, index=False)
 
 
 if __name__ == "__main__":

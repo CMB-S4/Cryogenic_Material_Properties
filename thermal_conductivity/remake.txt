@@ -1,0 +1,1 @@
+"Brass" "G10_FR4" "Graphite_brad" "Kaptona" "Ketron" "Kevlar49_Fiber_Aramid" "Lead" "Macor" "Molybdenum" "MylarPET" "NbTi" "Phosphorbronze" "Platinum" "Silicon" "SPAM" "Stycast" "Torlon" 
