@@ -344,7 +344,6 @@ def find_interpolation(material):
     mat_file = os.path.join(path_to_mat_lib, material, "material.pkl")
     with open(mat_file, 'rb') as f:
         mat = pickle.load(f)
-    print(mat)
     if hasattr(mat, 'interpolate_function'):
         interp_func = mat.interpolate_function
         # interp_func = get_interpolation(os.path.join(path_to_mat_lib, material))

@@ -41,7 +41,6 @@ def plot_integral(selected_component, stage):
     fig, ax = plt.subplots()
 
     mat = get_material(selected_component.properties["Material"])
-    print("HERE")
     if not selected_component.properties["Interpolate"]:
         fit_obj = get_fit_by_name(selected_component.properties["Material"], selected_component.properties["Fit Choice"])
         fit_obj.plot()
