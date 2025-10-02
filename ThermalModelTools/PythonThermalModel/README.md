@@ -1,7 +1,6 @@
-# Python Thermal Model Tools
+This folder contains the necessary scripts for building the thermal model.
 
-To run the Streamlit Python GUI tool, use the following command:
-
+To build a thermal model using the GUI, run the following command:
 ```
-streamlit run app.py
+streamlit run thermal_model_gui.py
 ```
