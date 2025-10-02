@@ -28,15 +28,16 @@ For more detailed information on all of the features of the repository, please e
 
 .. toctree::
    :maxdepth: 3
-   :caption: Repository Documentation
+   :caption: Repository Documentation:
    
    repo/mat_class
    repo/developers
    
 .. toctree::
    :maxdepth: 3
-   :caption: Tools
+   :caption: Tools and Tutorials:
 
+   tools/tutorial
    tools/importing
    tools/thermalmodel
 
