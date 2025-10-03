@@ -11,6 +11,7 @@ To do so, follow the outline steps:
 #. Within that folder create a new folder within which to store the raw data. (I recommend naming it 'RAW', though theoretically, this is not a requirement)
 #. Within this 'RAW' folder, paste the relevant measurement .csv files (the data MUST be in csv format otherwise the code will not be able to find it). Each .csv data file must be of the format shown below, see one of the existing materials for more examples. Note, make sure there are no commas present in the reference information otherwise python will be unable to parse the comma delimited file.
 #. Once the data is added, the material instance should be updated so that its fit can be recalculated. More information on this can be found on the ``Update`` page.
+
 .. list-table:: Raw Data Table format
    :widths: 25 25 50
    :header-rows: 2
@@ -51,8 +52,10 @@ To add a room temperature data point, follow these steps:
 #. Navigate to the material folder.
 #. If the file titled ``room_temperature.yaml`` does not exist, create it.
 #. Within the ``room_temperature.yaml`` file, add the room temperature data in the following format:
-```yaml
+
+```
 room_temperature_conductivity: [<Temperature of Point (near 300K)>, <Conductivity at that Temperature (W/m-K)>]
 room_temperature_reference: <Author(s), Title of Reference, Source>
 ```
+
 #. Save the file.

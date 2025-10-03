@@ -6,3 +6,10 @@ This notebook walks through the basic functionality of the repository, including
 
 This page will also describe some of the basic functions and methods for reference.
 
+```python
+
+mat_pickle_path = os.path.join(path_to_mat, f"material.pkl")
+with open(mat_pickle_path, "rb") as f:
+    mat_obj = pkl.load(f)
+
+```

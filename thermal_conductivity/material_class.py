@@ -16,19 +16,9 @@ if this_dir not in sys.path:
 
 from fit_types import get_func_type, linear_fit, loglog_func, Nppoly, polylog
 class Material:
-    """A class to handle material data and fits.
-    
-    Attributes:
-        name (str): Name of the material.
-        folder (str): Path to the material's folder.
-        data_folder (str): Path to the folder containing raw data files.
-        parent (str): Name of the parent material, if any.
-        fit_type (function): The function type used for fitting the data.
-        fits (list): List of Fit objects representing different fits applied to the data.
-        data_classes (dict): Dictionary of DataSet objects for each data file.
-        temp_range (tuple): Temperature range covered by the data.
-        raw_fit_params (np.ndarray): Parameters from the initial fit to all included data.
-        raw_fit_cov (np.ndarray): Covariance matrix from the initial fit to all included data.
+    """
+    A class to represent a material with thermal conductivity data and fits.
+        
     """
     def __init__(self, name, parent: str=None, fit_type = "loglog", force_update: bool =False):
         """Initialize the Material class.
@@ -38,6 +28,22 @@ class Material:
             parent (str, optional): Name of the parent material. Defaults to None.
             fit_type (function, optional): The fitting function to use. Defaults to loglog_func.
             force_update (bool, optional): Whether to force update the material. Defaults to False.
+
+        Attributes:
+        -----------
+            name (str): Name of the material.
+            folder (str): Path to the material's folder.
+            data_folder (str): Path to the folder containing raw data files.
+            plot_folder (str): Path to the folder for saving plots.
+            parent (str): Name of the parent material, if any.
+            fit_type (function): The function type used for fitting the data.
+            fits (list): List of Fit objects representing different fits applied to the data.
+            data_classes (dict): Dictionary of DataSet objects for each data file.
+            temp_range (tuple): Temperature range covered by the data.
+            raw_fit_params (np.ndarray): Parameters from the initial fit to all included data.
+            raw_fit_cov (np.ndarray): Covariance matrix from the initial fit to all included data.
+            room_temp_tuple (tuple): Tuple containing room temperature and corresponding conductivity, if available.
+            interpolate_function (function): Interpolation function for thermal conductivity based on fits.
         """
         self.name = name
         self.folder = "lib"+os.sep+name #
