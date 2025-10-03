@@ -18,22 +18,6 @@ Here is an example material folder. At the root level, this folder contains a co
 .. image:: images/SS304_home.png
 
 
-All current development exists within the 'thermal_conductivity' folder
+All current development exists within the 'thermal_conductivity' folder, shown in the site map graphic below.
 
-* tc_fullrepo_date.csv
-* ttc_fullrepo_date.txt
-* compile_TC.py
-
-  * thermal_conductivity
-
-    * fit_data.py
-    * fit_types.py
-    * manual_add.ipynb
-    * NIST_scrape.py
-    * lib
-      * <Material Name>
-        * fits
-        * NIST
-        * OTHER
-        * plots
-        * RAW
+.. image:: images/SiteMap.png

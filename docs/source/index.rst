@@ -17,13 +17,12 @@ For more detailed information on all of the features of the repository, please e
 
 .. toctree::
    :maxdepth: 3
-   :caption: User Guide:
+   :caption: About:
 
    user/overview
    user/starting
    repo/repo_structure
    repo/fitting
-   repo/comparison
    repo/compfile
 
 .. toctree::
@@ -34,7 +33,7 @@ For more detailed information on all of the features of the repository, please e
    
 .. toctree::
    :maxdepth: 3
-   :caption: Tools and Tutorials:
+   :caption: User Guide\nTools and Tutorials:
 
    tools/tutorial
    tools/importing

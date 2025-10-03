@@ -1,5 +1,6 @@
-Thermal Modeling:
+Thermal Modeling
 =================
+
 Excel Thermal Model:
 ```````````````````````
 
@@ -14,11 +15,13 @@ Python Thermal Model:
 
 Due to the difficulties of using the Excel model, a Python GUI version of the thermal model was developped. The GUI is built on the Streamlit framework. To run it, you must first install the required packages. The easiest way to do this is to use the provided `requirements.txt` file. You can install the required packages by running:
 
-`pip install -r requirements.txt`
+.. code-block:: bash
+    pip install -r requirements.txt
 
 Once the packages are installed, you can run the thermal model by executing the following command in your terminal:
 
-`streamlit run <path_to_PythonThermalModel>thermal_model_gui.py`
+.. code-block:: bash
+    streamlit run <path_to_PythonThermalModel>thermal_model_gui.py
 
 More information about the Python Thermal Model can be found in the documentation for the standalone Python Thermal Model repository:
 https://github.com/henry-e-n/python_thermal_model.git
