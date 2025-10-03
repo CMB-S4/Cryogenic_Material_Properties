@@ -2,8 +2,6 @@
 ## Description
 **A compilation of material properties, fits, and plots at cryogenic temperatures for use in design and testing of cryogenic systems.**
 
-## Last Updated: 30 September 2025
-
 This Git Repository will serve to store raw thermal conductivity (TC) data and other material properties, plots, and analysis tools. The data is compiled from decades of published resources. The repository also includes the reference information for each set of measurements. 
 
 The repository is being actively developed by Henry Nachman, Oorie Desai, and Dr. Nicholas Galitzki at the University of Texas at Austin.
@@ -32,6 +30,12 @@ Please navigate to our Read The Docs for a full description of the repository an
 
 https://cryogenic-material-properties.readthedocs.io/en/latest/
 
+## Citation
+
+If you use this repository in your research, please cite the following paper currently available on the arXiv:
+https://arxiv.org/abs/2509.23422
+
+Nachman, Henry E., Oorie Desai, Nicholas Galitzki, et al. “Cryogenic Materials Repository: A Public Resource and New Measurements for Cryogenic Research Applications.” arXiv:2509.23422. Preprint, arXiv, September 27, 2025. https://doi.org/10.48550/arXiv.2509.23422.
 
 ## Tools
 
