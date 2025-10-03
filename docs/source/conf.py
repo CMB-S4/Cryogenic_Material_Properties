@@ -166,7 +166,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'CMR.tex', 'CMR Documentation',
-     'Henry Nachman, Nicholas Galitzki, Oorie Desai', 'manual'),
+     'Henry Nachman', 'manual'),
 ]
 
 latex_toplevel_sectioning = 'part'

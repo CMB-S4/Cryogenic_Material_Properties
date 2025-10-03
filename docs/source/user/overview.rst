@@ -27,11 +27,3 @@ If you use this repository in your research, please cite the following paper cur
 https://arxiv.org/abs/2509.23422
 
 Nachman, Henry E., Oorie Desai, Nicholas Galitzki, et al. “Cryogenic Materials Repository: A Public Resource and New Measurements for Cryogenic Research Applications.” arXiv:2509.23422. Preprint, arXiv, September 27, 2025. https://doi.org/10.48550/arXiv.2509.23422.
-
-.. codeblock:: bibtex
-    @article{nachman2025cryogenic,
-      title={Cryogenic Materials Repository: A Public Resource and New Measurements for Cryogenic Research Applications},
-      author={Nachman, Henry E and Desai, Oorie and Galitzki, Nicholas and others},
-      journal={arXiv preprint arXiv:2509.23422},
-      year={2025}
-    }
