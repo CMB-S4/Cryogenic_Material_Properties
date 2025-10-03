@@ -18,7 +18,21 @@ from fit_types import get_func_type, linear_fit, loglog_func, Nppoly, polylog
 class Material:
     """
     A class to represent a material with thermal conductivity data and fits.
-        
+
+    Attributes:
+        name (str): Name of the material.
+        folder (str): Path to the material's folder.
+        data_folder (str): Path to the folder containing raw data files.
+        plot_folder (str): Path to the folder for saving plots.
+        parent (str): Name of the parent material, if any.
+        fit_type (function): The function type used for fitting the data.
+        fits (list): List of Fit objects representing different fits applied to the data.
+        data_classes (dict): Dictionary of DataSet objects for each data file.
+        temp_range (tuple): Temperature range covered by the data.
+        raw_fit_params (np.ndarray): Parameters from the initial fit to all included data.
+        raw_fit_cov (np.ndarray): Covariance matrix from the initial fit to all included data.
+        room_temp_tuple (tuple): Tuple containing room temperature and corresponding conductivity, if available.
+        interpolate_function (function): Interpolation function for thermal conductivity based on fits.
     """
     def __init__(self, name, parent: str=None, fit_type = "loglog", force_update: bool =False):
         """Initialize the Material class.
@@ -29,21 +43,6 @@ class Material:
             fit_type (function, optional): The fitting function to use. Defaults to loglog_func.
             force_update (bool, optional): Whether to force update the material. Defaults to False.
 
-        Attributes:
-        -----------
-            name (str): Name of the material.
-            folder (str): Path to the material's folder.
-            data_folder (str): Path to the folder containing raw data files.
-            plot_folder (str): Path to the folder for saving plots.
-            parent (str): Name of the parent material, if any.
-            fit_type (function): The function type used for fitting the data.
-            fits (list): List of Fit objects representing different fits applied to the data.
-            data_classes (dict): Dictionary of DataSet objects for each data file.
-            temp_range (tuple): Temperature range covered by the data.
-            raw_fit_params (np.ndarray): Parameters from the initial fit to all included data.
-            raw_fit_cov (np.ndarray): Covariance matrix from the initial fit to all included data.
-            room_temp_tuple (tuple): Tuple containing room temperature and corresponding conductivity, if available.
-            interpolate_function (function): Interpolation function for thermal conductivity based on fits.
         """
         self.name = name
         self.folder = "lib"+os.sep+name #
@@ -363,6 +362,9 @@ class Material:
         return
 
     def plot_data_fit(self):
+        """
+        Plot the experimental data and the fit to the data for the material.
+        """
         if self.data_classes == None or self.raw_fit_params is None:
             # print("No data to fit.")
             return
@@ -385,6 +387,9 @@ class Material:
         return
     
     def plot_interpolation(self, loglog=True):
+        """
+        Plot the interpolation fit for the material.
+        """
         if hasattr(self, 'interpolate_function') and self.interpolate_function is not None:
             x_range_plot = np.logspace(np.log10(self.interpolate_function.x[0]), np.log10(self.interpolate_function.x[-1]), 100)
             y_fit = self.interpolate_function(x_range_plot)
@@ -401,6 +406,9 @@ class Material:
             return
 
     def plot_all_fits(self, loglog=True):
+        """
+        Plot all the available fits for the material.
+        """
         if len(self.fits) == 0:
             print("No fits to plot.")
             return
@@ -425,8 +433,11 @@ class Material:
         plt.ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
         plt.legend()
         return
+    
     def save_fits(self):
-        # Convert the self.fits to dictionary and save as a json file
+        """
+        Converts the self.fits to a dictionary and saves as a json file
+        """
         fits_dict = {}
         for fit in self.fits:
             fit_dict = fit.__dict__.copy()
@@ -441,28 +452,61 @@ class Material:
         return
     
     def get_fits(self):
+        """
+        Returns the list of Fit objects for the material.
+        """
         return self.fits
     
     def add_fits(self, fit_name: str, source: str, fit_range: tuple, parameters: np.ndarray, parameter_covariance: np.ndarray, fit_type: str, fit_error: float = None):
+        """
+        Adds a new fit to the material.
+        Args:
+            fit_name (str): Name of the fit (usually material + source).
+            source (str): Source of the fit (e.g., "data", "literature").
+            fit_range (tuple): Temperature range over which the fit is valid.
+            parameters (np.ndarray): Parameters of the fit function.
+            parameter_covariance (np.ndarray): Covariance matrix of the fit parameters.
+            fit_type (str): Type of fit function used.
+            fit_error (float, optional): Optional error metric for the fit. Defaults to None.
+        
+        Alternatively, a Fit object can be created externally and added to the material by appending to self.fits.
+        """
         new_fit = Fit(fit_name, source, fit_range, parameters, parameter_covariance, fit_type, fit_error)
         self.fits.append(new_fit)
         return
+    
     def save(self):
+        """
+        Save the material class as a pickle file.
+        """
         # Save the material class as a pickle file
         with open(os.path.join(self.folder, "material.pkl"), "wb") as f:
             pickle.dump(self, f)
         return
+    
+    def fit_by_name(self, fit_name):
+        """
+        Retrieves the fit object for a specified fit name.
+        """
+        for fit in self.fits:
+            if fit.name == fit_name:
+                return fit
+        return None
 
 class Fit:
     """
     A class to represent a fit applied to the data.
+
     Attributes:
+        material (str): Name of the material.
         source (str): Source of the fit (e.g., "data", "literature").
+        name (str): Name of the fit (usually material + source).
         range (tuple): Temperature range over which the fit is valid.
         parameters (np.ndarray): Parameters of the fit function.
         parameter_covariance (np.ndarray): Covariance matrix of the fit parameters.
         fit_type (str): Type of fit function used.
         fit_error (float): Optional error metric for the fit.
+        reference (str): Reference for the fit.
     """
     def __init__(self, material: str, source: str, range: tuple, parameters: np.ndarray, parameter_covariance: np.ndarray, fit_type=None, fit_error: float = None):
         self.material = material
@@ -475,6 +519,10 @@ class Fit:
         self.fit_error = fit_error
     
     def function(self):
+        """
+        Returns the function type used for the fit as a callable.
+        E.g. Fit.function()(x, *params) will evaluate the fit function at x.
+        """
         return get_func_type(self.fit_type)
     
     @u.quantity_input
@@ -485,6 +533,8 @@ class Fit:
             T (u.K): Temperature at which to calculate thermal conductivity.
         Returns:
             k (u.W/m/K): Thermal conductivity at temperature T.
+        
+        Uses astropy units to ensure correct unit handling.
         """
         # Convert temperature to Kelvin if it is not already
         T = T.to(u.K).value
@@ -504,6 +554,8 @@ class Fit:
         Returns:
             integral (u.W/m): The integral of thermal conductivity from T1 to T2.
             error (float): Estimated error of the integral.
+        
+        Uses astropy units to ensure correct unit handling.
         """
         # Convert temperatures to Kelvin if they are not already
         T1 = T1.to(u.K).value
@@ -530,6 +582,11 @@ class Fit:
         plt.title(f"Fit for {self.name}", fontsize=15)
 
     def add_reference(self, reference: str):
+        """Adds a reference string to the fit.
+
+        Args:
+            reference (str): The reference string to add in the format 'Title, Author, Journal/Year'.
+        """
         self.reference = reference
         return
 
@@ -547,5 +604,12 @@ class DataSet():
         self.include = self.inclusion_state()
 
     def inclusion_state(self, state=True):
+        """
+        Set or get the inclusion state of the dataset (whether to include in the data fit of the material).
+        Args:
+            state (bool, optional): If provided, sets the inclusion state. Defaults to True.
+        Returns:
+            bool: The current inclusion state.
+        """
         self.include = state
         return state
