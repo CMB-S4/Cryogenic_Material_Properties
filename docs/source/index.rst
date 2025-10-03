@@ -38,7 +38,9 @@ For more detailed information on all of the features of the repository, please e
 
    tools/tutorial
    tools/importing
-   repo/developers
+   repo/adding_data
+   repo/adding_fits
+   repo/adding_rt
    tools/thermalmodel
 
 Indices and tables
