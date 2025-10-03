@@ -7,6 +7,7 @@ This notebook walks through the basic functionality of the repository, including
 This page will also describe some of the basic functions and methods for reference.
 
 Let's start by loading a material object from the save pickle file in the repository.
+
 .. code-block:: python
 
     # Define the material of interest - make sure the name matches the folder name in the repository
@@ -19,6 +20,7 @@ Let's start by loading a material object from the save pickle file in the reposi
         mat_obj = pkl.load(f)
 
 Now that the material object is loaded, we can access its attributes and methods. Let's practice by reviewing the available fits for this material.
+
 .. code-block:: python
 
     [fit.name for fit in mat_obj.fits]
@@ -28,12 +30,14 @@ Now that the material object is loaded, we can access its attributes and methods
     ['Aluminum_data', 'Aluminum_1100_data', 'Aluminum_1100_NIST', 'Aluminum_3003F_NIST', ...]
 
 We can also plot the data and fits using the built-in plotting methods.
+
 .. code-block:: python
     
     # Plot the fits
     mat_obj.plot_all_fits()
 
 A common task is to calculate the thermal conductivity at a specific temperature using one of the fits. This can be done using the `calc_tc` method of the `Fit` class.
+
 .. code-block:: python
 
     # Get thermal conductivity at a specific temperature
