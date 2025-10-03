@@ -31,7 +31,6 @@ For more detailed information on all of the features of the repository, please e
    :caption: Repository Documentation:
    
    repo/mat_class
-   repo/developers
    
 .. toctree::
    :maxdepth: 3
@@ -39,6 +38,7 @@ For more detailed information on all of the features of the repository, please e
 
    tools/tutorial
    tools/importing
+   repo/developers
    tools/thermalmodel
 
 Indices and tables
