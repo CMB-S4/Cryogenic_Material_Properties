@@ -164,12 +164,14 @@ class Material:
             return None, None
         for file in os.listdir(self.data_folder):
             if file.endswith(".csv"):
+                reference_row = np.loadtxt(os.path.join(self.data_folder, file), delimiter=",", max_rows=1, dtype=str)
+                ref_string = [i for i in reference_row if i != '']
                 data = np.loadtxt(os.path.join(self.data_folder, file), delimiter=",", skiprows=2)
                 # If the data is only one row (one dimensional), we need to reshape it to be two dimensional
                 if len(data.shape) == 1:
                     data = data.reshape((1, -1))
                 data_dict[file] = data
-                data_class_dict[file] = DataSet(file, data)
+                data_class_dict[file] = DataSet(file, data, ref_string=ref_string)
         return data_dict, data_class_dict
     
     def update_data(self):
@@ -219,7 +221,9 @@ class Material:
         else:
         # use the fit_type function to fit the data
             popt, pcov = curve_fit(get_func_type(self.fit_type), x, y, maxfev=10000, p0=np.ones(n_param) if p0 is None else p0)
-        self.fits.append(Fit(self.name, "data", (min(x), max(x)), popt, pcov, self.fit_type))
+        new_fit = Fit(self.name, "data", (min(x), max(x)), popt, pcov, self.fit_type)
+        new_fit.add_reference("Data Fit (see references for included data)")
+        self.fits.append(new_fit)
         return popt, pcov
     
     def update_fit(self, new_fit_type, n_param=None):
@@ -417,7 +421,7 @@ class Material:
             # print(fit.range)
             # if x_range_plot[-1] > fit.range[1]:
             #     x_range_plot[-1] = fit.range[1]
-            y_fit = get_func_type(fit.fit_type)(x_range_plot, *fit.parameters)
+            y_fit = fit.function()(x_range_plot, *fit.parameters)
             plt.plot(x_range_plot, y_fit, label=f"{fit.name}")
         if self.interpolate_function is not None:
             x_range_plot = np.logspace(np.log10(self.interpolate_function.x[0]), np.log10(self.interpolate_function.x[-1]), 100)
@@ -492,7 +496,36 @@ class Material:
             if fit.name == fit_name:
                 return fit
         return None
-
+    def print_refs(self):
+        with open(os.path.join(self.folder, "references.txt"), "w") as f:
+            fit_counter = 1
+            if len(self.fits) != 0:
+                f.write("Fits:\n")
+                for fit in self.fits:
+                    if hasattr(fit, 'reference'):
+                        f.write(f"{fit_counter}. {fit.name}: {fit.reference}\n")
+                    else:
+                        f.write(f"{fit_counter}. {fit.name}: No reference available.\n")
+                    fit_counter += 1
+                f.write("\n--------------------------------\n")
+            dataset_counter = 1
+            if self.data_classes is not None:
+                f.write("\nData Sets:\n")
+                for dataset in self.data_classes:
+                    dataset_obj = self.data_classes[dataset]
+                    if hasattr(dataset_obj, 'reference'):
+                        f.write(f"{dataset_counter}. {dataset_obj.name}:\n")
+                        f.write(f"   Title        : {dataset_obj.reference[0]}\n")
+                        if len(dataset_obj.reference) > 1:
+                            f.write(f"   Author(s)    : {dataset_obj.reference[1]}\n")
+                        if len(dataset_obj.reference) > 2:
+                            f.write(f"   Journal/Year : {', '.join(dataset_obj.reference[2:])}\n")
+                        f.write("\n")
+                    else:
+                        f.write(f"{dataset_counter}. {dataset_obj.name}: No reference available.\n")
+                    dataset_counter += 1
+        return
+        
 class Fit:
     """
     A class to represent a fit applied to the data.
@@ -598,10 +631,11 @@ class DataSet():
         data (np.ndarray): The data array with temperature and property values.
         include (bool): Whether to include this dataset in fits.
     """
-    def __init__(self, name: str, data: np.ndarray):
+    def __init__(self, name: str, data: np.ndarray, ref_string: str):
         self.name = name
         self.data = data
         self.include = self.inclusion_state()
+        self.reference = ref_string
 
     def inclusion_state(self, state=True):
         """
