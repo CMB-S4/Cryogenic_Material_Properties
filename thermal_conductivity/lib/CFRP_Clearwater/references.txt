@@ -1,0 +1,36 @@
+Fits:
+1. CFRP_Clearwater_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. CFRP_Clearwater_p25in.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+
+2. Crowley_Clearwater_0.25K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+3. Crowley_Clearwater_0.27K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+4. Crowley_Clearwater_0.36K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+5. Crowley_Clearwater__0.1K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+6. Crowley_Clearwater__0.5K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+

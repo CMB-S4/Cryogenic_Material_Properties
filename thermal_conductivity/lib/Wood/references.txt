@@ -1,0 +1,8 @@
+Fits:
+1. Wood_Balsa_11_lbft3_NIST: NIST Cryogenic Material Database
+2. Wood_Balsa_6_lbft3_NIST: NIST Cryogenic Material Database
+3. Wood_Beechwood_flatwise_NIST: NIST Cryogenic Material Database
+4. Wood_Beechwood_grain_NIST: NIST Cryogenic Material Database
+5. Wood_MapleOak_Wagner: No reference available.
+
+--------------------------------

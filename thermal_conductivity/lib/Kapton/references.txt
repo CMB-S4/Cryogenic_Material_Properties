@@ -1,0 +1,47 @@
+Fits:
+1. Kapton_NIST: NIST Cryogenic Material Database
+2. Kapton_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. 1990 D. L. Rule H-003-R.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+2. 1990 D. L. Rule H-003.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+3. 1990 D. L. Rule HN-003.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+4. 1990 D. L. Rule MT-001.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+5. 1990 D. L. Rule MT-003-R.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+6. 1990 D. L. Rule MT-003.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+7. 1990 D. L. Rule MTL-003.csv:
+   Title        : ﻿"Thermal Conductivity of a Polymide Film Between 4.2 and 300K with and without Alumina Particles as Filler"
+   Author(s)    : D. L. Rule-- D. R. Smith-- L. L. Sparks
+   Journal/Year : NISTIR 3948 1990
+
+8. 2000 J. Lawrence.csv:
+   Title        : ﻿The thermal conductivity of Kapton HN between 0.5 and 5 K
+   Author(s)    : J. Lawrence-- A.B. Patel-- J.G. Barrison
+   Journal/Year : Cryogenics Vol. 40 2000
+

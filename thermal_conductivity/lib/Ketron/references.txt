@@ -1,0 +1,21 @@
+Fits:
+1. Ketron_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. KETRON PEEK 1000 ROD_2008.csv:
+   Title        : KETRON PEEK 1000 ROD
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+
+2. KETRON PEEK-CA30 ROD 1_2008.csv:
+   Title        : KETRON PEEK-CA30 ROD
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+
+3. KETRON PEEK-CA30 ROD_2008.csv:
+   Title        : KETRON PEEK-CA30 ROD
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+

@@ -1,0 +1,11 @@
+Fits:
+1. G10_FR4_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. CSTFiberglass_2008.csv:
+   Title        : CST Fiberglass rod
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+

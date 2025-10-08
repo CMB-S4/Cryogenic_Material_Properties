@@ -1,0 +1,21 @@
+Fits:
+1. VESPEL_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. 1993 J. R. Olson SP22 rod.csv:
+   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Author(s)    : J. R. Olson
+   Journal/Year : Cornell University 1993
+
+2. VESPEL SP-1 ROD_2008.csv:
+   Title        : VESPEL SP-1 ROD:
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+
+3. VESPEL SP-22 ROD_2008.csv:
+   Title        : VESPEL SP-22 ROD:
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+

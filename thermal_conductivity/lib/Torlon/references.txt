@@ -1,0 +1,11 @@
+Fits:
+1. Torlon_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. TORLON 4301 ROD_2008.csv:
+   Title        : TORLON 4301 ROD:
+   Author(s)    : RunyanJones'
+   Journal/Year : 2008
+

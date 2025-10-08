@@ -496,6 +496,7 @@ class Material:
             if fit.name == fit_name:
                 return fit
         return None
+    
     def print_refs(self):
         with open(os.path.join(self.folder, "references.txt"), "w") as f:
             fit_counter = 1

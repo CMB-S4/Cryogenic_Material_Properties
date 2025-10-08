@@ -1,0 +1,47 @@
+Fits:
+1. Stainless_Steel_304_data: Data Fit (see references for included data)
+2. Stainless_Steel_304_NIST: NIST Cryogenic Material Database
+
+--------------------------------
+
+Data Sets:
+1. AntoniadisEtAl_2020.csv:
+   Title        : Reference correlations for the thermal conductivity of solid BK7 - PMMA - Pyrex 7740 - Pyroceram 9606 and SS304
+   Author(s)    : K.D. Antoniadis - A. Tyrou - M.J. Assael - X. Li - J. Wu - and H.P. Ebert
+   Journal/Year : International Journal of Thermophysics 41:98 (2020) 35 pages 
+
+2. ChariDeNobel_1959.csv:
+   Title        : Thermal conductivity of some steels at low temperature
+   Author(s)    : M.S.R. Chari and J. De Nobel
+   Journal/Year : Physica 25 (1959) pp. 73-83
+
+3. ChuHo_1977.csv:
+   Title        : Thermal conductivity and electrical resistivity of eight selected AISI stainless steels
+   Author(s)    : T.K. Chu and C.Y. Ho
+   Journal/Year : "Proc. 15th Thermal Conductivity Conf. Plenum Press New York (1977) pp. 79-104"
+
+4. DilleyEtAl_2002.csv:
+   Title        : Commercial apparatus for measuring transport properties from 1.9 to 390 K
+   Author(s)    : "N.R. Dilley - R.C. Black - L. Montes - A. Wilson - and M.B. Simmonds"
+   Journal/Year : Mat. Res. Soc. Symp. Proc. 691 (2002) pp. G3.5.1 to G3.5.6
+
+5. Moeller_1969.csv:
+   Title        : Guarded double-cylinder apparatus for determining thermal conductivities from 80 to 860 K
+   Author(s)    : E. Moeller
+   Journal/Year : "Proc. 8th Thermal Conductivity Conf. Plenum Press New York (1969) pp. 701-711"
+
+6. PowersEtAl_1951.csv:
+   Title        : The thermal conductivity of metals and alloys at low temperatures II. Data on iron and steels between 25 and 300 K
+   Author(s)    : "R.W. Powers - J.B. Ziegler - and H. L. Johnston"
+   Journal/Year : U.S. Air Force Rept. USAF TR-264-6 (1951)
+
+7. StutiusDillinger_1973.csv:
+   Title        : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+   Author(s)    : W. Stutius and J.R. Dillinger
+   Journal/Year : J. Appl. Phys. 44 (1973) pp. 2887-2888
+
+8. TyeEtAl_1975.csv:
+   Title        : Thermal conductivity of selected alloys at low temperatues
+   Author(s)    : "R.P. Tye - R.W. Hayden - and S.C. Spinney"
+   Journal/Year : Adv. Cryog. Eng. Vol. 22 (1975) pp. 136-144
+

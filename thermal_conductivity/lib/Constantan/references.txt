@@ -1,0 +1,27 @@
+Fits:
+1. Constantan_data: Data Fit (see references for included data)
+2. Constantan_ExcelNIST5a: ['ExcelNIST5a']
+
+--------------------------------
+
+Data Sets:
+1. 1951 R. Berman.csv:
+   Title        : ﻿LXVII. The thermal conductivity of some alloys at low temperatures
+   Author(s)    : R. Berman
+   Journal/Year : The London Edinburgh and Dublin Philosophical Magazine and Journal of Science 1951
+
+2. 1992 B. Sundqvist.csv:
+   Title        : ﻿Thermal diffusivity and thermal conductivity of Chromel Alumel and Constantan in the range 100–450 K
+   Author(s)    : B. Sundqvist
+   Journal/Year : Journal of Applied Physics 1992
+
+3. 1993 J. R. Olson constantan wire.csv:
+   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Author(s)    : J. R. Olson
+   Journal/Year : Cornell University 1993
+
+4. 2003 H. Muta.csv:
+   Title        : ﻿Thermoelectric properties of constantan/spherical SiO2 and Al2O3 particles composite
+   Author(s)    : H. Muta-- K. Kurosaki-- M. Uno-- S. Yamanaka
+   Journal/Year : Journal of Alloys and Compounds 2003
+

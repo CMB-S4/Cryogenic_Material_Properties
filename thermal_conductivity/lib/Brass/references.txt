@@ -1,0 +1,17 @@
+Fits:
+1. Brass_NIST: NIST Cryogenic Material Database
+2. Brass_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. 2007 I.O. Owate.csv:
+   Title        : ﻿A device for thermal conductivity measurement in a developing economy
+   Author(s)    : I. O. Owate-- O. E. Abumere-- G.O. Avwiri
+   Journal/Year : Scientific Research and Essay Vol. 2 2007
+
+2. 2018 I. Rojas-Rodr�guez.csv:
+   Title        : ﻿The Influence of the Precipitation Heat Treatment Temperature on the Metallurgical Microstructure Thermal Properties and Microhardness of an Alpha Brass
+   Author(s)    : I. Rojas-Rodríguez et.al.
+   Journal/Year : Scietific Research Publishing Materials Sciences and Applications 2018
+

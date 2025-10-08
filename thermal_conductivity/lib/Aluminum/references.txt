@@ -1,0 +1,33 @@
+Fits:
+1. Aluminum_data: Data Fit (see references for included data)
+2. Aluminum_1100_data: Data Fit (see references for included data)
+3. Aluminum_1100_NIST: NIST Cryogenic Material Database
+4. Aluminum_3003F_NIST: NIST Cryogenic Material Database
+5. Aluminum_5083O_NIST: NIST Cryogenic Material Database
+6. Aluminum_6061T6_NIST: NIST Cryogenic Material Database
+7. Aluminum_6061T6_Sauvage: No reference available.
+8. Aluminum_6063T5_NIST: NIST Cryogenic Material Database
+
+--------------------------------
+
+Data Sets:
+1. ALUMINUM1100_2008.csv:
+   Title        : Aluminum110
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+
+2. Al_1100_H14.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+
+3. Al_1100_O.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+
+4. Al_6061.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+

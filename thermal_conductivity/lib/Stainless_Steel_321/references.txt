@@ -1,0 +1,36 @@
+Fits:
+1. Stainless_Steel_321_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. Bogaard_1993.csv:
+   Title        : Thermophysical properties of stainless steels
+   Author(s)    : R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho
+   Journal/Year : 1993
+
+2. Marisov_1967.csv:
+   Title        : Thermal conductivity of some metals and alloys in the temperature range 4.2-273 K
+   Author(s)    : B.A. Marisov-V.I. Khotkevich-G.M. Zlobintsev-V.V. Kozinets
+   Journal/Year : 1967
+
+3. Mikhailova_1971.csv:
+   Title        : Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K
+   Author(s)    : G.N. Mikhailova
+   Journal/Year : 1971
+
+4. StutiusDillinger_1973.csv:
+   Title        : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+   Author(s)    : W. Stutius and J.R. Dillinger
+   Journal/Year : 1973
+
+5. Zavaritskii_1956.csv:
+   Title        : Thermal conductivity of technical materials at low temperatures
+   Author(s)    : N.V.Zavaritskii-A.G. Zel'Dovich
+   Journal/Year : 1956
+
+6. Zhdanovich_1976.csv:
+   Title        : Special state standard of the unit of thermal conductivity of solids in the temperature range between 60 K and 300 K
+   Author(s)    : V.A. Zhdanovich-Yu. R. Chaskin
+   Journal/Year : 1976
+

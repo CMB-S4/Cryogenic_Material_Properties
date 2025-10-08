@@ -1,0 +1,11 @@
+Fits:
+1. Graphite_AGOT_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. 2009_Woodcraft.csv:
+   Title        : Thermal conductivity measurements of pitch-bonded graphites at millikelvin temperatures: finding a replacement for AGOT graphite
+   Author(s)    : Woodcraft et al.
+   Journal/Year : Cryogenics 49(5):159-164 2009
+

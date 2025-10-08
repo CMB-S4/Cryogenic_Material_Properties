@@ -1,0 +1,11 @@
+Fits:
+1. Macor_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. MACOR ROD_2008.csv:
+   Title        : MACOR ROD
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+

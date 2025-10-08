@@ -1,0 +1,26 @@
+Fits:
+1. Phosphorbronze_ExcelNIST5a: ['ExcelNIST5a']
+
+--------------------------------
+
+Data Sets:
+1. 1956 N. V. Zavaritskii.csv:
+   Title        : ﻿N/A
+   Author(s)    : N.V. Zavaritskii-- A.G.  Zeldovich
+   Journal/Year : Sov. Phys. – Tech. Phys. 1956
+
+2. 2010 J. Tuttle JWST cable sample.csv:
+   Title        : ﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE
+   Author(s)    : J. Tuttle-- E. Canavan-- M. DiPirro
+   Journal/Year : AIP Conference Proceedings 2010
+
+3. 2010 J. Tuttle without guard can and insulation.csv:
+   Title        : ﻿THERMAL AND ELECTRICAL CONDUCTIVITY MEASUREMENTS OF CDA 510 PHOSPHOR BRONZE
+   Author(s)    : J. Tuttle-- E. Canavan-- M. DiPirro
+   Journal/Year : AIP Conference Proceedings 2010
+
+4. 2017 S. Jayachandran.csv:
+   Title        : ﻿Characterization of various two-phase materials based on thermal conductivity using modified transient plane source method
+   Author(s)    : S. Jayachandran-- R. N. Prithiviraajan-- K. S. Reddy
+   Journal/Year : AIP Conference Proceedings 2017
+

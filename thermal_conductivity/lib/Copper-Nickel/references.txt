@@ -1,0 +1,11 @@
+Fits:
+1. Copper-Nickel_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. 1993 J. R. Olson Copper-Nickel tubing.csv:
+   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Author(s)    : J. R. Olson
+   Journal/Year : Cornell University 1993
+

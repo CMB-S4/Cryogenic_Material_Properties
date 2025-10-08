@@ -1,0 +1,64 @@
+Fits:
+1. CFRP_Graphlite_data: Data Fit (see references for included data)
+2. CFRP_DPP_data: Data Fit (see references for included data)
+3. CFRP_data: Data Fit (see references for included data)
+4. CFRP_Clearwater_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. CFRP_Clearwater_p25in.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+
+2. Crowley_Clearwater_0.25K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+3. Crowley_Clearwater_0.27K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+4. Crowley_Clearwater_0.36K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+5. Crowley_Clearwater__0.1K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+6. Crowley_Clearwater__0.5K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+7. Crowley_DPP__0.3K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+8. Crowley_DPP__1.4K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+9. Crowley_Graphlite__1.4K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+10. Nachman_2025.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+
+11. RunyanJones_Graphlite_2008.csv:
+   Title        : Thermal Conductivity of Thermally-Isolating Polymeric and Composite Structural Support Materials Between 0.3 and 4 K
+   Author(s)    :  M.C.Runyan-W.C.Jones
+   Journal/Year : 2008
+

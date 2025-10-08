@@ -1,0 +1,21 @@
+Fits:
+1. CFRP_DPP_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. Crowley_DPP__0.3K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+2. Crowley_DPP__1.4K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+3. Nachman_2025.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+

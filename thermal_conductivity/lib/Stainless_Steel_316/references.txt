@@ -1,0 +1,37 @@
+Fits:
+1. Stainless_Steel_316_data: Data Fit (see references for included data)
+2. Stainless_Steel_316_NIST: NIST Cryogenic Material Database
+
+--------------------------------
+
+Data Sets:
+1. BarucciEtAl_2008.csv:
+   Title        : Measurement of the thermal conductivity of the supports of CUORE cryostat
+   Author(s)    : M. Barucci-L. Lolli-L. Risegari-G. Ventura
+   Journal/Year : 2008
+
+2. Bogaard_1983.csv:
+   Title        : Thermal conductivity of selected stainless steels
+   Author(s)    : Bogaard
+   Journal/Year : 1983
+
+3. Filoni_1987.csv:
+   Title        : Thermal conductivity of iron plain carbon and stainless steels an Inconel 718 from 360 K to 900 K
+   Author(s)    : L. Filoni
+   Journal/Year : 1987
+
+4. KaschnitzEtAl_2017.csv:
+   Title        : Electrical resistivity measured by millisecond pulse-heating in comparison to thermal conductivity of stainless steel AISI 316L at elevated temperature
+   Author(s)    : E. Kaschnitz-H. Kaschnitz-T. Schleutker-A. Gulhan-B. Bonvoisin
+   Journal/Year : 2017
+
+5. UmezawaEtAl_1992.csv:
+   Title        : Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures
+   Author(s)    : O. Umezawa-K. Ishikawa
+   Journal/Year : 1992
+
+6. WatsonEtAl_1963.csv:
+   Title        : Thermal conductivity of a sample of type 316 stainless steel
+   Author(s)    : T.W. Watson-E.R. Robinson
+   Journal/Year : 1963
+

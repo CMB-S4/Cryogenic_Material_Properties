@@ -1,0 +1,16 @@
+Fits:
+1. CFRP_Graphlite_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. Crowley_Graphlite__1.4K_2022.csv:
+   Title        : The Simons Observatory: A large-diameter truss for a refracting telescope cooled to 1 K
+   Author(s)    : Crowley et al
+   Journal/Year : 2022
+
+2. RunyanJones_Graphlite_2008.csv:
+   Title        : Thermal Conductivity of Thermally-Isolating Polymeric and Composite Structural Support Materials Between 0.3 and 4 K
+   Author(s)    :  M.C.Runyan-W.C.Jones
+   Journal/Year : 2008
+

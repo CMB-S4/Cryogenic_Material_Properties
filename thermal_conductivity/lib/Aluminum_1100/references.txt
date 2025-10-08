@@ -1,0 +1,12 @@
+Fits:
+1. Aluminum_1100_data: Data Fit (see references for included data)
+2. Aluminum_1100_NIST: NIST Cryogenic Material Database
+
+--------------------------------
+
+Data Sets:
+1. ALUMINUM1100_2008.csv:
+   Title        : Aluminum110
+   Author(s)    : RunyanJones
+   Journal/Year : 2008
+

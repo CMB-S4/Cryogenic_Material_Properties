@@ -1,0 +1,7 @@
+Fits:
+1. Polystyrene_1.99_lbft3_Freon_NIST: NIST Cryogenic Material Database
+2. Polystyrene_2.0_lbft3_NIST: NIST Cryogenic Material Database
+3. Polystyrene_3.12_lbft3_NIST: NIST Cryogenic Material Database
+4. Polystyrene_6.24_lbft3_NIST: NIST Cryogenic Material Database
+
+--------------------------------

@@ -1,0 +1,7 @@
+Fits:
+1. Polyurethane_1.99_lbft3_Freon_NIST: NIST Cryogenic Material Database
+2. Polyurethane_2.0_lbft3_CO2_NIST: NIST Cryogenic Material Database
+3. Polyurethane_3.06_lbft3_He_NIST: NIST Cryogenic Material Database
+4. Polyurethane_4.00_lbft3_Freon_NIST: NIST Cryogenic Material Database
+
+--------------------------------

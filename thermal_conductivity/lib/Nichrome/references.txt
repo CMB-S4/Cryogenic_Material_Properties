@@ -1,0 +1,4 @@
+Fits:
+1. Nichrome_ExcelNIST5a: ['ExcelNIST5a']
+
+--------------------------------

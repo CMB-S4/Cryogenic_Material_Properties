@@ -1,0 +1,22 @@
+Fits:
+1. Stainless_Steel_310_data: Data Fit (see references for included data)
+2. Stainless_Steel_310_NIST: NIST Cryogenic Material Database
+
+--------------------------------
+
+Data Sets:
+1. BlummEtAl_2007.csv:
+   Title        : Measurement of select thermophysical properties of the NPL certified reference material stainless steel 310
+   Author(s)    : J. Blumm-A. Lindemann-B. Niedrig-R. Campbell
+   Journal/Year : 2007
+
+2. CorsanEtAl_1991.csv:
+   Title        : An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy 
+   Author(s)    : J.M. Corsan-N.J. Budd-W.F. Heminger
+   Journal/Year : 1991
+
+3. StutiusEtAl_1973.csv:
+   Title        : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+   Author(s)    : Stutius-Dillinger
+   Journal/Year : 1973
+

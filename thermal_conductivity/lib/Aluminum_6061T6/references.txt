@@ -1,0 +1,13 @@
+Fits:
+1. Aluminum_6061T6_NIST: NIST Cryogenic Material Database
+2. Aluminum_6061T6_Sauvage: ['Development of a Closed-Cycle Dilution Refrigerator forfuture cosmological missions'
+ 'Valentin Sauvage' '2023']
+
+--------------------------------
+
+Data Sets:
+1. Al_6061.csv:
+   Title        : Cryogenic Materials Repository
+   Author(s)    : Nachman et al.
+   Journal/Year : 2025
+

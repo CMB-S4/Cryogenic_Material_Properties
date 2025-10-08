@@ -1,0 +1,16 @@
+Fits:
+1. Corian_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. 1993 J. R. Olson DuPont Corian low temperatures.csv:
+   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Author(s)    : J. R. Olson
+   Journal/Year : Cornell University 1993
+
+2. 1993 J. R. Olson DuPont Corian.csv:
+   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Author(s)    : J. R. Olson
+   Journal/Year : Cornell University 1993
+

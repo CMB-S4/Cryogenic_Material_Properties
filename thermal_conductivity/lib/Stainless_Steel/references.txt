@@ -1,0 +1,124 @@
+Fits:
+1. Stainless_Steel_data: Data Fit (see references for included data)
+2. Stainless_Steel_304_data: Data Fit (see references for included data)
+3. Stainless_Steel_310_data: Data Fit (see references for included data)
+4. Stainless_Steel_316_data: Data Fit (see references for included data)
+5. Stainless_Steel_321_data: Data Fit (see references for included data)
+6. Stainless_Steel_304_NIST: NIST Cryogenic Material Database
+7. Stainless_Steel_304L_NIST: NIST Cryogenic Material Database
+8. Stainless_Steel_310_NIST: NIST Cryogenic Material Database
+9. Stainless_Steel_316_NIST: NIST Cryogenic Material Database
+
+--------------------------------
+
+Data Sets:
+1. AntoniadisEtAl_2020.csv:
+   Title        : Reference correlations for the thermal conductivity of solid BK7 - PMMA - Pyrex 7740 - Pyroceram 9606 and SS304
+   Author(s)    : K.D. Antoniadis - A. Tyrou - M.J. Assael - X. Li - J. Wu - and H.P. Ebert
+   Journal/Year : International Journal of Thermophysics 41:98 (2020) 35 pages 
+
+2. BarucciEtAl_2008.csv:
+   Title        : Measurement of the thermal conductivity of the supports of CUORE cryostat
+   Author(s)    : M. Barucci-L. Lolli-L. Risegari-G. Ventura
+   Journal/Year : 2008
+
+3. BlummEtAl_2007.csv:
+   Title        : Measurement of select thermophysical properties of the NPL certified reference material stainless steel 310
+   Author(s)    : J. Blumm-A. Lindemann-B. Niedrig-R. Campbell
+   Journal/Year : 2007
+
+4. Bogaard_1983.csv:
+   Title        : Thermal conductivity of selected stainless steels
+   Author(s)    : Bogaard
+   Journal/Year : 1983
+
+5. Bogaard_1993.csv:
+   Title        : Thermophysical properties of stainless steels
+   Author(s)    : R.H. Bogaard-P.D. Desai-H.H. Li-C.Y. Ho
+   Journal/Year : 1993
+
+6. ChariDeNobel_1959.csv:
+   Title        : Thermal conductivity of some steels at low temperature
+   Author(s)    : M.S.R. Chari and J. De Nobel
+   Journal/Year : Physica 25 (1959) pp. 73-83
+
+7. ChuHo_1977.csv:
+   Title        : Thermal conductivity and electrical resistivity of eight selected AISI stainless steels
+   Author(s)    : T.K. Chu and C.Y. Ho
+   Journal/Year : "Proc. 15th Thermal Conductivity Conf. Plenum Press New York (1977) pp. 79-104"
+
+8. CorsanEtAl_1991.csv:
+   Title        : An intercomparison involving PTB and NPL of thermal conductivity measurements on stainless steel Inconel and Nimonic alloy reference materials and an iron alloy 
+   Author(s)    : J.M. Corsan-N.J. Budd-W.F. Heminger
+   Journal/Year : 1991
+
+9. DilleyEtAl_2002.csv:
+   Title        : Commercial apparatus for measuring transport properties from 1.9 to 390 K
+   Author(s)    : "N.R. Dilley - R.C. Black - L. Montes - A. Wilson - and M.B. Simmonds"
+   Journal/Year : Mat. Res. Soc. Symp. Proc. 691 (2002) pp. G3.5.1 to G3.5.6
+
+10. Filoni_1987.csv:
+   Title        : Thermal conductivity of iron plain carbon and stainless steels an Inconel 718 from 360 K to 900 K
+   Author(s)    : L. Filoni
+   Journal/Year : 1987
+
+11. KaschnitzEtAl_2017.csv:
+   Title        : Electrical resistivity measured by millisecond pulse-heating in comparison to thermal conductivity of stainless steel AISI 316L at elevated temperature
+   Author(s)    : E. Kaschnitz-H. Kaschnitz-T. Schleutker-A. Gulhan-B. Bonvoisin
+   Journal/Year : 2017
+
+12. Marisov_1967.csv:
+   Title        : Thermal conductivity of some metals and alloys in the temperature range 4.2-273 K
+   Author(s)    : B.A. Marisov-V.I. Khotkevich-G.M. Zlobintsev-V.V. Kozinets
+   Journal/Year : 1967
+
+13. Mikhailova_1971.csv:
+   Title        : Thermal and electrical conductivity of certain technical materials in the temperature range 0.4-1.5 K
+   Author(s)    : G.N. Mikhailova
+   Journal/Year : 1971
+
+14. Moeller_1969.csv:
+   Title        : Guarded double-cylinder apparatus for determining thermal conductivities from 80 to 860 K
+   Author(s)    : E. Moeller
+   Journal/Year : "Proc. 8th Thermal Conductivity Conf. Plenum Press New York (1969) pp. 701-711"
+
+15. PowersEtAl_1951.csv:
+   Title        : The thermal conductivity of metals and alloys at low temperatures II. Data on iron and steels between 25 and 300 K
+   Author(s)    : "R.W. Powers - J.B. Ziegler - and H. L. Johnston"
+   Journal/Year : U.S. Air Force Rept. USAF TR-264-6 (1951)
+
+16. StutiusDillinger_1973.csv:
+   Title        : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+   Author(s)    : W. Stutius and J.R. Dillinger
+   Journal/Year : J. Appl. Phys. 44 (1973) pp. 2887-2888
+
+17. StutiusEtAl_1973.csv:
+   Title        : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+   Author(s)    : Stutius-Dillinger
+   Journal/Year : 1973
+
+18. TyeEtAl_1975.csv:
+   Title        : Thermal conductivity of selected alloys at low temperatues
+   Author(s)    : "R.P. Tye - R.W. Hayden - and S.C. Spinney"
+   Journal/Year : Adv. Cryog. Eng. Vol. 22 (1975) pp. 136-144
+
+19. UmezawaEtAl_1992.csv:
+   Title        : Electrical and thermal conductivities and magnetization of austenetic steels titanium and titanium alloys at cryogenic temperatures
+   Author(s)    : O. Umezawa-K. Ishikawa
+   Journal/Year : 1992
+
+20. WatsonEtAl_1963.csv:
+   Title        : Thermal conductivity of a sample of type 316 stainless steel
+   Author(s)    : T.W. Watson-E.R. Robinson
+   Journal/Year : 1963
+
+21. Zavaritskii_1956.csv:
+   Title        : Thermal conductivity of technical materials at low temperatures
+   Author(s)    : N.V.Zavaritskii-A.G. Zel'Dovich
+   Journal/Year : 1956
+
+22. Zhdanovich_1976.csv:
+   Title        : Special state standard of the unit of thermal conductivity of solids in the temperature range between 60 K and 300 K
+   Author(s)    : V.A. Zhdanovich-Yu. R. Chaskin
+   Journal/Year : 1976
+
