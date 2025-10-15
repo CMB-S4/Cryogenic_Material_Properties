@@ -632,11 +632,14 @@ with tabs[3]:
     else:
         quick_pick["Fit Choice"] = None
 
-    if quick_pick["Fit Choice"] is not None:
+    if qp_use_interp:
+        interp_exists, valid_range, interp_func = find_interpolation(quick_pick["Material"]) # Check if interpolation file exists
+        ConVal = interp_func(qp_temp*u.K)*u.W/u.m/u.K
+    elif quick_pick["Fit Choice"] is not None:
         fit_obj = get_fit_by_name(quick_pick["Material"], quick_pick["Fit Choice"])
         ConVal = fit_obj.calc_tc(qp_temp*u.K)
         print(ConVal)
-        st.markdown(f"Conductivity: {ConVal}")
+    st.markdown(f"Conductivity: {ConVal}")
 
 
     st.subheader("Integral Calculator")

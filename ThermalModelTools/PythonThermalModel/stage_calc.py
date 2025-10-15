@@ -35,12 +35,13 @@ def calculate_power_function(details, stage_temps, A_L = False):
         ppu (float): The calculated power per unit.
     """
 
-    lowT, highT = stage_temps["lowT"], stage_temps["highT"]
-    mat = details["Material"]
-    if not A_L:
-        OD, ID = float(details["OD (m)"]), float(details["ID (m)"])
-        area = np.pi*(0.5*(OD))**2 - np.pi*(0.5*(ID))**2
-        length = details["Length (m)"]
+    # lowT, highT = stage_temps["lowT"], stage_temps["highT"]
+    # mat = details["Material"]
+    # print(mat)
+    # if not A_L:
+    #     OD, ID = float(details["OD (m)"]), float(details["ID (m)"])
+    #     area = np.pi*(0.5*(OD))**2 - np.pi*(0.5*(ID))**2
+    #     length = details["Length (m)"]
 
     lowT, highT = stage_temps["lowT"], stage_temps["highT"]
     mat = details["Material"]
@@ -80,6 +81,7 @@ def get_all_powers(components, stage_details):
     Returns:
         components (dict): The updated component details with power calculations.
     """
+    print("CH1")
     for stage, comps in components.items(): 
         for comp, details in comps.items():
             num = float(details["Number"])
