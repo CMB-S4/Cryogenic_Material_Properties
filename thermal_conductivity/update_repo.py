@@ -79,6 +79,7 @@ def main(mat_list = None, force_update=False):
         with open(os.path.join(mat.folder, "material.pkl"), "wb") as f:
             pickle.dump(mat, f)
 
+    mat_list = [d for d in os.listdir(lib_folder) if os.path.isdir(os.path.join(lib_folder, d))]
     # Lastly, we want to make the overall compilation files
     curated_mat_list = ["Aluminum_1100", "Beryllium_Copper","CFRP","Cu_OFHC_RRR50",
                 "G10_FR4","Glass_FabricPolyester_He_warp","Graphite","Inconel_718","Invar_Fe36Ni",

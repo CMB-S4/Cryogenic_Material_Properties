@@ -36,8 +36,13 @@ def get_fit_type_dic():
 
     return fit_type_dict
 
-def get_func_type(key):    
-    return get_fit_type_dic()[key]
+def get_func_type(key):
+    try:      
+        return get_fit_type_dic()[key]
+    except TypeError:
+        print("Fit type not found.")
+        print("Likely error is fit type has been passed as a list instead of a string.")
+        raise TypeError
 
 def get_func_name(func):
     for key, value in get_fit_type_dic().items():
