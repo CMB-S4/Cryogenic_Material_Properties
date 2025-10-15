@@ -49,7 +49,7 @@ def random_color(value = 200):
     return c.to_hex(cmap(370/value))
 
 def get_color():
-    if st.context.theme.type == 'light':
+    if True: #st.context.theme.type == 'light':
         return "#f7f7ff" #"#fff5f5"
     else:
         return "#271d42" # "#4d3e2b"
@@ -84,7 +84,7 @@ title_area, logo_area = st.columns(2)
 title_area.title("Interactive Thermal Model GUI")
 logo_area.image(f"{file_path}{os.sep}static{os.sep}blast-logo.png", width=200)  # Display the logo in the main body
 
-tabs = st.tabs(["Component Modeling", "Result Tables", "Plots", "About"])
+tabs = st.tabs(["Component Modeling", "Result Tables", "Plots", "Quick Calc", "About"])
 
 
 # Main Page Content
@@ -261,8 +261,9 @@ with tabs[0]:
                     selected_stage.add_component(new_component)
                     st.sidebar.success(f"Component '{name}' added to '{selected_stage_name}'!")
             st.rerun() 
-    
-    sidebar_inputs()
+            return component_properties
+
+    component_props = sidebar_inputs()
 
     try:
         substages = [sub_stage for sub_stage in st.session_state.main_stage.stages if sub_stage.name != st.session_state.main_stage.name]
@@ -576,7 +577,7 @@ with tabs[2]:
                 st.dataframe(component_df, use_container_width=True, hide_index=True)
 
                 try:
-                    int_fig, int_ax = plot_integral(selected_component, stage)
+                    int_fig, int_ax = plot_integral(selected_component.properties, stage, name=selected_component.name)
                     left_col, mid_col, right_col = st.columns([0.2, 0.6, 0.2])
                     mid_col.pyplot(int_fig, use_container_width=True)
                 except:
@@ -613,6 +614,54 @@ with tabs[2]:
             st.warning(f"Error {e} Optimization must be run to display the heatmap. Please click the 'Optimize' button on the main page.")
 
 with tabs[3]:
+    st.header("Quick Calculation Tools")
+    st.subheader("Thermal Conductivity Calculator")
+    quick_pick = {}
+
+    quick_pick["Material"] = st.selectbox("Material", mat_list, key="qp_material")
+    qp_temp = st.number_input("Temperature (K)", value=100.0, format="%.1f", key="qp_temp")
+
+    has_interpolation, valid_range, interp_func = find_interpolation(quick_pick["Material"]) # Searches for interpolation file, returns True if it exists
+    qp_use_interp = has_interpolation
+    if has_interpolation: # If interpolation file exists
+        quick_pick["Interpolate"] = st.checkbox(f"Use Interpolation in range :\n{valid_range[0]} K - {valid_range[1]} K", value=True, key="qp_interpolate") # Provide checkbox to use interpolation
+        qp_use_interp = quick_pick["Interpolate"]
+    if not qp_use_interp: # If interpolation is not selected, search for available fits
+        print(get_material_fit_names(quick_pick["Material"]))
+        quick_pick["Fit Choice"] = st.selectbox("Fit Choice", get_material_fit_names(quick_pick["Material"]), key="qp_fit_choice")
+    else:
+        quick_pick["Fit Choice"] = None
+
+    if quick_pick["Fit Choice"] is not None:
+        fit_obj = get_fit_by_name(quick_pick["Material"], quick_pick["Fit Choice"])
+        ConVal = fit_obj.calc_tc(qp_temp*u.K)
+        print(ConVal)
+        st.markdown(f"Conductivity: {ConVal}")
+
+
+    st.subheader("Integral Calculator")
+    lowT = st.number_input("Low Temperature (K)", value=4.0, format="%.1f", key="qp_lowT")
+    highT = st.number_input("High Temperature (K)", value=300.0, format="%.1f", key="qp_highT")
+    qp_stage = Stage("QP", high_temp = highT, low_temp = lowT, color=get_color())
+    
+    if quick_pick["Fit Choice"] is not None:
+        fit_obj = get_fit_by_name(quick_pick["Material"], quick_pick["Fit Choice"])
+        ConIntQuad = fit_obj.tc_integral(lowT*u.K, highT*u.K)[0].value
+        st.markdown(f"Conductivity Integral (Quad): {ConIntQuad}")
+
+
+    try:
+        int_fig, int_ax = plot_integral(quick_pick, qp_stage, name=quick_pick["Material"])
+        left_col, mid_col, right_col = st.columns([0.2, 0.6, 0.2])
+        mid_col.pyplot(int_fig, use_container_width=True)
+    except:
+        st.warning("Integral plot not available for this component type.")
+    # quick_pick["OD (m)"] = st.number_input("OD (m)", value=0.0, format="%.3f", key="qp_od")
+    # quick_pick["ID (m)"] = st.number_input("ID (m)", value=0.0, format="%.3f", key="qp_id")
+    # quick_pick["Length (m)"] = st.number_input("Length (m)", value=0.0, format="%.3f", key="qp_length")
+    # quick_pick["Number"] = st.number_input("Number", value=1, format="%d", key="qp_number")
+
+with tabs[4]:
     st.header("About")
     st.markdown("""
         This is an interactive thermal model GUI for modeling the thermal properties of cryogenic systems.

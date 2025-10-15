@@ -20,7 +20,7 @@ from thermal_conductivity.tc_utils import *
 from thermal_conductivity.fit_types import *
 
 #%% Plot integral
-def plot_integral(selected_component, stage):
+def plot_integral(selected_component, stage, name=None):
     """
     Description:
         This function plots the thermal conductivity of a selected component over the temperature range defined by the stage.
@@ -40,9 +40,9 @@ def plot_integral(selected_component, stage):
     
     fig, ax = plt.subplots()
 
-    mat = get_material(selected_component.properties["Material"])
-    if not selected_component.properties["Interpolate"]:
-        fit_obj = get_fit_by_name(selected_component.properties["Material"], selected_component.properties["Fit Choice"])
+    mat = get_material(selected_component["Material"])
+    if not selected_component["Interpolate"]:
+        fit_obj = get_fit_by_name(selected_component["Material"], selected_component["Fit Choice"])
         fit_obj.plot()
         ax.fill_between(fill_between_range, np.zeros(len(fill_between_range)), fit_obj.function()(fill_between_range, *fit_obj.parameters),
                     hatch="////", alpha = 0.5, edgecolor = 'b', facecolor="w",
@@ -61,10 +61,14 @@ def plot_integral(selected_component, stage):
     ax.semilogy()
     ax.semilogx()
     ax.legend()
-    ax.set_title(f"Plot of  {selected_component.name}")
+    if name is None:
+        name = selected_component["Material"]
+    ax.set_title(f"Plot of  {name}")
     ax.set_xlabel("T [K]")
     ax.set_ylabel("Thermal Conductivity : k [W/m/K]")
     return fig, ax
+
+
 
 #%% Plot Pie Chart
 def plot_pie_chart(stage, streamlit=True):

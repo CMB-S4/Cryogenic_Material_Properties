@@ -346,11 +346,13 @@ def find_interpolation(material):
         mat = pickle.load(f)
     if hasattr(mat, 'interpolate_function'):
         interp_func = mat.interpolate_function
+        if interp_func is None:
+            return False, None, None
         # interp_func = get_interpolation(os.path.join(path_to_mat_lib, material))
         valid_range = [round(float(interp_func.x[0]), 2), round(float(interp_func.x[-1]), 2)]
         return True, valid_range, interp_func
     else:
-        return False, None
+        return False, None, None
     
 def load_thermal_model(json_path):
     with open(json_path, 'r') as f:
