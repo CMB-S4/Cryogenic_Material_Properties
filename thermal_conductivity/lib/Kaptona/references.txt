@@ -1,4 +1,0 @@
-Fits:
-1. Kaptona_ExcelNIST5a: ['ExcelNIST5a']
-
---------------------------------
