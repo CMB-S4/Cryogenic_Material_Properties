@@ -1,2 +1,2 @@
 Fit_Name,fit_type,Tlow,Thigh,a,b,c,d
-Graphite_brad_ExcelNIST5a,lowTextrapolate,0.1,5,5.0,0.01,1.2715,0.0075
+Graphite_brad_ExcelNIST5a,lowTextrapolate,0.1,4.99,5.0,0.01,1.2715,0.0075

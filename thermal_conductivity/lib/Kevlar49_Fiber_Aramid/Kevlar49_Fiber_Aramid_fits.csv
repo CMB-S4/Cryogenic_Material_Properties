@@ -1,2 +1,2 @@
 Fit_Name,fit_type,Tlow,Thigh,a,b,c,d,e,f
-Kevlar49_Fiber_Aramid_NIST,NIST-experf,0.1,291.0,0.777857,-9.6106,0.961209,1.25744,1.98664,-2.4219
+Kevlar49_Fiber_Aramid_NIST,NIST-experf,0.1,291.0,-2.4219,1.98664,1.25744,0.961209,-9.6106,0.777857
