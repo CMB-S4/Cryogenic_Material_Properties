@@ -7,6 +7,7 @@ from scipy.interpolate import interp1d
 from scipy.integrate import quad
 from astropy import units as u
 from astropy import constants as const
+from inspect import signature
 
 this_dir = os.path.dirname(os.path.abspath(__file__))
 # Add this directory to the system path to allow imports
@@ -207,6 +208,11 @@ class Material:
         x = all_data[:, 0]
         y = all_data[:, 1]
 
+        # fit to a log scale version of the function to equally value low temps
+        def log_func(x, *args):
+            y = get_func_type(self.fit_type)(x, *args)
+            return np.log(y)
+
         if self.fit_type == "loglog":
             n_param = 9
             p0 =  [1.13377143e-07, -2.98684987e-05,  1.90655344e-03,  8.47382032e-02,
@@ -214,13 +220,14 @@ class Material:
                     np.mean([min(x),max(x)])] # This is just an example starting point for the fit
             bounds = ((-np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, min(x)), 
                     (np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, max(x)))
-            popt, pcov = curve_fit(get_func_type(self.fit_type), x, y, maxfev=10000, p0=np.ones(n_param) if p0 is None else p0, bounds=(0, np.inf) if bounds is None else bounds)
+            popt, pcov = curve_fit(log_func, x, np.log(y), maxfev=10000, p0=np.ones(n_param) if p0 is None else p0, bounds=(0, np.inf) if bounds is None else bounds)
         elif n_param is None:
             # Assume the function has a defined number of parameters, like power law or something.
-            popt, pcov = curve_fit(get_func_type(self.fit_type), x, y, maxfev=10000)
-        else:
+            sig = signature(get_func_type(self.fit_type))
+            n_param = len(sig.parameters)
+            
         # use the fit_type function to fit the data
-            popt, pcov = curve_fit(get_func_type(self.fit_type), x, y, maxfev=10000, p0=np.ones(n_param) if p0 is None else p0)
+        popt, pcov = curve_fit(log_func, x, np.log(y), maxfev=10000, p0=np.ones(n_param) if p0 is None else p0)
         new_fit = Fit(self.name, "data", (min(x), max(x)), popt, pcov, self.fit_type)
         new_fit.add_reference("Data Fit (see references for included data)")
         self.fits.append(new_fit)
