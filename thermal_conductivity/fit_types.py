@@ -17,38 +17,44 @@ Some special functions have their own arguments.
 import numpy as np
 from scipy.special import erf
 
+
 def get_fit_type_dic():
-    fit_type_dict = {"polylog": polylog,
-                     "3 order polylog": polylog,
-                     "Nppoly":          Nppoly,
-                     "loglog":          loglog_func,
-                     "comppoly":        loglog_func,
-                     "TchebyLnT":       NIST5a_3,
-                     "NIST-copperfit":  NIST5a_2,
-                     "lowTextrapolate": lowTextrapolate,
-                     "NIST-experf":     NIST_experf,
-                     "powerlaw":       power_law,
-                     "OFHC_RRR_Wc":     OFHC_RRR_Wc,
-                     "RRadebaugh_koT": RRadebaugh_koT,
-                     "RRadebaugh_logkexp": RRadebaugh_logkexp,
-                     "Chebyshev": Chebyshev,
-                     "Superconducting": Superconducting}
+    fit_type_dict = {
+        "polylog": polylog,
+        "3 order polylog": polylog,
+        "Nppoly": Nppoly,
+        "loglog": loglog_func,
+        "comppoly": loglog_func,
+        "TchebyLnT": NIST5a_3,
+        "NIST-copperfit": NIST5a_2,
+        "lowTextrapolate": lowTextrapolate,
+        "NIST-experf": NIST_experf,
+        "powerlaw": power_law,
+        "OFHC_RRR_Wc": OFHC_RRR_Wc,
+        "RRadebaugh_koT": RRadebaugh_koT,
+        "RRadebaugh_logkexp": RRadebaugh_logkexp,
+        "Chebyshev": Chebyshev,
+        "Superconducting": Superconducting,
+    }
 
     return fit_type_dict
 
+
 def get_func_type(key):
-    try:      
+    try:
         return get_fit_type_dic()[key]
     except TypeError:
         print("Fit type not found.")
         print("Likely error is fit type has been passed as a list instead of a string.")
         raise TypeError
 
+
 def get_func_name(func):
     for key, value in get_fit_type_dic().items():
         if value == func:
             return key
-        
+
+
 ######################################################################
 # The following functions are actively used to fit the data.
 # These functions are also those found in the compilation files.
@@ -67,13 +73,14 @@ def Nppoly(T, *param):
     - T - temperature(s) at which to estimate the thermal conductivity.
     - param_dictionary - dictionary containing the parameters for the polynomial fit.
     """
-    return T*np.polyval(param, T)
+    return T * np.polyval(param, T)
+
 
 def polylog(T, *param):
     """
-    Description : Fits the data in a log10 space 
+    Description : Fits the data in a log10 space
     Description : Fit Type k = 10**polynomial(log10(T)) (or) k = 10**(a + b*log10(T) + c*log10(T)**2 ...)
-    
+
     Arguments :
     - T - temperature(s) at which to estimate the thermal conductivity.
     - param_dictionary - dictionary containing the parameters for the polynomial fit.
@@ -82,45 +89,48 @@ def polylog(T, *param):
     k = 10**logk
     return k
 
+
 def loglog_func(T, *param):
     """
-    erf_multiplicity, erf_param, 
+    erf_multiplicity, erf_param,
     Description : Fits the data to a compound fit and joins them with an error function.
     Description : Fits the low temp data with the Nppoly function and the high temp data with the polylog function.
 
-    Arguments : 
+    Arguments :
     - T - temperature at which to estimate the thermal conductivity.
     - low_param: in form a + bT + cT**2 ...
-    
-    Make sure to remove trailing zeros 
+
+    Make sure to remove trailing zeros
     """
     # print(len(param))
     erf_multiplicity = 15
     erf_param = param[-1]
-    low_fit = Nppoly(T, *param[:(np.size(param)-1)//2])
-    hi_fit = polylog(T, *param[(np.size(param)-1)//2:-1])
+    low_fit = Nppoly(T, *param[: (np.size(param) - 1) // 2])
+    hi_fit = polylog(T, *param[(np.size(param) - 1) // 2 : -1])
 
-    erf_low = 0.5*(1-erf(erf_multiplicity*(np.log10(T/erf_param))))
-    erf_hi = 0.5*(1+erf(erf_multiplicity*(np.log10(T/erf_param))))
+    erf_low = 0.5 * (1 - erf(erf_multiplicity * (np.log10(T / erf_param))))
+    erf_hi = 0.5 * (1 + erf(erf_multiplicity * (np.log10(T / erf_param))))
 
     # print(erf_multiplicity, erf_param)
-    k = hi_fit*erf_hi+low_fit*erf_low
+    k = hi_fit * erf_hi + low_fit * erf_low
 
     return k
+
 
 def power_law(T, A, B):
     """
     Description : Fits to a power law function.
     Description : k = A*T^B (or) k = A*T**B
-    
-    Arguments : 
+
+    Arguments :
     - T - temperature at which to estimate the thermal conductivity.
     - low_param: in form a + bT + cT**2 ...
-    
+
     """
-    k = (A)*T**(B)
+    k = (A) * T ** (B)
 
     return k
+
 
 def NIST_experf(T, a, b, c, d, e, f):
     """
@@ -132,12 +142,15 @@ def NIST_experf(T, a, b, c, d, e, f):
     """
 
     logT = np.log10(T)
-    k_val = (a + b*logT)*((1-erf(2*(logT-c)))/(2))+(d+e*(np.exp(-1*logT/f)))*((1+erf(2*(logT-c)))/(2))
+    k_val = (a + b * logT) * ((1 - erf(2 * (logT - c))) / (2)) + (
+        d + e * (np.exp(-1 * logT / f))
+    ) * ((1 + erf(2 * (logT - c))) / (2))
     k = 10**k_val
     return k
 
+
 # New OFHC fit from Ray Radebaugh - Designed to fit any OFHC copper given a RRR value
-def OFHC_RRR_Wc(T,RRR_list,*params):
+def OFHC_RRR_Wc(T, RRR_list, *params):
     """
     Description : A complex fit developed by Ray Radebaugh to fit the thermal conductivity of OFHC copper.
     Arguments :
@@ -147,23 +160,44 @@ def OFHC_RRR_Wc(T,RRR_list,*params):
     """
     t = T
     RRR = RRR_list[0]
-    def w_0(t,RRR,params):
-        return (params[0]/((RRR-1)*t))
-    def w_c(t,params):
-        return (params[9]*np.log(t/params[10])*np.exp(-((np.log(t/params[11])/params[12])**2)) + params[13]*np.log(t/params[14])*np.exp(-((np.log(t/params[15])/params[16])**2)) + params[17]*np.log(t/params[18])*np.exp(-((np.log(t/params[19])/params[20])**2)))
-    def w_i_with_w_c(t,params,w_c):
-        q = params[1]*(t**params[2])
-        r = params[1]*params[3]*(t**(params[2]+params[4]))*np.exp(-((params[5]/t)**params[6]))
-        s = 1+r
-        p = q/s
-        return (p + w_c)
-    def w_i0(RRR,w_i,w_0):
-        return ((params[7]*((RRR-1)**params[8])*w_i*w_0)/(w_i+w_0))
-    w_0 = w_0(t,RRR,params)
-    w_c = w_c(t,params)
-    w_i = w_i_with_w_c(t,params,w_c)
-    w_i0 = w_i0(RRR,w_i,w_0)
-    return (1/(w_0+w_i+w_i0))
+
+    def w_0(t, RRR, params):
+        return params[0] / ((RRR - 1) * t)
+
+    def w_c(t, params):
+        return (
+            params[9]
+            * np.log(t / params[10])
+            * np.exp(-((np.log(t / params[11]) / params[12]) ** 2))
+            + params[13]
+            * np.log(t / params[14])
+            * np.exp(-((np.log(t / params[15]) / params[16]) ** 2))
+            + params[17]
+            * np.log(t / params[18])
+            * np.exp(-((np.log(t / params[19]) / params[20]) ** 2))
+        )
+
+    def w_i_with_w_c(t, params, w_c):
+        q = params[1] * (t ** params[2])
+        r = (
+            params[1]
+            * params[3]
+            * (t ** (params[2] + params[4]))
+            * np.exp(-((params[5] / t) ** params[6]))
+        )
+        s = 1 + r
+        p = q / s
+        return p + w_c
+
+    def w_i0(RRR, w_i, w_0):
+        return (params[7] * ((RRR - 1) ** params[8]) * w_i * w_0) / (w_i + w_0)
+
+    w_0 = w_0(t, RRR, params)
+    w_c = w_c(t, params)
+    w_i = w_i_with_w_c(t, params, w_c)
+    w_i0 = w_i0(RRR, w_i, w_0)
+    return 1 / (w_0 + w_i + w_i0)
+
 
 def Chebyshev(T, *param):
     """
@@ -175,6 +209,7 @@ def Chebyshev(T, *param):
     logT = np.log(T)
     return np.exp(np.polynomial.chebyshev.chebval(logT, param))
 
+
 def Superconducting(T, alpha, beta, gamma, delta):
     """
     Description : A theoretical curve based on the heat transfer due to phonons and electrons at superconducting temperatures.
@@ -182,24 +217,37 @@ def Superconducting(T, alpha, beta, gamma, delta):
     - T - temperature at which to estimate  the thermal conductivity.
     - param_dictionary - dictionary containing material-specific parameters for its conductivity curve.
     """
-    phonons = alpha * T ** beta
+    phonons = alpha * T**beta
     electrons = gamma * T * np.exp(delta / T)
     return phonons + electrons
 
 
-
 ##################################################################
 # The following functions were taken from an existing Excel spreadsheet.
-# containing some useful fits to data. 
+# containing some useful fits to data.
 # While these functions have largely been replaced by the functions above, they are still included here for completeness.
 ##################################################################
 def NIST5a_2(T, *params):
-    if len(params)<=8:
+    if len(params) <= 8:
         params = np.append(params, [0])
-    k = params[0] + params[2] * T ** (0.5) + params[4] * T + params[6] * T ** (1.5) + params[8] * T ** (2)
-    k = k / (1 + params[1] * T ** (0.5) + params[3] * T + params[5] * T ** (1.5) + params[7] * T ** (2))
-    k = 10 ** k
+    k = (
+        params[0]
+        + params[2] * T ** (0.5)
+        + params[4] * T
+        + params[6] * T ** (1.5)
+        + params[8] * T ** (2)
+    )
+    k = k / (
+        1
+        + params[1] * T ** (0.5)
+        + params[3] * T
+        + params[5] * T ** (1.5)
+        + params[7] * T ** (2)
+    )
+    k = 10**k
     return k
+
+
 """
 Case 2  'NIST formulation for OFHC Copper
     Conductivity = IParameters(1) + IParameters(3) * temp ^ (0.5) + IParameters(5) * temp + IParameters(7) * temp ^ (1.5) + IParameters(9) * temp ^ (2#)
@@ -208,14 +256,17 @@ Case 2  'NIST formulation for OFHC Copper
 
 """
 
+
 def NIST5a_3(T, *params):
     lnT = np.log(T)
     x = ((lnT - params[1]) - (params[2] - lnT)) / (params[2] - params[1])
     k = 0
-    for i in range(3,3+int(params[0])):
+    for i in range(3, 3 + int(params[0])):
         k = k + params[i] * np.cos((i - 3) * np.arccos(x))
     k = np.exp(k)
     return k
+
+
 """
 Case 3  'Tcheby polynomial in ln(T) giving ln(g), a=# parameters, b=low temp, c= high temp, d...=parameters
     x = Log(temp) / Log(2.71828)
@@ -226,9 +277,11 @@ Case 3  'Tcheby polynomial in ln(T) giving ln(g), a=# parameters, b=low temp, c=
     Conductivity = 2.71828 ^ Conductivity
     
 """
+
+
 def lowTextrapolate(T, *params):
     k = []
-    
+
     if np.size(T) == 1:
         k_plus = 0
         if T > params[0]:
@@ -240,7 +293,7 @@ def lowTextrapolate(T, *params):
             k = np.append(k, params[3] * T ** params[2])
         else:
             # k = params[16] * T ** params[15]
-            k = np.append(k, -1*T)
+            k = np.append(k, -1 * T)
         k = float(k)
     else:
         for i in range(len(T)):
@@ -254,8 +307,9 @@ def lowTextrapolate(T, *params):
                 k = np.append(k, params[3] * T[i] ** params[2])
             else:
                 # k = params[16] * T ** params[15]
-                k = np.append(k, -1*T[i])
+                k = np.append(k, -1 * T[i])
     return k
+
 
 """
 Case 4 'Extrapolation to lower temp, either by using a*T^1.8, or better with data
@@ -288,12 +342,13 @@ Case 4 'Extrapolation to lower temp, either by using a*T^1.8, or better with dat
 #################################################################
 # From the NIST website
 
+
 def NIST1(T, params):
     """
     Description : k = T*polynomial(log10(T))
                 : k = T*(a + b*log10(T) + c*log10(T)**2 ...)
     """
-    k = 10**np.polyval(params, np.log10(T))
+    k = 10 ** np.polyval(params, np.log10(T))
     return k
 
 
@@ -305,12 +360,14 @@ def RRadebaugh1(T, low_param, hi_param, erf_param):
     k = loglog_func(T, low_param, hi_param, erf_param)
     return k
 
+
 def RRadebaugh3(T, low_param, hi_param, erf_param):
     low_param = np.flip(low_param)
     hi_param = np.flip(hi_param)
 
     k = loglog_func(T, low_param, hi_param, erf_param, erf_multiplicity=10)
     return k
+
 
 def RRadebaugh2(T, low_param, hi_param, erf_param):
     low_param = np.flip(low_param)
@@ -319,45 +376,47 @@ def RRadebaugh2(T, low_param, hi_param, erf_param):
     print(np.poly1d(low_param))
     print(np.poly1d(hi_param))
 
-    low_fit = T*np.polyval(low_param, T)
-    hi_fit = 10**np.polyval(hi_param, np.log10(T))
+    low_fit = T * np.polyval(low_param, T)
+    hi_fit = 10 ** np.polyval(hi_param, np.log10(T))
     print(low_fit, hi_fit)
-    if erf_param==0:
+    if erf_param == 0:
         erf_hi = 0
         erf_low = 1
-    elif erf_param==-1:
+    elif erf_param == -1:
         erf_low = 0
         erf_hi = 1
     else:
-        erf_multiplicity = 1/7
-        erf_low = 0.5*(1-erf(erf_multiplicity*(T -erf_param)))
-        erf_hi = 0.5*(1+erf(erf_multiplicity*(T - erf_param)))
+        erf_multiplicity = 1 / 7
+        erf_low = 0.5 * (1 - erf(erf_multiplicity * (T - erf_param)))
+        erf_hi = 0.5 * (1 + erf(erf_multiplicity * (T - erf_param)))
 
-    k = low_fit*erf_low+hi_fit*erf_hi
+    k = low_fit * erf_low + hi_fit * erf_hi
     return k
+
 
 def RRadebaugh3(T, low_param, hi_param, erf_param):
     h = hi_param[-1]
     low_param = np.flip(low_param)
     hi_param = np.flip(hi_param[:-1])
 
-    low_fit = T*np.polyval(low_param, T)
-    hi_fit = np.polyval(hi_param, np.log10(T)) + h*np.exp(np.log10(T))
+    low_fit = T * np.polyval(low_param, T)
+    hi_fit = np.polyval(hi_param, np.log10(T)) + h * np.exp(np.log10(T))
     hi_fit = 10**hi_fit
 
-    if erf_param==0:
+    if erf_param == 0:
         erf_hi = 0
         erf_low = 1
-    elif erf_param==-1:
+    elif erf_param == -1:
         erf_low = 0
         erf_hi = 1
     else:
-        erf_multiplicity = 1/7
-        erf_low = 0.5*(1-erf(erf_multiplicity*(T -erf_param)))
-        erf_hi = 0.5*(1+erf(erf_multiplicity*(T - erf_param)))
+        erf_multiplicity = 1 / 7
+        erf_low = 0.5 * (1 - erf(erf_multiplicity * (T - erf_param)))
+        erf_hi = 0.5 * (1 + erf(erf_multiplicity * (T - erf_param)))
 
-    k = low_fit*erf_low+hi_fit*erf_hi
+    k = low_fit * erf_low + hi_fit * erf_hi
     return k
+
 
 def RRadebaugh_koT(T, param_dictionary):
     """
@@ -369,28 +428,33 @@ def RRadebaugh_koT(T, param_dictionary):
     - param_dictionary - dictionary containing the parameters for the polynomial fit.
     """
     param = param_dictionary["low_param"]
-    return T*(np.polyval(param, T) + 1e-9*T**4)
+    return T * (np.polyval(param, T) + 1e-9 * T**4)
+
 
 def RRadebaugh_logkexp(T, param_dictionary):
     """
-    Description : Fits the data in a log10 space 
+    Description : Fits the data in a log10 space
     Description : Fit Type k = 10**polynomial(log10(T)) (or) k = 10*(a + b*log10(T) + c*log10(T)**2 ...)
-    
+
     Arguments :
     - T - temperature(s) at which to estimate the thermal conductivity.
     - param_dictionary - dictionary containing the parameters for the polynomial fit.
     """
-    if len(param_dictionary["hi_param"])!=0:
+    if len(param_dictionary["hi_param"]) != 0:
         param = param_dictionary["hi_param"]
     else:
         param = param_dictionary["low_param"]
-    return 10**(np.polyval(param[1:], np.log10(T)) + param[0]*np.exp(-np.log10(T)))
+    return 10 ** (np.polyval(param[1:], np.log10(T)) + param[0] * np.exp(-np.log10(T)))
+
+
 ###########################################################################
 # From the NIST5a Excel Spreadsheet
 
+
 def NIST5a_1(T, params):
-    k = 10**np.polyval(params[::-1], np.log10(T))
+    k = 10 ** np.polyval(params[::-1], np.log10(T))
     return k
+
 
 """
 Case 1   'NIST type formulation, see first sheet
@@ -402,11 +466,10 @@ Case 1   'NIST type formulation, see first sheet
 """
 
 
-
 def NBS(temp, IParameters):
     L_0 = 0.00000002443
     beta = IParameters[1] / L_0 * 1 / IParameters[0]
-    
+
     ln_temp_ratio_10 = np.log(temp / IParameters[10])
     ln_temp_ratio_11 = np.log(temp / IParameters[11])
     ln_temp_ratio_14 = np.log(temp / IParameters[14])
@@ -415,22 +478,40 @@ def NBS(temp, IParameters):
     ln_temp_ratio_19 = np.log(temp / IParameters[19])
     ln_temp_ratio_22 = np.log(temp / IParameters[22])
 
-    rho_c = (IParameters[9] * ln_temp_ratio_10 * np.exp(-1 * (ln_temp_ratio_11 / IParameters[12]) ** 2) +
-             IParameters[13] * ln_temp_ratio_14 * np.exp(-1 * (ln_temp_ratio_15 / IParameters[16]) ** 2) +
-             IParameters[17] * ln_temp_ratio_18 * np.exp(-1 * (ln_temp_ratio_19 / IParameters[20]) ** 2) +
-             IParameters[21] * np.exp(-1 * (ln_temp_ratio_22 / IParameters[23]) ** 2))
+    rho_c = (
+        IParameters[9]
+        * ln_temp_ratio_10
+        * np.exp(-1 * (ln_temp_ratio_11 / IParameters[12]) ** 2)
+        + IParameters[13]
+        * ln_temp_ratio_14
+        * np.exp(-1 * (ln_temp_ratio_15 / IParameters[16]) ** 2)
+        + IParameters[17]
+        * ln_temp_ratio_18
+        * np.exp(-1 * (ln_temp_ratio_19 / IParameters[20]) ** 2)
+        + IParameters[21] * np.exp(-1 * (ln_temp_ratio_22 / IParameters[23]) ** 2)
+    )
 
     rho_0 = beta / temp
 
-    rho_i = (IParameters[2] * temp ** IParameters[3] / 
-             (1 + IParameters[2] * IParameters[4] * temp ** (IParameters[3] + IParameters[5]) * 
-              np.exp(-1 * (IParameters[6] / temp) ** IParameters[7])) + rho_c)
-    
+    rho_i = (
+        IParameters[2]
+        * temp ** IParameters[3]
+        / (
+            1
+            + IParameters[2]
+            * IParameters[4]
+            * temp ** (IParameters[3] + IParameters[5])
+            * np.exp(-1 * (IParameters[6] / temp) ** IParameters[7])
+        )
+        + rho_c
+    )
+
     rho_i0 = IParameters[8] * rho_i * rho_0 / (rho_i + rho_0)
-    
+
     Conductivity = 1 / (rho_0 + rho_i + rho_i0)
-    
+
     return Conductivity
+
 
 """
 Case 5 'Classic NBS (National Bureau of Standards) equations for Al, Cu, Fe, W using measured RRR values
@@ -452,6 +533,7 @@ Case 5 'Classic NBS (National Bureau of Standards) equations for Al, Cu, Fe, W u
 
 """
 
+
 def NIST5a_6(temp, IParameters, sc):
     if sc == 1:
         temp = 1.18
@@ -459,8 +541,12 @@ def NIST5a_6(temp, IParameters, sc):
     L_0 = 0.0000000245
     beta = IParameters[1] / L_0 / IParameters[0]
 
-    IParameters[2] = min(IParameters[24] * (IParameters[0] ** IParameters[25]), IParameters[2])
-    IParameters[4] = max(IParameters[26] * (IParameters[0] ** IParameters[27]), IParameters[4])
+    IParameters[2] = min(
+        IParameters[24] * (IParameters[0] ** IParameters[25]), IParameters[2]
+    )
+    IParameters[4] = max(
+        IParameters[26] * (IParameters[0] ** IParameters[27]), IParameters[4]
+    )
 
     ln_temp_ratio_10 = np.log(temp / IParameters[10])
     ln_temp_ratio_11 = np.log(temp / IParameters[11])
@@ -470,16 +556,33 @@ def NIST5a_6(temp, IParameters, sc):
     ln_temp_ratio_19 = np.log(temp / IParameters[19])
     ln_temp_ratio_22 = np.log(temp / IParameters[22])
 
-    rho_c = (IParameters[9] * ln_temp_ratio_10 * np.exp(-1 * (ln_temp_ratio_11 / IParameters[12]) ** 2) +
-             IParameters[13] * ln_temp_ratio_14 * np.exp(-1 * (ln_temp_ratio_15 / IParameters[16]) ** 2) +
-             IParameters[17] * ln_temp_ratio_18 * np.exp(-1 * (ln_temp_ratio_19 / IParameters[20]) ** 2) +
-             IParameters[21] * np.exp(-1 * (ln_temp_ratio_22 / IParameters[23]) ** 2))
+    rho_c = (
+        IParameters[9]
+        * ln_temp_ratio_10
+        * np.exp(-1 * (ln_temp_ratio_11 / IParameters[12]) ** 2)
+        + IParameters[13]
+        * ln_temp_ratio_14
+        * np.exp(-1 * (ln_temp_ratio_15 / IParameters[16]) ** 2)
+        + IParameters[17]
+        * ln_temp_ratio_18
+        * np.exp(-1 * (ln_temp_ratio_19 / IParameters[20]) ** 2)
+        + IParameters[21] * np.exp(-1 * (ln_temp_ratio_22 / IParameters[23]) ** 2)
+    )
 
     rho_0 = beta / temp
 
-    rho_i = (IParameters[2] * temp ** IParameters[3] / 
-             (1 + IParameters[2] * IParameters[4] * temp ** (IParameters[3] + IParameters[5]) * 
-              np.exp(-1 * (IParameters[6] / temp) ** IParameters[7])) + rho_c)
+    rho_i = (
+        IParameters[2]
+        * temp ** IParameters[3]
+        / (
+            1
+            + IParameters[2]
+            * IParameters[4]
+            * temp ** (IParameters[3] + IParameters[5])
+            * np.exp(-1 * (IParameters[6] / temp) ** IParameters[7])
+        )
+        + rho_c
+    )
 
     rho_i0 = IParameters[8] * rho_i * rho_0 / (rho_i + rho_0)
 
@@ -490,6 +593,8 @@ def NIST5a_6(temp, IParameters, sc):
     else:
         Conductivity = 1 / (rho_0 + rho_i + rho_i0)
         return Conductivity
+
+
 """
 Case 6 'Modified NBS approach by Adam Woodcraft: Cryogenics 45 (2005) 421–431
     
@@ -519,6 +624,8 @@ Case 6 'Modified NBS approach by Adam Woodcraft: Cryogenics 45 (2005) 421–431
     End If
 
 """
+
+
 def NIST5a_7(temp, IParameters):
     if temp > IParameters[17]:
         formtype = IParameters[16]
@@ -542,6 +649,7 @@ Case 7 'First do higher temp, the continue with power-series approximation.
 
 """
 
+
 def NIST5a_7(temp, IParameters, sc, normcond=None):
     if temp > IParameters[30]:
         formtype = IParameters[29]
@@ -559,8 +667,11 @@ def NIST5a_7(temp, IParameters, sc, normcond=None):
             Conductivity = normcond * np.exp(IParameters[31] * (1 - 1.18 / temp))
             return Conductivity, None, sc, None
     else:
-        Conductivity = IParameters[32] * np.exp(IParameters[31] * (1 - IParameters[30] / temp))
+        Conductivity = IParameters[32] * np.exp(
+            IParameters[31] * (1 - IParameters[30] / temp)
+        )
         return Conductivity, None, sc, None
+
 
 """
 Case 8 'Superconducting extension

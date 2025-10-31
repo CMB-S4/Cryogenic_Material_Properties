@@ -7,6 +7,7 @@ from scipy.interpolate import interp1d
 from scipy.integrate import quad
 from astropy import units as u
 from astropy import constants as const
+
 # from inspect import signature
 
 this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +17,8 @@ if this_dir not in sys.path:
 
 
 from fit_types import get_func_type, linear_fit, loglog_func, Nppoly, polylog
+
+
 class Material:
     """
     A class to represent a material with thermal conductivity data and fits.
@@ -35,7 +38,10 @@ class Material:
         room_temp_tuple (tuple): Tuple containing room temperature and corresponding conductivity, if available.
         interpolate_function (function): Interpolation function for thermal conductivity based on fits.
     """
-    def __init__(self, name, parent: str=None, fit_type = "loglog", force_update: bool =False):
+
+    def __init__(
+        self, name, parent: str = None, fit_type="loglog", force_update: bool = False
+    ):
         """Initialize the Material class.
 
         Args:
@@ -46,8 +52,8 @@ class Material:
 
         """
         self.name = name
-        self.folder = "lib"+os.sep+name #
-        folder_path = os.path.join(this_dir,"lib", name)
+        self.folder = "lib" + os.sep + name  #
+        folder_path = os.path.join(this_dir, "lib", name)
 
         # If the folder exists and contains a pickle file with the class already stored then load it
         pickle_file = os.path.join(self.folder, "material.pkl")
@@ -56,7 +62,7 @@ class Material:
                 material = pickle.load(f)
                 self.__dict__.update(material.__dict__)
             # print(f"Loaded existing material: {self.name}")
-            self.folder = "lib"+os.sep+name # os.path.join(this_dir, "lib", name)
+            self.folder = "lib" + os.sep + name  # os.path.join(this_dir, "lib", name)
             self.data_folder = os.path.join(self.folder, "RAW")
             self.plot_folder = os.path.join(self.folder, "PLOTS")
             if not os.path.exists(self.plot_folder):
@@ -72,9 +78,11 @@ class Material:
             self.fits = []
             if os.path.exists(self.data_folder) and os.listdir(self.data_folder) != []:
                 self.data_classes = self.get_data()[1]
-                included_data = [ds.data for ds in self.data_classes.values() if ds.include]
+                included_data = [
+                    ds.data for ds in self.data_classes.values() if ds.include
+                ]
                 all_data = np.vstack(included_data)
-                self.temp_range = (min(all_data[:,0]), max(all_data[:,0]))
+                self.temp_range = (min(all_data[:, 0]), max(all_data[:, 0]))
 
                 try:
                     fit_param, fit_cov = self.fit_data()
@@ -92,15 +100,16 @@ class Material:
 
             room_temp_file = os.path.join(self.folder, "room_temperature.yaml")
             if os.path.exists(room_temp_file):
-                with open(room_temp_file, 'r') as file:
+                with open(room_temp_file, "r") as file:
                     import yaml
+
                     config = yaml.safe_load(file)
-                self.room_temp_tuple = config['room_temperature_conductivity']
+                self.room_temp_tuple = config["room_temperature_conductivity"]
             else:
                 self.room_temp_tuple = None
         if len(self.fits) > 0:
             self.interpolate_function = self.interpolate(preferred_fit=None)
-        
+
         # If it has a parent
         # We want to copy any raw data files to the parent folder
         # And also copy any fits we have to the parent material
@@ -141,12 +150,28 @@ class Material:
                 for fit in self.fits:
                     if fit.name not in existing_fits:
                         # print(f"Adding fits from {self.name} to parent material {self.parent}.")
-                        parent_class.add_fits(self.name, fit.source, fit.range, fit.parameters, fit.parameter_covariance, fit.fit_type, fit.fit_error)
+                        parent_class.add_fits(
+                            self.name,
+                            fit.source,
+                            fit.range,
+                            fit.parameters,
+                            fit.parameter_covariance,
+                            fit.fit_type,
+                            fit.fit_error,
+                        )
             # If the parent class doesn't yet exist, we want to create it
             else:
                 parent_class = Material(self.parent, force_update=True)
                 for fit in self.fits:
-                    parent_class.add_fits(self.name, fit.source, fit.range, fit.parameters, fit.parameter_covariance, fit.fit_type, fit.fit_error)
+                    parent_class.add_fits(
+                        self.name,
+                        fit.source,
+                        fit.range,
+                        fit.parameters,
+                        fit.parameter_covariance,
+                        fit.fit_type,
+                        fit.fit_error,
+                    )
             # Finally, we save the updated parent class
             with open(parent_pickle, "wb") as f:
                 pickle.dump(parent_class, f)
@@ -165,16 +190,23 @@ class Material:
             return None, None
         for file in os.listdir(self.data_folder):
             if file.endswith(".csv"):
-                reference_row = np.loadtxt(os.path.join(self.data_folder, file), delimiter=",", max_rows=1, dtype=str)
-                ref_string = [i for i in reference_row if i != '']
-                data = np.loadtxt(os.path.join(self.data_folder, file), delimiter=",", skiprows=2)
+                reference_row = np.loadtxt(
+                    os.path.join(self.data_folder, file),
+                    delimiter=",",
+                    max_rows=1,
+                    dtype=str,
+                )
+                ref_string = [i for i in reference_row if i != ""]
+                data = np.loadtxt(
+                    os.path.join(self.data_folder, file), delimiter=",", skiprows=2
+                )
                 # If the data is only one row (one dimensional), we need to reshape it to be two dimensional
                 if len(data.shape) == 1:
                     data = data.reshape((1, -1))
                 data_dict[file] = data
                 data_class_dict[file] = DataSet(file, data, ref_string=ref_string)
         return data_dict, data_class_dict
-    
+
     def update_data(self):
         """Update the data for the material.
 
@@ -184,8 +216,8 @@ class Material:
         """
         self.data_classes = self.get_data()[1]
         return
-        
-    def fit_data(self, n_param = None, p0=None, bounds=None):
+
+    def fit_data(self, n_param=None, p0=None, bounds=None):
         """Fit the data for the material.
 
         Args:
@@ -209,7 +241,14 @@ class Material:
         y = all_data[:, 1]
 
         # Remove any NaN, inf, 0s, or negative values from the data
-        valid_indices = np.where((~np.isnan(x)) & (~np.isnan(y)) & (~np.isinf(x)) & (~np.isinf(y)) & (y > 0) & (x > 0))
+        valid_indices = np.where(
+            (~np.isnan(x))
+            & (~np.isnan(y))
+            & (~np.isinf(x))
+            & (~np.isinf(y))
+            & (y > 0)
+            & (x > 0)
+        )
         x = x[valid_indices]
         y = y[valid_indices]
 
@@ -220,11 +259,41 @@ class Material:
 
         if self.fit_type == "loglog":
             n_param = 9
-            p0 =  [1.13377143e-07, -2.98684987e-05,  1.90655344e-03,  8.47382032e-02,
-                    9.98573679e-03,  2.45862017e-02,  1.00316703e-01,  6.12147734e-01,
-                    np.mean([min(x),max(x)])] # This is just an example starting point for the fit
-            bounds = ((-np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, min(x)), 
-                    (np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, max(x)))
+            p0 = [
+                1.13377143e-07,
+                -2.98684987e-05,
+                1.90655344e-03,
+                8.47382032e-02,
+                9.98573679e-03,
+                2.45862017e-02,
+                1.00316703e-01,
+                6.12147734e-01,
+                np.mean([min(x), max(x)]),
+            ]  # This is just an example starting point for the fit
+            bounds = (
+                (
+                    -np.inf,
+                    -np.inf,
+                    -np.inf,
+                    -np.inf,
+                    -np.inf,
+                    -np.inf,
+                    -np.inf,
+                    -np.inf,
+                    min(x),
+                ),
+                (
+                    np.inf,
+                    np.inf,
+                    np.inf,
+                    np.inf,
+                    np.inf,
+                    np.inf,
+                    np.inf,
+                    np.inf,
+                    max(x),
+                ),
+            )
             # print("Fitting with loglog function.")
             # popt, pcov = curve_fit(log_func, x, np.log(y), maxfev=10000, p0=np.ones(n_param) if p0 is None else p0_loglog, bounds=(0, np.inf) if bounds is None else bounds_loglog)
         # elif n_param is None:
@@ -236,17 +305,27 @@ class Material:
 
         # else:
         #      # use the fit_type function to fit the data
-        popt, pcov = curve_fit(log_func, x, np.log(y), maxfev=10000, p0=np.ones(n_param) if p0 is None else p0, bounds=(0, np.inf) if bounds is None else bounds)
+        popt, pcov = curve_fit(
+            log_func,
+            x,
+            np.log(y),
+            maxfev=10000,
+            p0=np.ones(n_param) if p0 is None else p0,
+            bounds=(0, np.inf) if bounds is None else bounds,
+        )
         new_fit = Fit(self.name, "data", (min(x), max(x)), popt, pcov, self.fit_type)
         new_fit.add_reference("Data Fit (see references for included data)")
         self.fits.append(new_fit)
         return popt, pcov
-    
+
     def update_fit(self, new_fit_type, n_param=None):
         """
         Use this function to change the default fit type for the material and refit the data.
         Args:
             new_fit_type (str): The new fit type to use.
+            n_param (int, optional): Number of parameters for the new fit. Defaults to None.
+        Returns:
+            self (Material): The updated Material object with the new fit.
         """
         for i, fit in enumerate(self.fits):
             if fit.source == "data":
@@ -257,7 +336,9 @@ class Material:
             popt, pcov = self.fit_data(n_param=n_param)
         except ValueError:
 
-            print(f"Failed to fit. Please ensure you have specified the appropriate number of fit parameters (if the fit type does not have a specified number).")
+            print(
+                f"Failed to fit. Please ensure you have specified the appropriate number of fit parameters (if the fit type does not have a specified number)."
+            )
             raise ValueError
             return
         self.raw_fit_params = popt
@@ -281,9 +362,13 @@ class Material:
         """
         # Author : Ani Pagni
         # Let's search to see if the material has room temperature data so we can include that in our interpolation
-        self.room_temp = self.room_temp_tuple[0] if self.room_temp_tuple is not None else None
-        self.room_temp_conductivity = self.room_temp_tuple[1] if self.room_temp_tuple is not None else None
-        
+        self.room_temp = (
+            self.room_temp_tuple[0] if self.room_temp_tuple is not None else None
+        )
+        self.room_temp_conductivity = (
+            self.room_temp_tuple[1] if self.room_temp_tuple is not None else None
+        )
+
         # Collect the different fits
         fits = self.fits
         if len(fits) == 0:
@@ -306,11 +391,13 @@ class Material:
 
         # If we have a fit we prefer the interpolation to use it will create the points here and block other fits from overriding them later
         if preferred_fit != None:
-            T = np.logspace(np.log10(preferred_fit.range[0]), np.log10(preferred_fit.range[1]), 100)
+            T = np.logspace(
+                np.log10(preferred_fit.range[0]), np.log10(preferred_fit.range[1]), 100
+            )
             k = get_func_type(preferred_fit.fit_type)(T, *preferred_fit.parameters)
             Ts = np.append(Ts, T)
             ks = np.append(ks, k)
-        
+
         # Here, we go through every fit for the chosen material and decide what parts of each fit to use
         for i, fit in enumerate(sorted_fits):
             # If we have a room temperature data point, we want to include it in the interpolation
@@ -319,27 +406,36 @@ class Material:
                 k = np.array([self.room_temp_conductivity])
                 Ts = np.append(Ts, T)
                 ks = np.append(ks, k)
-            
+
             # If we have a preferred fit, we want to skip any fits that overlap with it
             if preferred_fit != None:
-                if (fit.range[0] >= preferred_fit.range[0]) and (fit.range[1] <= preferred_fit.range[1]):
+                if (fit.range[0] >= preferred_fit.range[0]) and (
+                    fit.range[1] <= preferred_fit.range[1]
+                ):
                     continue
-            
+
             # If this fit overlaps with the previous fit, we want to only use the part of the fit that doesn't overlap
             add_fit_range = fit.range
             if i > 0:
-                prev_fit = sorted_fits[i-1]
-                if fit.range[0] < max(Ts): # if the new fit starts before the previous fit ends
-                    add_fit_range = (max(Ts), fit.range[1]) # set the range of this fit to the end of the last to the end of the new
+                prev_fit = sorted_fits[i - 1]
+                if fit.range[0] < max(
+                    Ts
+                ):  # if the new fit starts before the previous fit ends
+                    add_fit_range = (
+                        max(Ts),
+                        fit.range[1],
+                    )  # set the range of this fit to the end of the last to the end of the new
             # Now we can create the points for this fit
             if add_fit_range[0] < add_fit_range[1]:
-                T = np.logspace(np.log10(add_fit_range[0]), np.log10(add_fit_range[1]), 1000)
+                T = np.logspace(
+                    np.log10(add_fit_range[0]), np.log10(add_fit_range[1]), 1000
+                )
                 # if T[-1] > add_fit_range[1]:
                 #     T[-1] = add_fit_range[1]
                 k = get_func_type(fit.fit_type)(T, *fit.parameters)
                 Ts = np.append(Ts, T)
                 ks = np.append(ks, k)
-            
+
         # Finally, we sort the points and save them to a file
         sorted_indices = np.argsort(Ts)
         Ts = Ts[sorted_indices]
@@ -364,7 +460,7 @@ class Material:
         for dataclass in self.data_classes.values():
             if dataclass.include:
                 data = dataclass.data
-                plt.scatter(data[:,0], data[:,1], label=dataclass.name)
+                plt.scatter(data[:, 0], data[:, 1], label=dataclass.name)
 
         # all_data = np.vstack(included_data)
         # x = all_data[:, 0]
@@ -405,13 +501,20 @@ class Material:
         plt.yticks(fontsize=15)
         plt.legend()
         return
-    
+
     def plot_interpolation(self, loglog=True):
         """
         Plot the interpolation fit for the material.
         """
-        if hasattr(self, 'interpolate_function') and self.interpolate_function is not None:
-            x_range_plot = np.logspace(np.log10(self.interpolate_function.x[0]), np.log10(self.interpolate_function.x[-1]), 100)
+        if (
+            hasattr(self, "interpolate_function")
+            and self.interpolate_function is not None
+        ):
+            x_range_plot = np.logspace(
+                np.log10(self.interpolate_function.x[0]),
+                np.log10(self.interpolate_function.x[-1]),
+                100,
+            )
             y_fit = self.interpolate_function(x_range_plot)
             plt.plot(x_range_plot, y_fit, color="green", label="Interpolation")
             plt.xticks(fontsize=15)
@@ -433,27 +536,35 @@ class Material:
             print("No fits to plot.")
             return
         for fit in self.fits:
-            x_range_plot = np.logspace(np.log10(fit.range[0]), np.log10(fit.range[1]), 100)
+            x_range_plot = np.logspace(
+                np.log10(fit.range[0]), np.log10(fit.range[1]), 100
+            )
             # print(fit.range)
             # if x_range_plot[-1] > fit.range[1]:
             #     x_range_plot[-1] = fit.range[1]
             y_fit = fit.function()(x_range_plot, *fit.parameters)
             plt.plot(x_range_plot, y_fit, label=f"{fit.name}")
         if self.interpolate_function is not None:
-            x_range_plot = np.logspace(np.log10(self.interpolate_function.x[0]), np.log10(self.interpolate_function.x[-1]), 100)
+            x_range_plot = np.logspace(
+                np.log10(self.interpolate_function.x[0]),
+                np.log10(self.interpolate_function.x[-1]),
+                100,
+            )
             y_fit = self.interpolate_function(x_range_plot)
-            plt.plot(x_range_plot, y_fit, color="gray", linestyle=':', label="Interpolation")
+            plt.plot(
+                x_range_plot, y_fit, color="gray", linestyle=":", label="Interpolation"
+            )
         if loglog:
             plt.xscale("log")
             plt.yscale("log")
-        
+
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlabel("T [K]", fontsize=15)
         plt.ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
         plt.legend()
         return
-    
+
     def save_fits(self):
         """
         Converts the self.fits to a dictionary and saves as a json file
@@ -465,19 +576,30 @@ class Material:
             if isinstance(fit_dict["parameters"], np.ndarray):
                 fit_dict["parameters"] = fit_dict["parameters"].tolist()
             if isinstance(fit_dict["parameter_covariance"], np.ndarray):
-                fit_dict["parameter_covariance"] = fit_dict["parameter_covariance"].tolist()
+                fit_dict["parameter_covariance"] = fit_dict[
+                    "parameter_covariance"
+                ].tolist()
             fits_dict[fit.source] = fit_dict
         with open(os.path.join(self.folder, "fits.json"), "w") as f:
             json.dump(fits_dict, f, indent=4)
         return
-    
+
     def get_fits(self):
         """
         Returns the list of Fit objects for the material.
         """
         return self.fits
-    
-    def add_fits(self, fit_name: str, source: str, fit_range: tuple, parameters: np.ndarray, parameter_covariance: np.ndarray, fit_type: str, fit_error: float = None):
+
+    def add_fits(
+        self,
+        fit_name: str,
+        source: str,
+        fit_range: tuple,
+        parameters: np.ndarray,
+        parameter_covariance: np.ndarray,
+        fit_type: str,
+        fit_error: float = None,
+    ):
         """
         Adds a new fit to the material.
         Args:
@@ -488,13 +610,21 @@ class Material:
             parameter_covariance (np.ndarray): Covariance matrix of the fit parameters.
             fit_type (str): Type of fit function used.
             fit_error (float, optional): Optional error metric for the fit. Defaults to None.
-        
+
         Alternatively, a Fit object can be created externally and added to the material by appending to self.fits.
         """
-        new_fit = Fit(fit_name, source, fit_range, parameters, parameter_covariance, fit_type, fit_error)
+        new_fit = Fit(
+            fit_name,
+            source,
+            fit_range,
+            parameters,
+            parameter_covariance,
+            fit_type,
+            fit_error,
+        )
         self.fits.append(new_fit)
         return
-    
+
     def save(self):
         """
         Save the material class as a pickle file.
@@ -503,7 +633,7 @@ class Material:
         with open(os.path.join(self.folder, "material.pkl"), "wb") as f:
             pickle.dump(self, f)
         return
-    
+
     def fit_by_name(self, fit_name):
         """
         Retrieves the fit object for a specified fit name.
@@ -512,14 +642,14 @@ class Material:
             if fit.name == fit_name:
                 return fit
         return None
-    
+
     def print_refs(self):
         with open(os.path.join(self.folder, "references.txt"), "w") as f:
             fit_counter = 1
             if len(self.fits) != 0:
                 f.write("Fits:\n")
                 for fit in self.fits:
-                    if hasattr(fit, 'reference'):
+                    if hasattr(fit, "reference"):
                         f.write(f"{fit_counter}. {fit.name}: {fit.reference}\n")
                     else:
                         f.write(f"{fit_counter}. {fit.name}: No reference available.\n")
@@ -530,19 +660,24 @@ class Material:
                 f.write("\nData Sets:\n")
                 for dataset in self.data_classes:
                     dataset_obj = self.data_classes[dataset]
-                    if hasattr(dataset_obj, 'reference'):
+                    if hasattr(dataset_obj, "reference"):
                         f.write(f"{dataset_counter}. {dataset_obj.name}:\n")
                         f.write(f"   Title        : {dataset_obj.reference[0]}\n")
                         if len(dataset_obj.reference) > 1:
                             f.write(f"   Author(s)    : {dataset_obj.reference[1]}\n")
                         if len(dataset_obj.reference) > 2:
-                            f.write(f"   Journal/Year : {', '.join(dataset_obj.reference[2:])}\n")
+                            f.write(
+                                f"   Journal/Year : {', '.join(dataset_obj.reference[2:])}\n"
+                            )
                         f.write("\n")
                     else:
-                        f.write(f"{dataset_counter}. {dataset_obj.name}: No reference available.\n")
+                        f.write(
+                            f"{dataset_counter}. {dataset_obj.name}: No reference available.\n"
+                        )
                     dataset_counter += 1
         return
-        
+
+
 class Fit:
     """
     A class to represent a fit applied to the data.
@@ -558,7 +693,17 @@ class Fit:
         fit_error (float): Optional error metric for the fit.
         reference (str): Reference for the fit.
     """
-    def __init__(self, material: str, source: str, range: tuple, parameters: np.ndarray, parameter_covariance: np.ndarray, fit_type=None, fit_error: float = None):
+
+    def __init__(
+        self,
+        material: str,
+        source: str,
+        range: tuple,
+        parameters: np.ndarray,
+        parameter_covariance: np.ndarray,
+        fit_type=None,
+        fit_error: float = None,
+    ):
         self.material = material
         self.source = source
         self.name = f"{material}_{source}"
@@ -567,14 +712,14 @@ class Fit:
         self.parameter_covariance = parameter_covariance
         self.fit_type = fit_type
         self.fit_error = fit_error
-    
+
     def function(self):
         """
         Returns the function type used for the fit as a callable.
         E.g. Fit.function()(x, *params) will evaluate the fit function at x.
         """
         return get_func_type(self.fit_type)
-    
+
     @u.quantity_input
     def calc_tc(self, T: u.K):
         """
@@ -583,17 +728,17 @@ class Fit:
             T (u.K): Temperature at which to calculate thermal conductivity.
         Returns:
             k (u.W/m/K): Thermal conductivity at temperature T.
-        
+
         Uses astropy units to ensure correct unit handling.
         """
         # Convert temperature to Kelvin if it is not already
         T = T.to(u.K).value
         if self.fit_type is not None:
-            return get_func_type(self.fit_type)(T, *self.parameters)*u.W/u.m/u.K
+            return get_func_type(self.fit_type)(T, *self.parameters) * u.W / u.m / u.K
         else:
             print("No fit type defined.")
             return None
-    
+
     @u.quantity_input
     def tc_integral(self, T1: u.K, T2: u.K):
         """
@@ -604,22 +749,27 @@ class Fit:
         Returns:
             integral (u.W/m): The integral of thermal conductivity from T1 to T2.
             error (float): Estimated error of the integral.
-        
+
         Uses astropy units to ensure correct unit handling.
         """
         # Convert temperatures to Kelvin if they are not already
         T1 = T1.to(u.K).value
         T2 = T2.to(u.K).value
         if self.fit_type is not None:
-            integral, error = quad(get_func_type(self.fit_type), T1, T2, args=tuple(self.parameters))*u.W/u.m
+            integral, error = (
+                quad(get_func_type(self.fit_type), T1, T2, args=tuple(self.parameters))
+                * u.W
+                / u.m
+            )
             return integral, error
         else:
             print("No fit type defined.")
             return None, None
+
     def plot(self, **plotkwargs):
         x = np.linspace(self.range[0], self.range[1], 100)
         y = get_func_type(self.fit_type)(x, *self.parameters)
-        if 'label' in plotkwargs:
+        if "label" in plotkwargs:
             plt.plot(x, y, **plotkwargs)
         else:
             plt.plot(x, y, label=f"{self.material} {self.source} fit", **plotkwargs)
@@ -640,7 +790,8 @@ class Fit:
         self.reference = reference
         return
 
-class DataSet():
+
+class DataSet:
     """
     A class to represent a dataset from a CSV file.
     Attributes:
@@ -648,6 +799,7 @@ class DataSet():
         data (np.ndarray): The data array with temperature and property values.
         include (bool): Whether to include this dataset in fits.
     """
+
     def __init__(self, name: str, data: np.ndarray, ref_string: str):
         self.name = name
         self.data = data
@@ -664,4 +816,3 @@ class DataSet():
         """
         self.include = state
         return state
-    
