@@ -106,7 +106,7 @@ def main(mat_list=None, force_update=False):
         "Iron",
         "Kapton",
         "Ketron",
-        "Kevlar49_Composite_Aramid",
+        "Kevlar",
         "Lead",
         "Macor",
         "Manganin",
