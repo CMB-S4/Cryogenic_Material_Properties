@@ -1,11 +1,11 @@
 Fits:
-1. Graphite_data: Data Fit (see references for included data)
-2. Graphite_AGOT_data: Data Fit (see references for included data)
-3. Graphite_POCOAXM5Q_data: Data Fit (see references for included data)
-4. Graphite_ExcelNIST5a: ['ExcelNIST5a']
-5. Graphite_a_ExcelNIST5a: NIST Cryogenic Material Database
-6. Graphite_brad_ExcelNIST5a: NIST Cryogenic Material Database
-7. Graphite_p_ExcelNIST5a: NIST Cryogenic Material Database
+1. Graphite_AGOT_data: Data Fit (see references for included data)
+2. Graphite_ExcelNIST5a: ['ExcelNIST5a']
+3. Graphite_a_ExcelNIST5a: NIST Cryogenic Material Database
+4. Graphite_brad_ExcelNIST5a: NIST Cryogenic Material Database
+5. Graphite_p_ExcelNIST5a: NIST Cryogenic Material Database
+6. Graphite_data: Data Fit (see references for included data)
+7. Graphite_POCOAXM5Q_data: No reference available.
 
 --------------------------------
 

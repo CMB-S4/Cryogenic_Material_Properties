@@ -1,6 +1,6 @@
 Fits:
-1. NbTi_data: Data Fit (see references for included data)
-2. NbTi_ExcelNIST5a: ['ExcelNIST5a']
+1. NbTi_ExcelNIST5a: ['ExcelNIST5a']
+2. NbTi_data: Data Fit (see references for included data)
 
 --------------------------------
 

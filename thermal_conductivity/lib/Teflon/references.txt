@@ -1,5 +1,6 @@
 Fits:
 1. Teflon_NIST: NIST Cryogenic Material Database
+2. Teflon_data: Data Fit (see references for included data)
 
 --------------------------------
 

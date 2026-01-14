@@ -1,6 +1,5 @@
 Fits:
-1. Stainless_Steel_316_data: Data Fit (see references for included data)
-2. Stainless_Steel_316_NIST: NIST Cryogenic Material Database
+1. Stainless_Steel_316_NIST: NIST Cryogenic Material Database
 
 --------------------------------
 

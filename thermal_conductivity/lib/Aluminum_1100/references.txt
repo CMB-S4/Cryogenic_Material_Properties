@@ -1,6 +1,6 @@
 Fits:
-1. Aluminum_1100_data: Data Fit (see references for included data)
-2. Aluminum_1100_NIST: NIST Cryogenic Material Database
+1. Aluminum_1100_NIST: NIST Cryogenic Material Database
+2. Aluminum_1100_data: Data Fit (see references for included data)
 
 --------------------------------
 

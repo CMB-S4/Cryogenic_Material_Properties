@@ -1,6 +1,6 @@
 Fits:
-1. Constantan_data: Data Fit (see references for included data)
-2. Constantan_ExcelNIST5a: ['ExcelNIST5a']
+1. Constantan_ExcelNIST5a: ['ExcelNIST5a']
+2. Constantan_data: Data Fit (see references for included data)
 
 --------------------------------
 

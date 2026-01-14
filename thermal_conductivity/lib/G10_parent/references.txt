@@ -1,8 +1,8 @@
 Fits:
 1. G10_CR_Normal_NIST: NIST Cryogenic Material Database
 2. G10_CR_Warp_NIST: NIST Cryogenic Material Database
-3. G10_parent_data: Data Fit (see references for included data)
-4. G10_FR4_data: Data Fit (see references for included data)
+3. G10_FR4_data: Data Fit (see references for included data)
+4. G10_parent_data: Data Fit (see references for included data)
 
 --------------------------------
 

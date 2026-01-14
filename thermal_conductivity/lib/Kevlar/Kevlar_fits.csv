@@ -1,6 +1,6 @@
 Fit_Name,fit_type,Tlow,Thigh,a,b,c,d,e,f
 Kevlar_literature,powerlaw,0.1,2.5,3.9e-05,1.71,,,,
 Kevlar29_literature,powerlaw,5.0,40.0,2.15e-05,1.58,,,,
-Kevlar49_Composite_Aramid_NIST,NIST-experf,6.0,302.0,0.777857,-8.0,0.57,1.24851,1.98664,-2.65
 Kevlar49_Composite_Aramid_literature,powerlaw,1.8,4.2,1.89e-05,2.0,,,,
+Kevlar49_Composite_Aramid_NIST,NIST-experf,6.0,302.0,0.777857,-8.0,0.57,1.24851,1.98664,-2.65
 Kevlar49_Fiber_Aramid_NIST,NIST-experf,0.1,291.0,-2.4219,1.98664,1.25744,0.961209,-9.6106,0.777857

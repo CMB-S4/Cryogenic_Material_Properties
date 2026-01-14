@@ -1,3 +1,7 @@
+Fits:
+1. Aluminum_1100O_data: Data Fit (see references for included data)
+
+--------------------------------
 
 Data Sets:
 1. Al_1100_O.csv:

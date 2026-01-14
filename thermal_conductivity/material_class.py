@@ -158,6 +158,7 @@ class Material:
                             fit.parameter_covariance,
                             fit.fit_type,
                             fit.fit_error,
+                            fit.reference if hasattr(fit, "reference") else None,
                         )
             # If the parent class doesn't yet exist, we want to create it
             else:
@@ -519,6 +520,8 @@ class Material:
             plt.plot(x_range_plot, y_fit, color="green", label="Interpolation")
             plt.xticks(fontsize=15)
             plt.yticks(fontsize=15)
+            plt.semilogx()
+            plt.semilogy()
             plt.xlabel("T [K]", fontsize=15)
             plt.ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
             if self.data_classes is not None:
@@ -543,6 +546,7 @@ class Material:
             # if x_range_plot[-1] > fit.range[1]:
             #     x_range_plot[-1] = fit.range[1]
             y_fit = fit.function()(x_range_plot, *fit.parameters)
+            
             plt.plot(x_range_plot, y_fit, label=f"{fit.name}")
         if self.interpolate_function is not None:
             x_range_plot = np.logspace(
@@ -599,6 +603,7 @@ class Material:
         parameter_covariance: np.ndarray,
         fit_type: str,
         fit_error: float = None,
+        reference: str = None,
     ):
         """
         Adds a new fit to the material.
@@ -622,6 +627,8 @@ class Material:
             fit_type,
             fit_error,
         )
+        if reference is not None:
+            new_fit.add_reference(reference)
         self.fits.append(new_fit)
         return
 

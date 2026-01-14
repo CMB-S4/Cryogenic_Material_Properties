@@ -1,6 +1,6 @@
 Fits:
-1. Manganin_data: Data Fit (see references for included data)
-2. Manganin_ExcelNIST5a: ['ExcelNIST5a']
+1. Manganin_ExcelNIST5a: ['ExcelNIST5a']
+2. Manganin_data: Data Fit (see references for included data)
 
 --------------------------------
 

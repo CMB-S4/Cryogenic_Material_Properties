@@ -1,0 +1,4 @@
+Fits:
+1. Kevlar29_literature: Thermal isolation of large loads at low temperature using Kevlar rope, Duband et al., Cryogenics 33 1993
+
+--------------------------------

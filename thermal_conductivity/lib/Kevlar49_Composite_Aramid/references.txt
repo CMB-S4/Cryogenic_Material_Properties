@@ -1,4 +1,5 @@
 Fits:
-1. Kevlar49_Composite_Aramid_NIST: NIST Cryogenic Material Database
+1. Kevlar49_Composite_Aramid_literature: Kevlar thermal conductivity (personal communication), J.H. Zhang, 1990
+2. Kevlar49_Composite_Aramid_NIST: NIST Cryogenic Material Properties Database
 
 --------------------------------

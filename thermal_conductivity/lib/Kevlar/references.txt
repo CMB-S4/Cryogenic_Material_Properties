@@ -1,0 +1,8 @@
+Fits:
+1. Kevlar_literature: Low temperature thermal conductivity of Kevlar, Ventura et al., Cryogenics 40 2000
+2. Kevlar29_literature: Thermal isolation of large loads at low temperature using Kevlar rope, Duband et al., Cryogenics 33 1993
+3. Kevlar49_Composite_Aramid_literature: Kevlar thermal conductivity (personal communication), J.H. Zhang, 1990
+4. Kevlar49_Composite_Aramid_NIST: NIST Cryogenic Material Properties Database
+5. Kevlar49_Fiber_Aramid_NIST: NIST Cryogenic Material Properties Database
+
+--------------------------------

@@ -54,7 +54,6 @@ def main(mat_list=None, force_update=False):
             if mat.parent is not None and mat.parent not in parent_list:
                 parent_list.append(mat.parent)
                 mat_list.append(mat.parent)  # Ensure parent materials are also updated
-
             if len(mat.fits) != 0:
                 # Plot the data
                 mat.plot_data()
@@ -83,6 +82,7 @@ def main(mat_list=None, force_update=False):
 
                 # Create the csv file of fits
                 mat_to_csv(mat)
+                mat.print_refs()
         except Exception as e:
             print(f"Error updating material {material}: {e}")
             continue
@@ -98,7 +98,7 @@ def main(mat_list=None, force_update=False):
         "Beryllium_Copper",
         "CFRP",
         "Cu_OFHC_RRR50",
-        "G10_FR4",
+        "G10_parent",
         "Glass_FabricPolyester_He_warp",
         "Graphite",
         "Inconel_718",

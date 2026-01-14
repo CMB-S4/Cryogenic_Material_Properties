@@ -1,5 +1,6 @@
 Fits:
 1. Phosphorbronze_ExcelNIST5a: ['ExcelNIST5a']
+2. Phosphorbronze_data: Data Fit (see references for included data)
 
 --------------------------------
 
