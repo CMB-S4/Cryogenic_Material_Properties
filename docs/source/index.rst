@@ -33,7 +33,7 @@ For more detailed information on all of the features of the repository, please e
    
 .. toctree::
    :maxdepth: 3
-   :caption: User Guide\nTools and Tutorials:
+   :caption: Tools and Tutorials:
 
    tools/tutorial
    tools/importing

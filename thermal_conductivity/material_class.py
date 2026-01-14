@@ -57,7 +57,7 @@ class Material:
 
         # If the folder exists and contains a pickle file with the class already stored then load it
         pickle_file = os.path.join(self.folder, "material.pkl")
-        if os.path.exists(pickle_file) and not force_update:
+        if os.path.exists(pickle_file) and not force_update: # If the material pickle exists and we aren't forcing an update, load it
             with open(pickle_file, "rb") as f:
                 material = pickle.load(f)
                 self.__dict__.update(material.__dict__)
@@ -67,7 +67,7 @@ class Material:
             self.plot_folder = os.path.join(self.folder, "PLOTS")
             if not os.path.exists(self.plot_folder):
                 os.mkdir(self.plot_folder)
-        # If the material pickle doesn't exist, then create the material from scratch
+        # If the material pickle doesn't exist (or we are forcing an update), then create the material from scratch
         else:
             self.data_folder = os.path.join(self.folder, "RAW")
             self.plot_folder = os.path.join(self.folder, "PLOTS")
@@ -217,7 +217,28 @@ class Material:
         """
         self.data_classes = self.get_data()[1]
         return
-
+    def update_material(self):
+        """Update the material after adding a dataset
+        """
+        self.update_data()
+        included_data = [
+            ds.data for ds in self.data_classes.values() if ds.include
+        ]
+        all_data = np.vstack(included_data)
+        self.temp_range = (min(all_data[:, 0]), max(all_data[:, 0]))
+        # try:
+        fit_param, fit_cov = self.fit_data()
+        self.raw_fit_params = fit_param
+        self.raw_fit_cov = fit_cov
+        # except Exception as e:
+        #     print(f"Could not fit data for {self.name}: {e}")
+        #     self.raw_fit_params = None
+        #     self.raw_fit_cov = None
+        if len(self.fits) > 0:
+            self.interpolate_function = self.interpolate(preferred_fit=None)
+        
+        self.save()
+        return
     def fit_data(self, n_param=None, p0=None, bounds=None):
         """Fit the data for the material.
 
@@ -639,6 +660,7 @@ class Material:
         # Save the material class as a pickle file
         with open(os.path.join(self.folder, "material.pkl"), "wb") as f:
             pickle.dump(self, f)
+            print("Material has successfully been saved to its pickle file!")
         return
 
     def fit_by_name(self, fit_name):
