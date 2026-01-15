@@ -226,14 +226,15 @@ class Material:
         ]
         all_data = np.vstack(included_data)
         self.temp_range = (min(all_data[:, 0]), max(all_data[:, 0]))
-        # try:
-        fit_param, fit_cov = self.fit_data()
-        self.raw_fit_params = fit_param
-        self.raw_fit_cov = fit_cov
-        # except Exception as e:
-        #     print(f"Could not fit data for {self.name}: {e}")
-        #     self.raw_fit_params = None
-        #     self.raw_fit_cov = None
+        try:
+            fit_param, fit_cov = self.fit_data()
+            self.raw_fit_params = fit_param
+            self.raw_fit_cov = fit_cov
+        except Exception as e:
+            print(f"Could not fit data for {self.name}: {e}")
+            self.raw_fit_params = None
+            self.raw_fit_cov = None
+        
         if len(self.fits) > 0:
             self.interpolate_function = self.interpolate(preferred_fit=None)
         
@@ -337,6 +338,13 @@ class Material:
         )
         new_fit = Fit(self.name, "data", (min(x), max(x)), popt, pcov, self.fit_type)
         new_fit.add_reference("Data Fit (see references for included data)")
+        # If a data fit for this material already exists, we want to update it rather than add a new one
+        for i, fit in enumerate(self.fits):
+            if fit.name == new_fit.name and fit.source == "data":
+                self.fits[i] = new_fit
+                print("Updating existing data fit.")
+                return popt, pcov
+        
         self.fits.append(new_fit)
         return popt, pcov
 
@@ -732,6 +740,7 @@ class Fit:
         parameter_covariance: np.ndarray,
         fit_type=None,
         fit_error: float = None,
+        reference: str = None,
     ):
         self.material = material
         self.source = source

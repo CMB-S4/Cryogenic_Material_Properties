@@ -6,7 +6,7 @@ The thermal conductivity fits that are produced from raw data are done so by fir
 The final fit follows the following structure:
 
 
-``Log10(k) = Log10(T*[aT^N+bT^(N-1)+cT^(N-2)+...])*0.5*[1-ERF(15*(Log10(10T/erf_param)))]+[A*Log10(T)^n+B*Log10(T)^(n-1)+C*(Log10(T))^(n-2)+D*(Log10(T))^(n-3)+...]*0.5*[1+ERF(15*(Log10(T/erf_param)))]``
+$$ \log_{10}(k) = \log_{10}\left(T\left[aT^N+bT^{N-1}+cT^{N-2}+\ldots\right]\right)*0.5*\left[1-\mathrm{ERF}\left(15*\left(\log_{10}\left(\frac{10T}{\mathrm{erf\_param}}\right)\right)\right)\right]+\left[A\log_{10}(T)^n+B\log_{10}(T)^{n-1}+C\left(\log_{10}(T)\right)^{n-2}+D\left(\log_{10}(T)\right)^{n-3}+\ldots\right]*0.5*\left[1+\mathrm{ERF}\left(15*\left(\log_{10}\left(\frac{T}{\mathrm{erf\_param}}\right)\right)\right)\right]$$
 
 where N, and n are the number of low and high parameters (respectively). 
 

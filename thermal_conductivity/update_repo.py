@@ -27,7 +27,7 @@ this_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(this_dir)
 
 
-def main(mat_list=None, force_update=False):
+def main(mat_list=None):
     lib_folder = os.path.join(this_dir, "lib")
     # If no material list is provided, update all materials in the lib folder
     if mat_list is None:
@@ -50,7 +50,7 @@ def main(mat_list=None, force_update=False):
     ):
         try:
             # print(f"\nUpdating material: {material}")
-            mat = Material(material, force_update=force_update)
+            mat = Material(material, force_update=False)
             if mat.parent is not None and mat.parent not in parent_list:
                 parent_list.append(mat.parent)
                 mat_list.append(mat.parent)  # Ensure parent materials are also updated

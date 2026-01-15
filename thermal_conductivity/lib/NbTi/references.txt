@@ -6,32 +6,32 @@ Fits:
 
 Data Sets:
 1. 1979 C. Schmidt Sample 1.csv:
-   Title        : ﻿"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi"
+   Title        : ï»¿"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi"
    Author(s)    : C. Schmidt
-   Journal/Year : Rev. Sci. Instrum. 50  454–457 (1979)
+   Journal/Year : Rev. Sci. Instrum. 50  454â€“457 (1979)
 
 2. 1979 C. Schmidt Sample 2.csv:
-   Title        : ﻿"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi"
+   Title        : ï»¿"Simple method to measure the thermal conductivity of technical superconductors e.g. NbTi"
    Author(s)    : C. Schmidt
-   Journal/Year : Rev. Sci. Instrum. 50  454–457 (1979)
+   Journal/Year : Rev. Sci. Instrum. 50  454â€“457 (1979)
 
 3. 1992 J. R. Olson rod.csv:
-   Title        : ﻿Thermal conductivity of some common cryostat materials between 0.05 and 2 K
+   Title        : ï»¿Thermal conductivity of some common cryostat materials between 0.05 and 2 K
    Author(s)    : J.R. Olson
    Journal/Year : Cryogenics 1993 Vol 33  No 7
 
 4. 1992 J. R. Olson wire.csv:
-   Title        : ﻿Thermal conductivity of some common cryostat materials between 0.05 and 2 K
+   Title        : ï»¿Thermal conductivity of some common cryostat materials between 0.05 and 2 K
    Author(s)    : J.R. Olson
    Journal/Year : Cryogenics 1993 Vol 33  No 7
 
 5. 1993 J. R. Olson Nb(37)Ti(63) rod.csv:
-   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Title        : ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces
    Author(s)    : J. R. Olson
    Journal/Year : Cornell University 1993
 
 6. 1993 J. R. Olson Nb(37)Ti(63) wire.csv:
-   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Title        : ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces
    Author(s)    : J. R. Olson
    Journal/Year : Cornell University 1993
 

@@ -1,4 +1,4 @@
 Fits:
-1. LEGO_powerLaw_ChawnerEtAl: LEGO® Block Structures as a SubKelvin Thermal Insulator, Chawner et al., Sci Rep 9 19642 (2019)
+1. LEGO_powerLaw_ChawnerEtAl: LEGOÂ® Block Structures as a SubKelvin Thermal Insulator, Chawner et al., Sci Rep 9 19642 (2019)
 
 --------------------------------

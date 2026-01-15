@@ -1,0 +1,16 @@
+Fits:
+1. TESTMAT_data: Data Fit (see references for included data)
+
+--------------------------------
+
+Data Sets:
+1. test_raw.csv:
+   Title        : Commercial apparatus for measuring transport properties from 1.9 to 390 K
+   Author(s)    : "N.R. Dilley - R.C. Black - L. Montes - A. Wilson - and M.B. Simmonds"
+   Journal/Year : Mat. Res. Soc. Symp. Proc. 691 (2002) pp. G3.5.1 to G3.5.6
+
+2. test_raw_2.csv:
+   Title        : Magnetic and thermal properties of some austenitic stainless steels at low temperatures
+   Author(s)    : W. Stutius and J.R. Dillinger
+   Journal/Year : J. Appl. Phys. 44 (1973) pp. 2887-2888
+

@@ -5,22 +5,22 @@ Fits:
 
 Data Sets:
 1. 1993 J. R. Olson Stycast 1266 with 44% CaCO3 powder by weight added.csv:
-   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Title        : ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces
    Author(s)    : J. R. Olson
    Journal/Year : Cornell University 1993
 
 2. 1993 J. R. Olson Stycast 1266.csv:
-   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Title        : ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces
    Author(s)    : J. R. Olson
    Journal/Year : Cornell University 1993
 
 3. 1993 J. R. Olson Stycast 2651.csv:
-   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Title        : ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces
    Author(s)    : J. R. Olson
    Journal/Year : Cornell University 1993
 
 4. 1993 J. R. Olson Stycast 2850.csv:
-   Title        : ﻿Phonon Scattering and Transmission at Silicon-Helium Interfaces
+   Title        : ï»¿Phonon Scattering and Transmission at Silicon-Helium Interfaces
    Author(s)    : J. R. Olson
    Journal/Year : Cornell University 1993
 

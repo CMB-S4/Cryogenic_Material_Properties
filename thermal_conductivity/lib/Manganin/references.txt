@@ -6,32 +6,32 @@ Fits:
 
 Data Sets:
 1. 1900 W. Jager.csv:
-   Title        : ﻿N/A
+   Title        : ï»¿N/A
    Author(s)    : W. Jager-- H. Diesselhorst
    Journal/Year : Wissenschaftl. Abhandl. D. Phys. Techn. Reichsanstalt 1900
 
 2. 1908 C. H. Lees.csv:
-   Title        : ﻿Effects of temperature and pressure on the thermal conductivity of solids. Part II The effects of low temperatures on the thermal and electrical conductivities of certain approximately pure metals and alloys
+   Title        : ï»¿Effects of temperature and pressure on the thermal conductivity of solids. Part II The effects of low temperatures on the thermal and electrical conductivities of certain approximately pure metals and alloys
    Author(s)    : C.H. Lees
    Journal/Year : Phil. Trans. Roy. Soc. 1908
 
 3. 1956 N. V. Zavaritskii.csv:
-   Title        : ﻿Thermal conductivity of technical materials at low temperatures
+   Title        : ï»¿Thermal conductivity of technical materials at low temperatures
    Author(s)    : N.V. Zavaritskii-- A.C. Zeldovich
    Journal/Year : Soviet Physics-Technical Physics 1956
 
 4. 1976 D. T. Corzett.csv:
-   Title        : ﻿The Thermal Conductivity of Manganin Wire and Stycast 2850 GT between 1K and 4K
+   Title        : ï»¿The Thermal Conductivity of Manganin Wire and Stycast 2850 GT between 1K and 4K
    Author(s)    : D. T. Corzett-- A. M. Keller-- P. Seligmann
    Journal/Year : Cryogenics 1976
 
 5. 1998 G. Ventura.csv:
-   Title        : ﻿A simple method for measuring the low temperature thermal conductivity in thin wires
-   Author(s)    : G. Ventura-- A. Bonetti-- E. Gottardi--  L. Lanzi-- I. Peroni-- A. Peruzzi-- G. Ponti
+   Title        : ï»¿A simple method for measuring the low temperature thermal conductivity in thin wires
+   Author(s)    : G.Â Ventura--Â A.Â Bonetti--Â E.Â Gottardi-- Â L.Â Lanzi--Â I.Â Peroni--Â A.Â Peruzzi--Â G.Â Ponti
    Journal/Year : Cryogenics Vol 38 1998
 
 6. 1999 I. Peroni 2percNi.csv:
-   Title        : ﻿Thermal conductivity of manganin below 1 K
+   Title        : ï»¿Thermal conductivity of manganin below 1 K
    Author(s)    : I. Peroni-- E. Gottardi-- A. Peruzzi-- G. Ponti-- G. Ventura
    Journal/Year : Nuclear Physics B 1999
 
@@ -41,17 +41,17 @@ Data Sets:
    Journal/Year : Nuclear Physics B 1999
 
 8. 2005 K. Torizuka.csv:
-   Title        : ﻿Technique for thermal conductivity measurements for organic materials over a wide temperature range
+   Title        : ï»¿Technique for thermal conductivity measurements for organic materials over a wide temperature range
    Author(s)    : K. Torizuka-- H. Tajima
    Journal/Year : Rev. Sci. Instrum. 2005
 
 9. 2015 A. Schmon.csv:
-   Title        : ﻿Thermophysical properties of Manganin (Cu86Mn12Ni2) in the solid and liquid state
+   Title        : ï»¿Thermophysical properties of Manganin (Cu86Mn12Ni2) in the solid and liquid state
    Author(s)    : A. Schmon-- K Aziz-- M. Luckabauer-- G. Pottlacher
    Journal/Year : Int. J. Thermophys. 2015
 
 10. 2017 G. Ventura.csv:
-   Title        : ﻿Thermal Conductivity of Manganin Between 10mK and 54mK
+   Title        : ï»¿Thermal Conductivity of Manganin Between 10mK and 54mK
    Author(s)    : G. Ventura-- S. Giomi
    Journal/Year : International Journal of Thermophysics 2017
 
