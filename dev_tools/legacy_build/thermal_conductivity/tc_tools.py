@@ -125,12 +125,12 @@ def get_conductivity_integral(T_low, T_high, material, specify_fit = "", extra_p
     else:
         k_values = func(T_values, param_dictionary) # determines the thermal conductivity at each T point
 
-    ConInt = np.trapz(k_values, T_values) # integrates over the function
+    ConInt = np.trapezoid(k_values, T_values) # integrates over the function
     return ConInt
 
 
 def make_a_table(TCdata, materials):
-    T_one = np.roud(np.arange(0.01, .1, 0.005), 3)
+    T_one = np.round(np.arange(0.01, .1, 0.005), 3)
     T_full = []
     for i in range(4):
         T_full.extend(T_one*10**(i+1))
@@ -189,5 +189,5 @@ def get_interpolation_integral(lowT, highT, mat):
 
     T_values = np.linspace(lowT, highT, 1000)
     k_values = interp_func(T_values)
-    integral = np.trapz(k_values, T_values)
+    integral = np.trapezoid(k_values, T_values)
     return integral

@@ -81,7 +81,7 @@ def get_interpolation_integral(lowT: float, highT: float, mat: str) -> float:
 
         T_values = np.linspace(lowT, highT, 1000)
         k_values = interp_func(T_values)
-        integral = np.trapz(k_values, T_values)
+        integral = np.trapezoid(k_values, T_values)
         return integral
     else:
         raise ValueError(f"No interpolation function found for material {mat}.")
