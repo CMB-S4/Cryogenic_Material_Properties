@@ -564,6 +564,8 @@ class Material:
         """
         Plot all the available fits for the material.
         """
+        fig, ax = plt.subplots()
+
         if len(self.fits) == 0:
             print("No fits to plot.")
             return
@@ -576,7 +578,7 @@ class Material:
             #     x_range_plot[-1] = fit.range[1]
             y_fit = fit.function()(x_range_plot, *fit.parameters)
             
-            plt.plot(x_range_plot, y_fit, label=f"{fit.name}")
+            ax.plot(x_range_plot, y_fit, label=f"{fit.name}")
         if self.interpolate_function is not None:
             x_range_plot = np.logspace(
                 np.log10(self.interpolate_function.x[0]),
@@ -584,19 +586,18 @@ class Material:
                 100,
             )
             y_fit = self.interpolate_function(x_range_plot)
-            plt.plot(
+            ax.plot(
                 x_range_plot, y_fit, color="gray", linestyle=":", label="Interpolation"
             )
         if loglog:
-            plt.xscale("log")
-            plt.yscale("log")
+            ax.set_xscale("log")
+            ax.set_yscale("log")
 
-        plt.xticks(fontsize=15)
-        plt.yticks(fontsize=15)
-        plt.xlabel("T [K]", fontsize=15)
-        plt.ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
-        plt.legend()
-        return
+        ax.tick_params(axis='both', which='major', labelsize=15)
+        ax.set_xlabel("T [K]", fontsize=15)
+        ax.set_ylabel(r"Thermal Conductivity : $\kappa$ [W/m/K]", fontsize=15)
+        ax.legend()
+        return fig, ax
 
     def save_fits(self):
         """
