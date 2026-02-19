@@ -1,8 +1,0 @@
-[
-    {
-        "name": "CFRP_Clearwater",
-        "parent": "CFRP",
-        "source": "RAW",
-        "fit_type": "chebyshev"
-    }
-]

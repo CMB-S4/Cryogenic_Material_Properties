@@ -1,4 +1,0 @@
-all_fits.csv
-['Material Name' 'Fit Type' 'Low Temp' 'High Temp' 'Perc Err' 'a' 'b' 'c'
- 'd' 'e' 'f' 'g' 'h' 'i']
- 

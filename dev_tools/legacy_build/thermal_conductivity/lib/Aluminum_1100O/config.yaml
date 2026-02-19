@@ -1,8 +1,0 @@
-[
-    {
-        "name": "Aluminum_1100O",
-        "parent": "Aluminum",
-        "source": "RAW",
-        "fit_type": "Chebyshev"
-    }
-]

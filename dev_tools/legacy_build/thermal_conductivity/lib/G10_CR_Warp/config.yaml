@@ -1,8 +1,0 @@
-[
-    {
-        "name": "G10_CR_Warp",
-        "parent": "G10_parent",
-        "source": "NIST",
-        "fit_type": "None"
-    }
-]
