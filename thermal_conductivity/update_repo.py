@@ -57,7 +57,7 @@ def main(mat_list=None):
             if len(mat.fits) != 0:
                 # Plot the data
                 mat.plot_data()
-                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_data.png"))
+                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_data.png"), dpi=300, bbox_inches="tight")
                 plt.close()
 
                 # Plot the fits
@@ -65,19 +65,19 @@ def main(mat_list=None):
                 # x_plot = np.logspace(np.log10(mat.temp_range[0]), np.log10(mat.temp_range[1]), 100)
                 # y_plot_low = Nppoly(x_plot, *mat.fits[0].parameters[:(np.size(mat.fits[0].parameters)-1)//2])
                 # plt.plot(x_plot, y_plot_low, label="Low T Fit", color="orange")
-                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_fits.png"))
+                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_fits.png"), dpi=300, bbox_inches="tight")
                 plt.close()
 
                 # Plot the interpolation
                 mat.plot_interpolation()
                 plt.savefig(
-                    os.path.join(mat.plot_folder, f"{mat.name}_interpolation.png")
+                    os.path.join(mat.plot_folder, f"{mat.name}_interpolation.png"), dpi=300, bbox_inches="tight"
                 )
                 plt.close()
 
                 # Plot all fits
                 mat.plot_all_fits()
-                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_all_fits.png"))
+                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_all_fits.png"), dpi=300, bbox_inches="tight")
                 plt.close()
 
                 # Create the csv file of fits

@@ -1,0 +1,4 @@
+Fits:
+1. NbTi160_Coax_NIST: No reference available.
+
+--------------------------------

@@ -1,0 +1,4 @@
+Fits:
+1. NbTi119_Coax_NIST: No reference available.
+
+--------------------------------
