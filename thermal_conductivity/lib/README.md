@@ -1,0 +1,1 @@
+This is the material library. Each of these folders holds the data, fit information, and plots for the corresponding material.

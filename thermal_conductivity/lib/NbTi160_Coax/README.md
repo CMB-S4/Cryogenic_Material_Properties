@@ -1,0 +1,1 @@
+THIS IS A **CABLE**. THE UNITS ASSOCIATED WITH THIS DATA AND FITS ARE NOT W/m/K, RATHER THE FIT IS IN UNITS W/K (having already taken into account for the specific coax area, which in this case is unknown). Use this fit for basic ballpark calculations.
