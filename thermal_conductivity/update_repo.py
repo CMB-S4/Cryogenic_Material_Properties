@@ -173,10 +173,6 @@ if __name__ == "__main__":
         nargs="*",
         help="List of materials to update. If not provided, all materials will be updated.",
     )
-    parser.add_argument(
-        "--force_update",
-        action="store_true",
-        help="Force update of all materials, even if pickle files exist.",
-    )
+
     args = parser.parse_args()
-    main(mat_list=args.matlist, force_update=args.force_update)
+    main(mat_list=args.matlist)

@@ -317,17 +317,7 @@ class Material:
                     max(x),
                 ),
             )
-            # print("Fitting with loglog function.")
-            # popt, pcov = curve_fit(log_func, x, np.log(y), maxfev=10000, p0=np.ones(n_param) if p0 is None else p0_loglog, bounds=(0, np.inf) if bounds is None else bounds_loglog)
-        # elif n_param is None:
-        #     # Assume the function has a defined number of parameters, like power law or something.
-        #     sig = signature(get_func_type(self.fit_type))
-        #     n_param = len(sig.parameters)
-        #     # use the fit_type function to fit the data
-        #     popt, pcov = curve_fit(log_func, x, np.log(y), maxfev=10000, p0=np.ones(n_param) if p0 is None else p0)
 
-        # else:
-        #      # use the fit_type function to fit the data
         popt, pcov = curve_fit(
             log_func,
             x,
@@ -348,19 +338,19 @@ class Material:
         self.fits.append(new_fit)
         return popt, pcov
 
-    def update_fit(self, new_fit_type, n_param=None):
+    def update_fit(self, new_fit_type, fit_index_to_replace:int, n_param=None):
         """
-        Use this function to change the default fit type for the material and refit the data.
+        Use this function to change the default fit type for the material and refit the data. Be careful when doing this with a parent material
+        as the parent material may have multiple fits that match the 'data' fit source and you may accidently update the wrong fit.
+
         Args:
             new_fit_type (str): The new fit type to use.
+            fit_index_to_replace (int): The index of the fit in the material.fits list to replace with the new fit. Be careful to choose the correct index, especially if there are multiple fits with source "data".
             n_param (int, optional): Number of parameters for the new fit. Defaults to None.
         Returns:
             self (Material): The updated Material object with the new fit.
         """
-        for i, fit in enumerate(self.fits):
-            if fit.source == "data":
-                # delete the existing fit
-                del self.fits[i]
+
         self.fit_type = new_fit_type
         try:
             popt, pcov = self.fit_data(n_param=n_param)
@@ -373,12 +363,8 @@ class Material:
             return
         self.raw_fit_params = popt
         self.raw_fit_cov = pcov
-        # Now update the material.fits list, replace the fit with source "data"
-        # for i, fit in enumerate(self.fits):
-        #     print(fit.source, fit.fit_type)
-        #     if fit.source == "data":
-        #         self.fits[i] = Fit(self.name, "data", (min(self.temp_range), max(self.temp_range)), popt, pcov, self.fit_type)
-        # print(self.fits)
+
+
         self.interpolate_function = self.interpolate(preferred_fit=None)
         return self
 
@@ -483,7 +469,6 @@ class Material:
         Plot the experimental data for the material.
         """
         if self.data_classes == None:
-            # print("No data to fit.")
             return
         included_data = [ds.data for ds in self.data_classes.values() if ds.include]
         # concatenate the data from all files
@@ -512,7 +497,6 @@ class Material:
         Plot the experimental data and the fit to the data for the material.
         """
         if self.data_classes == None or self.raw_fit_params is None:
-            # print("No data to fit.")
             return
         if self.fits == []:
             print("No fits to plot.")
