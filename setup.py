@@ -7,7 +7,7 @@ from subprocess import check_call
 
 HERE         = pathlib.Path(__file__).parent
 PACKAGE_NAME = 'thermal_conductivity'
-VERSION      = '0.0.3'
+VERSION      = '0.0.4'
 AUTHOR       = 'Henry Nachman'
 AUTHOR_EMAIL = 'hen367@my.utexas.edu'
 URL          = 'https://github.com/CMB-S4/Cryogenic_Material_Properties'
