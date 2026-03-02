@@ -13,7 +13,7 @@ AUTHOR_EMAIL = 'hen367@my.utexas.edu'
 URL          = 'https://github.com/CMB-S4/Cryogenic_Material_Properties'
 DESCRIPTION  ='Python package for storing and exploring cryogenic material properties.'
 LICENSE ='BSD 3-Clause License'
-LONG_DESCRIPTION = (HERE/"README.md").read_text()
+LONG_DESCRIPTION = (HERE/"docs"/"README.md").read_text()
 LONG_DESC_TYPE   = 'text/markdown'
 INSTALL_REQUIRES =['numpy',
 					'matplotlib',
