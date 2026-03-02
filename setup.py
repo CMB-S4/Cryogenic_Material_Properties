@@ -23,7 +23,7 @@ INSTALL_REQUIRES =['numpy',
                     'plotly',
 					'tqdm',
 					'scipy',
-                    'yaml',
+                    'pyyaml',
                     'shutil',
 					]
 
