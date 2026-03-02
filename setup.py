@@ -6,8 +6,8 @@ from setuptools import setup, find_packages
 from subprocess import check_call
 
 HERE         = pathlib.Path(__file__).parent
-PACKAGE_NAME = 'Cryogenic_Material_Properties'
-VERSION      = '0.0.1'
+PACKAGE_NAME = 'cryomats'
+VERSION      = '0.0.2'
 AUTHOR       = 'Henry Nachman'
 AUTHOR_EMAIL = 'hen367@my.utexas.edu'
 URL          = 'https://github.com/CMB-S4/Cryogenic_Material_Properties'
@@ -23,7 +23,7 @@ INSTALL_REQUIRES =['numpy',
                     'plotly',
 					'tqdm',
 					'scipy',
-                    'pyyaml',
+                    'pyyaml'
 					]
 
 
