@@ -13,6 +13,14 @@ import string, pickle
 
 from fit_types import get_func_name
 
+def get_materials_list() -> list:
+    """
+    Description : Retrieves a list of all materials available in the materials library.
+    Returns:
+        materials (list): List of material names.
+    """
+    materials = [folder for folder in os.listdir(path_to_mat_lib) if os.path.isdir(os.path.join(path_to_mat_lib, folder))]
+    return materials
 
 def get_material(mat: str) -> Material:
     """
