@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 from subprocess import check_call
 
 HERE         = pathlib.Path(__file__).parent
-PACKAGE_NAME = 'thermal_model'
+PACKAGE_NAME = 'Cryogenic_Material_Properties'
 VERSION      = '0.0.1'
 AUTHOR       = 'Henry Nachman'
 AUTHOR_EMAIL = 'hen367@my.utexas.edu'
@@ -23,9 +23,6 @@ INSTALL_REQUIRES =['numpy',
                     'plotly',
 					'tqdm',
 					'scipy',
-                    'pickle',
-                    'os',
-                    'sys',
                     'json',
                     'yaml',
                     'shutil',
