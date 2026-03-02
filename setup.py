@@ -24,7 +24,6 @@ INSTALL_REQUIRES =['numpy',
 					'tqdm',
 					'scipy',
                     'pyyaml',
-                    'shutil',
 					]
 
 
