@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 from subprocess import check_call
 
 HERE         = pathlib.Path(__file__).parent
-PACKAGE_NAME = 'cryomats'
+PACKAGE_NAME = 'thermal_conductivity'
 VERSION      = '0.0.3'
 AUTHOR       = 'Henry Nachman'
 AUTHOR_EMAIL = 'hen367@my.utexas.edu'
