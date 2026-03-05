@@ -35,6 +35,7 @@ def get_fit_type_dic():
         "RRadebaugh_logkexp": RRadebaugh_logkexp,
         "Chebyshev": Chebyshev,
         "Superconducting": Superconducting,
+        "poly1d": poly1d_fit,
     }
 
     return fit_type_dict
@@ -63,6 +64,8 @@ def linear_fit(x, *param):
     b, m = param[0], param[1]
     return m * x + b
 
+def poly1d_fit(x, *param):
+    return np.polyval(param, x)
 
 def Nppoly(T, *param):
     """

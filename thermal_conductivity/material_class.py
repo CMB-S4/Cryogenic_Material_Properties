@@ -699,6 +699,16 @@ class Material:
                     dataset_counter += 1
         return
 
+    def __str__(self):
+        string = f"Material: {self.name}\n"
+        string += f"Parent Material: {self.parent}\n"
+        string += f"Fit Type: {self.fit_type}\n"
+        string += f" Methods: {[method for method in dir(self) if not method.startswith('_')]}]\n"
+        return string
+    
+    def __repr__(self):
+        return self.__str__()
+
 
 class Fit:
     """
@@ -812,6 +822,17 @@ class Fit:
         """
         self.reference = reference
         return
+
+    def __str__(self):
+        string = f"Fit for {self.material} from {self.source}:\n"
+        string += f"  Temperature range: {self.range[0]} K to {self.range[1]} K\n"
+        string += f"  Fit type: {self.fit_type}\n"
+        string += f"  Parameters: {self.parameters}\n"
+        string += f" Methods: {[method for method in dir(self) if not method.startswith('_')]}]\n"
+        return string
+    
+    def __repr__(self):
+        return self.__str__()
 
 
 class DataSet:
