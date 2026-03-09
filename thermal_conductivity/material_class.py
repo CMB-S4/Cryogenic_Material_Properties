@@ -772,6 +772,20 @@ class Fit:
             print("No fit type defined.")
             return None
 
+    def evaluate(self, T):
+        """
+        Evaluate the fit function at a specific temperature without astropy units.
+        Args:
+            T (float): Temperature at which to evaluate the fit function.
+        Returns:
+            k (float): Thermal conductivity at temperature T.
+        """
+        if self.fit_type is not None:
+            return get_func_type(self.fit_type)(T, *self.parameters)
+        else:
+            print("No fit type defined.")
+            return None
+            
     @u.quantity_input
     def tc_integral(self, T1: u.K, T2: u.K):
         """
