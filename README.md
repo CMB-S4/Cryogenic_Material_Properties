@@ -23,6 +23,9 @@ python compile_TC.py
 
 `tc_rawdata_fits`: The fits produced from temperature + thermal conductivity data that has been accumulated from a variety of sources. More information on the fitting method can be found in the documentation. -->
 
+## Contribute
+
+We encourage the community to contribute by developping code, tools, and providing datasets. For more information, please naviagte to the _Contribute_ tab in the documentation.
 
 ## Documentation
 
