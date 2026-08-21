@@ -1,15 +1,46 @@
-from material_class import Material, Fit, DataSet
+import sys
+import pickle
+import importlib.util
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
-import pickle, os
-
 from scipy.special import erf
 
-from fit_types import Nppoly, polylog, loglog_func, linear_fit
-from tc_utils import *
+TC_PACKAGE_DIR = Path(__file__).resolve().parent.parent / "thermal_conductivity"
 
-lib_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")
-mat_list = [d for d in os.listdir(lib_folder) if os.path.isdir(os.path.join(lib_folder, d))]
+
+def _import_sibling(module_name: str):
+    """Import a module from the thermal_conductivity package via importlib, keyed
+    off that package's location on disk rather than the working directory or
+    sys.path. Keeps this dev tool working the same way on any OS.
+    """
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(
+        module_name, TC_PACKAGE_DIR / f"{module_name}.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+material_class = _import_sibling("material_class")
+Material, Fit, DataSet = material_class.Material, material_class.Fit, material_class.DataSet
+
+fit_types = _import_sibling("fit_types")
+Nppoly, polylog, loglog_func, linear_fit = (
+    fit_types.Nppoly,
+    fit_types.polylog,
+    fit_types.loglog_func,
+    fit_types.linear_fit,
+)
+
+tc_utils = _import_sibling("tc_utils")
+
+lib_folder = TC_PACKAGE_DIR / "lib"
+mat_list = [d.name for d in lib_folder.iterdir() if d.is_dir()]
 # for material in mat_list:
     
 #     material_of_interest = material
@@ -43,11 +74,11 @@ mat_list = [d for d in os.listdir(lib_folder) if os.path.isdir(os.path.join(lib_
 for material in mat_list:
     print(material)
     # open the pickle file
-    material_folder = os.path.join(lib_folder, material)
-    pickle_path = os.path.join(material_folder, "material.pkl")
+    material_folder = lib_folder / material
+    pickle_path = material_folder / "material.pkl"
     if material == "Cu_OFHC":
         continue
-    if os.path.exists(pickle_path):
+    if pickle_path.exists():
         mat = pickle.load(open(pickle_path, "rb"))
         # for fit in mat.fits:
         if mat.fit_type == "polylog" or mat.fit_type == "Nppoly":

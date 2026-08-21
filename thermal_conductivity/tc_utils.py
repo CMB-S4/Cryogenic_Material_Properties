@@ -1,17 +1,39 @@
+import sys
+import string
+import pickle
+import importlib.util
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-import os, sys
 
-# Add this folder to the sys path to allow imports
-this_dir = os.path.dirname(__file__)
-if this_dir not in sys.path:
-    sys.path.append(os.path.dirname(__file__))
-path_to_mat_lib = os.path.join(this_dir, "lib")
+PACKAGE_DIR = Path(__file__).resolve().parent
+path_to_mat_lib = PACKAGE_DIR / "lib"
 
-from material_class import Material, Fit
-import string, pickle
 
-from fit_types import get_func_name
+def _import_sibling(module_name: str):
+    """Import a module that lives next to this file via importlib, keyed off this
+    file's own location on disk rather than the working directory or sys.path.
+    Keeps this package importable the same way on any OS and independent of how
+    (or from where) it is loaded.
+    """
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(
+        module_name, PACKAGE_DIR / f"{module_name}.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+material_class = _import_sibling("material_class")
+Material = material_class.Material
+Fit = material_class.Fit
+
+fit_types = _import_sibling("fit_types")
+get_func_name = fit_types.get_func_name
 
 def get_materials_list() -> list:
     """
@@ -19,7 +41,7 @@ def get_materials_list() -> list:
     Returns:
         materials (list): List of material names.
     """
-    materials = [folder for folder in os.listdir(path_to_mat_lib) if os.path.isdir(os.path.join(path_to_mat_lib, folder))]
+    materials = [folder.name for folder in path_to_mat_lib.iterdir() if folder.is_dir()]
     return materials
 
 def get_material(mat: str) -> Material:
@@ -28,13 +50,13 @@ def get_material(mat: str) -> Material:
 
     Args:
         mat (str): Material name.
-    
+
     Returns:
         material (Material): Material object if found, else None.
     """
-    material_path = os.path.join(path_to_mat_lib, mat)
-    if os.path.exists(material_path):
-        with open(os.path.join(material_path, "material.pkl"), "rb") as f:
+    material_path = path_to_mat_lib / mat
+    if material_path.exists():
+        with open(material_path / "material.pkl", "rb") as f:
             material = pickle.load(f)
             return material
     else:
@@ -165,6 +187,6 @@ def mat_to_csv(material: Material) -> None:
         None
     """
     df = fits_to_df(material.fits)
-    csv_file = os.path.join(material.folder, f"{material.name}_fits.csv")
+    csv_file = material.folder / f"{material.name}_fits.csv"
     df.to_csv(csv_file, index=False)
     return

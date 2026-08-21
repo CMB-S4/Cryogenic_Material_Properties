@@ -1,8 +1,14 @@
+import sys
+import json
+import shutil
+import pickle
+import yaml
+import importlib.util
+from pathlib import Path
+
 import numpy as np
-import os, sys
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
-import json, shutil, pickle, yaml
 from scipy.interpolate import interp1d
 from scipy.integrate import quad
 from astropy import units as u
@@ -10,13 +16,33 @@ from astropy import constants as const
 
 # from inspect import signature
 
-this_dir = os.path.dirname(os.path.abspath(__file__))
-# Add this directory to the system path to allow imports
-if this_dir not in sys.path:
-    sys.path.append(this_dir)
+PACKAGE_DIR = Path(__file__).resolve().parent
+LIB_DIR = PACKAGE_DIR / "lib"
 
 
-from fit_types import get_func_type, linear_fit, loglog_func, Nppoly, polylog
+def _import_sibling(module_name: str):
+    """Import a module that lives next to this file via importlib, keyed off this
+    file's own location on disk rather than the working directory or sys.path.
+    Keeps this package importable the same way on any OS and independent of how
+    (or from where) it is loaded.
+    """
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(
+        module_name, PACKAGE_DIR / f"{module_name}.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+fit_types = _import_sibling("fit_types")
+get_func_type = fit_types.get_func_type
+linear_fit = fit_types.linear_fit
+loglog_func = fit_types.loglog_func
+Nppoly = fit_types.Nppoly
+polylog = fit_types.polylog
 
 
 class Material:
@@ -39,6 +65,34 @@ class Material:
         interpolate_function (function): Interpolation function for thermal conductivity based on fits.
     """
 
+    # Attributes that are resolved from `name` at runtime via the properties below
+    # rather than stored on the instance, so that saved/loaded material.pkl files
+    # never bake in a path from whichever machine last touched them.
+    _TRANSIENT_ATTRS = ("folder", "data_folder", "plot_folder")
+
+    @property
+    def folder(self) -> Path:
+        return LIB_DIR / self.name
+
+    @property
+    def data_folder(self) -> Path:
+        return self.folder / "RAW"
+
+    @property
+    def plot_folder(self) -> Path:
+        return self.folder / "PLOTS"
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        for attr in self._TRANSIENT_ATTRS:
+            state.pop(attr, None)
+        return state
+
+    def __setstate__(self, state):
+        for attr in self._TRANSIENT_ATTRS:
+            state.pop(attr, None)
+        self.__dict__.update(state)
+
     def __init__(
         self, name, parent: str = None, fit_type="loglog", force_update: bool = False
     ):
@@ -52,31 +106,22 @@ class Material:
 
         """
         self.name = name
-        self.folder = "lib" + os.sep + name  #
-        folder_path = os.path.join(this_dir, "lib", name)
 
         # If the folder exists and contains a pickle file with the class already stored then load it
-        pickle_file = os.path.join(self.folder, "material.pkl")
-        if os.path.exists(pickle_file) and not force_update: # If the material pickle exists and we aren't forcing an update, load it
+        pickle_file = self.folder / "material.pkl"
+        if pickle_file.exists() and not force_update: # If the material pickle exists and we aren't forcing an update, load it
             with open(pickle_file, "rb") as f:
                 material = pickle.load(f)
                 self.__dict__.update(material.__dict__)
             # print(f"Loaded existing material: {self.name}")
-            self.folder = "lib" + os.sep + name  # os.path.join(this_dir, "lib", name)
-            self.data_folder = os.path.join(self.folder, "RAW")
-            self.plot_folder = os.path.join(self.folder, "PLOTS")
-            if not os.path.exists(self.plot_folder):
-                os.mkdir(self.plot_folder)
+            self.plot_folder.mkdir(parents=True, exist_ok=True)
         # If the material pickle doesn't exist (or we are forcing an update), then create the material from scratch
         else:
-            self.data_folder = os.path.join(self.folder, "RAW")
-            self.plot_folder = os.path.join(self.folder, "PLOTS")
-            if not os.path.exists(self.plot_folder):
-                os.mkdir(self.plot_folder)
+            self.plot_folder.mkdir(parents=True, exist_ok=True)
             self.parent = parent
             self.fit_type = fit_type
             self.fits = []
-            if os.path.exists(self.data_folder) and os.listdir(self.data_folder) != []:
+            if self.data_folder.exists() and any(self.data_folder.iterdir()):
                 self.data_classes = self.get_data()[1]
                 included_data = [
                     ds.data for ds in self.data_classes.values() if ds.include
@@ -98,11 +143,9 @@ class Material:
                 self.raw_fit_params = None
                 self.raw_fit_cov = None
 
-            room_temp_file = os.path.join(self.folder, "room_temperature.yaml")
-            if os.path.exists(room_temp_file):
+            room_temp_file = self.folder / "room_temperature.yaml"
+            if room_temp_file.exists():
                 with open(room_temp_file, "r") as file:
-                    import yaml
-
                     config = yaml.safe_load(file)
                 self.room_temp_tuple = config["room_temperature_conductivity"]
             else:
@@ -114,23 +157,20 @@ class Material:
         # We want to copy any raw data files to the parent folder
         # And also copy any fits we have to the parent material
         if self.parent is not None:
-            parent_folder = os.path.join(this_dir, "lib", self.parent)
-            if not os.path.exists(parent_folder):
-                os.mkdir(parent_folder)
+            parent_folder = LIB_DIR / self.parent
+            parent_folder.mkdir(parents=True, exist_ok=True)
 
             # If the parent material doesn't have a RAW folder, create it
-            if os.path.exists(self.data_folder) and self.data_classes is not None:
-                if os.listdir(self.data_folder) != []:
-                    parent_raw_folder = os.path.join(parent_folder, "RAW")
-                    if not os.path.exists(parent_raw_folder):
-                        os.mkdir(parent_raw_folder)
+            if self.data_folder.exists() and self.data_classes is not None:
+                if any(self.data_folder.iterdir()):
+                    parent_raw_folder = parent_folder / "RAW"
+                    parent_raw_folder.mkdir(parents=True, exist_ok=True)
                     # if this material has csv files in the data folder, copy them to the parent data folder
-                    for file in os.listdir(self.data_folder):
-                        if file.endswith(".csv"):
-                            src = os.path.join(self.data_folder, file)
-                            dst = os.path.join(parent_raw_folder, file)
-                            if not os.path.exists(dst):
-                                shutil.copy(src, dst)
+                    for file in self.data_folder.iterdir():
+                        if file.suffix == ".csv":
+                            dst = parent_raw_folder / file.name
+                            if not dst.exists():
+                                shutil.copy(file, dst)
                             # This code block may be needed to avoid overwriting files in the parent folder
                             # i = 1
                             # if os.path.exists(dst):
@@ -141,8 +181,8 @@ class Material:
                             # print(f"Copying {src} to {dst}")
                             # shutil.copy(src, dst)
             # Now we want to see if the parent already has a class pickle file
-            parent_pickle = os.path.join(parent_folder, "material.pkl")
-            if os.path.exists(parent_pickle):
+            parent_pickle = parent_folder / "material.pkl"
+            if parent_pickle.exists():
                 parent_class = pickle.load(open(parent_pickle, "rb"))
                 # load the existing fits
                 existing_fits = [fit.name for fit in parent_class.get_fits()]
@@ -187,25 +227,23 @@ class Material:
         """
         data_dict = {}
         data_class_dict = {}
-        if not os.path.exists(self.data_folder):
+        if not self.data_folder.exists():
             return None, None
-        for file in os.listdir(self.data_folder):
-            if file.endswith(".csv"):
+        for file in sorted(self.data_folder.iterdir()):
+            if file.suffix == ".csv":
                 reference_row = np.loadtxt(
-                    os.path.join(self.data_folder, file),
+                    file,
                     delimiter=",",
                     max_rows=1,
                     dtype=str,
                 )
                 ref_string = [i for i in reference_row if i != ""]
-                data = np.loadtxt(
-                    os.path.join(self.data_folder, file), delimiter=",", skiprows=2
-                )
+                data = np.loadtxt(file, delimiter=",", skiprows=2)
                 # If the data is only one row (one dimensional), we need to reshape it to be two dimensional
                 if len(data.shape) == 1:
                     data = data.reshape((1, -1))
-                data_dict[file] = data
-                data_class_dict[file] = DataSet(file, data, ref_string=ref_string)
+                data_dict[file.name] = data
+                data_class_dict[file.name] = DataSet(file.name, data, ref_string=ref_string)
         return data_dict, data_class_dict
 
     def update_data(self):
@@ -459,7 +497,7 @@ class Material:
 
         # create an interpolation function
         interp_func = interp1d(Ts, ks, bounds_error=False)
-        interp_pkl = os.path.join(this_dir, "lib", self.name, "interpolation.pkl")
+        interp_pkl = self.folder / "interpolation.pkl"
         with open(interp_pkl, "wb") as f:
             pickle.dump(interp_func, f)
         return interp_func
@@ -598,7 +636,7 @@ class Material:
                     "parameter_covariance"
                 ].tolist()
             fits_dict[fit.source] = fit_dict
-        with open(os.path.join(self.folder, "fits.json"), "w") as f:
+        with open(self.folder / "fits.json", "w") as f:
             json.dump(fits_dict, f, indent=4)
         return
 
@@ -651,7 +689,7 @@ class Material:
         Save the material class as a pickle file.
         """
         # Save the material class as a pickle file
-        with open(os.path.join(self.folder, "material.pkl"), "wb") as f:
+        with open(self.folder / "material.pkl", "wb") as f:
             pickle.dump(self, f)
             print("Material has successfully been saved to its pickle file!")
         return
@@ -666,7 +704,7 @@ class Material:
         return None
 
     def print_refs(self):
-        with open(os.path.join(self.folder, "references.txt"), "w") as f:
+        with open(self.folder / "references.txt", "w") as f:
             fit_counter = 1
             if len(self.fits) != 0:
                 f.write("Fits:\n")

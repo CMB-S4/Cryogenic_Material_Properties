@@ -10,32 +10,49 @@ This is useful if new data has been added to a material or if the fit function h
 This script also creates a plethora of plots, and compilation files for each material.
 """
 
-import os
-import shutil
+import sys
 import pickle
-from material_class import Material
-import numpy as np
-import matplotlib.pyplot as plt
 import argparse
+import importlib.util
+from pathlib import Path
 from datetime import datetime as dt
 
-from tc_utils import mat_to_csv, fits_to_df
-from fit_types import Nppoly
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-this_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(this_dir)
+PACKAGE_DIR = Path(__file__).resolve().parent
+lib_folder = PACKAGE_DIR / "lib"
+
+
+def _import_sibling(module_name: str):
+    """Import a module that lives next to this file via importlib, keyed off this
+    file's own location on disk rather than the working directory or sys.path.
+    Keeps this package importable the same way on any OS and independent of how
+    (or from where) it is loaded.
+    """
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+    spec = importlib.util.spec_from_file_location(
+        module_name, PACKAGE_DIR / f"{module_name}.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+material_class = _import_sibling("material_class")
+Material = material_class.Material
+
+tc_utils = _import_sibling("tc_utils")
+mat_to_csv = tc_utils.mat_to_csv
+fits_to_df = tc_utils.fits_to_df
 
 
 def main(mat_list=None):
-    lib_folder = os.path.join(this_dir, "lib")
     # If no material list is provided, update all materials in the lib folder
     if mat_list is None:
-        mat_list = [
-            d
-            for d in os.listdir(lib_folder)
-            if os.path.isdir(os.path.join(lib_folder, d))
-        ]
+        mat_list = [d.name for d in lib_folder.iterdir() if d.is_dir()]
 
     parent_list = []
     # First pass: update all materials and copy raw data to parents
@@ -48,6 +65,9 @@ def main(mat_list=None):
         colour="blue",
         ascii=" >",
     ):
+        if "TESTMAT" in material:
+            continue
+
         try:
             # print(f"\nUpdating material: {material}")
             mat = Material(material, force_update=False)
@@ -57,7 +77,7 @@ def main(mat_list=None):
             if len(mat.fits) != 0:
                 # Plot the data
                 mat.plot_data()
-                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_data.png"), dpi=300, bbox_inches="tight")
+                plt.savefig(mat.plot_folder / f"{mat.name}_data.png", dpi=300, bbox_inches="tight")
                 plt.close()
 
                 # Plot the fits
@@ -65,19 +85,19 @@ def main(mat_list=None):
                 # x_plot = np.logspace(np.log10(mat.temp_range[0]), np.log10(mat.temp_range[1]), 100)
                 # y_plot_low = Nppoly(x_plot, *mat.fits[0].parameters[:(np.size(mat.fits[0].parameters)-1)//2])
                 # plt.plot(x_plot, y_plot_low, label="Low T Fit", color="orange")
-                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_fits.png"), dpi=300, bbox_inches="tight")
+                plt.savefig(mat.plot_folder / f"{mat.name}_fits.png", dpi=300, bbox_inches="tight")
                 plt.close()
 
                 # Plot the interpolation
                 mat.plot_interpolation()
                 plt.savefig(
-                    os.path.join(mat.plot_folder, f"{mat.name}_interpolation.png"), dpi=300, bbox_inches="tight"
+                    mat.plot_folder / f"{mat.name}_interpolation.png", dpi=300, bbox_inches="tight"
                 )
                 plt.close()
 
                 # Plot all fits
                 mat.plot_all_fits()
-                plt.savefig(os.path.join(mat.plot_folder, f"{mat.name}_all_fits.png"), dpi=300, bbox_inches="tight")
+                plt.savefig(mat.plot_folder / f"{mat.name}_all_fits.png", dpi=300, bbox_inches="tight")
                 plt.close()
 
                 # Create the csv file of fits
@@ -86,12 +106,10 @@ def main(mat_list=None):
         except Exception as e:
             print(f"Error updating material {material}: {e}")
             continue
-        with open(os.path.join(mat.folder, "material.pkl"), "wb") as f:
+        with open(mat.folder / "material.pkl", "wb") as f:
             pickle.dump(mat, f)
 
-    mat_list = [
-        d for d in os.listdir(lib_folder) if os.path.isdir(os.path.join(lib_folder, d))
-    ]
+    mat_list = [d.name for d in lib_folder.iterdir() if d.is_dir()]
     # Lastly, we want to make the overall compilation files
     curated_mat_list = [
         "Aluminum_1100",
@@ -133,8 +151,11 @@ def main(mat_list=None):
     compilation_fits = []
     curated_comp_fits = []
     for material in mat_list:
+        if "TESTMAT" in material:
+            continue
+
         # Load the material from the pickle file
-        with open(os.path.join(lib_folder, material, "material.pkl"), "rb") as f:
+        with open(lib_folder / material / "material.pkl", "rb") as f:
             mat = pickle.load(f)
         if len(mat.fits) == 0:
             print(
@@ -148,21 +169,14 @@ def main(mat_list=None):
             curated_comp_fits.append(best_fit)
     # Save the compilation fits to a csv
     # remove old compilation files
-    all_files = os.listdir(os.path.dirname(this_dir))
-    exist_files = [file for file in all_files if file.startswith("tc_compilation")]
-    for file in exist_files:
-        os.remove(os.path.join(os.path.dirname(this_dir), file))
-    general_comp_file = os.path.join(
-        os.path.dirname(this_dir),
-        f"tc_compilation_allfits_{dt.now().strftime('%Y%m%d')}.csv",
-    )
+    repo_root = PACKAGE_DIR.parent
+    for file in repo_root.glob("tc_compilation*"):
+        file.unlink()
+    general_comp_file = repo_root / f"tc_compilation_allfits_{dt.now().strftime('%Y%m%d')}.csv"
     fits_to_df(compilation_fits).to_csv(general_comp_file, index=False)
 
     # Let's also make a more curated compilation file
-    curated_comp_file = os.path.join(
-        os.path.dirname(this_dir),
-        f"tc_compilation_curated_{dt.now().strftime('%Y%m%d')}.csv",
-    )
+    curated_comp_file = repo_root / f"tc_compilation_curated_{dt.now().strftime('%Y%m%d')}.csv"
     fits_to_df(curated_comp_fits).to_csv(curated_comp_file, index=False)
 
 

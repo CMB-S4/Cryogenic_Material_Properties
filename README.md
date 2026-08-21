@@ -47,3 +47,8 @@ Some useful Python and Excel tools can also be found in this repository for the 
 ## Site Map
 
 ![image](https://github.com/user-attachments/assets/95638dfd-af29-4a12-9c2c-8549a2ef0bbb)
+
+
+### Notice of AI use:
+
+Some use of Anthropic Claude Code AI was used to refactor the repository with more efficient module importing and structure.
