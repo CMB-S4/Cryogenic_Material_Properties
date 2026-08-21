@@ -3,6 +3,7 @@ Fits:
 2. CFRP_DPP_data: Data Fit (see references for included data)
 3. CFRP_data: Data Fit (see references for included data)
 4. CFRP_Clearwater_data: Data Fit (see references for included data)
+5. CFRP_Graphlite_Kellaris_2014: No reference available.
 
 --------------------------------
 

@@ -6,6 +6,7 @@ Fits:
 5. Graphite_p_ExcelNIST5a: NIST Cryogenic Material Database
 6. Graphite_data: Data Fit (see references for included data)
 7. Graphite_POCOAXM5Q_data: No reference available.
+8. Graphite_2020_Kellaris_2014: No reference available.
 
 --------------------------------
 

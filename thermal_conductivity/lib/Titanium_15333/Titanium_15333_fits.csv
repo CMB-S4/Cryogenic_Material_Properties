@@ -1,2 +1,3 @@
 Fit_Name,fit_type,Tlow,Thigh,a,b,c,d,e,f,g,h,i
 Titanium_15333_NIST,polylog,1.4,300.0,-0.270453,3.11162,-14.9418,38.8932,-59.6714,54.8714,-29.1929,8.97074,-2.39879
+Titanium_15333_Kellaris_2014,powerlaw,0.06,1.1,0.01315,2.08,,,,,,,

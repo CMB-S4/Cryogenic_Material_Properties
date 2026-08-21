@@ -1,5 +1,6 @@
 Fits:
 1. CFRP_Graphlite_data: Data Fit (see references for included data)
+2. CFRP_Graphlite_Kellaris_2014: No reference available.
 
 --------------------------------
 
