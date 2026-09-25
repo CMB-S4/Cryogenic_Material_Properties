@@ -35,10 +35,10 @@ https://cryogenic-material-properties.readthedocs.io/en/latest/
 
 ## Citation
 
-If you use this repository in your research, please cite the following paper currently available on the arXiv:
-https://arxiv.org/abs/2509.23422
+If you use this repository in your research, please cite the [following paper](https://doi.org/10.1109/TASC.2026.3713084) published in IEEE Transactions on Applied Superconductivity:
 
-Nachman, Henry E., Oorie Desai, Nicholas Galitzki, et al. “Cryogenic Materials Repository: A Public Resource and New Measurements for Cryogenic Research Applications.” arXiv:2509.23422. Preprint, arXiv, September 27, 2025. https://doi.org/10.48550/arXiv.2509.23422.
+
+H. E. Nachman et al., "Cryogenic Materials Repository: A Public Resource and New Measurements for Cryogenic Research Applications," in IEEE Transactions on Applied Superconductivity, vol. 36, no. 6, pp. 9002607-9002607, Sept. 2026, Art no. 9002607, doi: 10.1109/TASC.2026.3713084.
 
 ## Tools
 
